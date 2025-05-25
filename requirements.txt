@@ -21,5 +21,8 @@ requests>=2.31.0
 
 # Testing & linting
 pytest>=7.4.0
-flake8>=6.0.0
 black>=24.11.0
+
+# Browser automation
+selenium>=4.15.0
+chromedriver-autoinstaller>=0.6.4
