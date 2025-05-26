@@ -91,13 +91,13 @@ SELENIUM_CONFIG = {
     "window_size": "1920,1080",
     "user_agent": "Mozilla/5.0 (compatible; TourGuideCubaBot/1.0; +https://www.cuba.travel)",
     "implicit_wait": 10,  # segundos
-    "page_load_timeout": 60,  # segundos
+    "page_load_timeout": 120,  # segundos
     "download_dir": None,  # Puedes especificar un directorio de descargas si lo necesitas
-    "disable_images": True,  # Si deseas deshabilitar la carga de imágenes
-    "disable_javascript": True,  # Si deseas deshabilitar JavaScript
-    "disable_notifications": True,  # Si deseas deshabilitar notificaciones
-    "disable_cookies": True,  # Si deseas deshabilitar cookies
-    "disable_stylesheets": True,  # Si deseas deshabilitar hojas de estilo
+    "disable_images": False,  # Si deseas deshabilitar la carga de imágenes
+    "disable_javascript": False,  # Si deseas deshabilitar JavaScript
+    "disable_notifications": False,  # Si deseas deshabilitar notificaciones
+    "disable_cookies": False,  # Si deseas deshabilitar cookies
+    "disable_stylesheets": False,  # Si deseas deshabilitar hojas de estilo
 }
 
 # Puedes acceder a la configuración de Selenium desde este archivo importando SELENIUM_CONFIG
