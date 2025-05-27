@@ -85,13 +85,29 @@ class CubaTravelCrawler:
             EC.element_to_be_clickable((By.CLASS_NAME, "multiselect"))
         )
         self._scroll_to_element(input_box)
-        input_box.click()
-        # Esperar y seleccionar la opción de destino
-        option_xpath = f"//span[contains(@class, 'multiselect__option') and span[text()='{destination}']]"
-        la_habana_option = wait.until(
-            EC.element_to_be_clickable((By.XPATH, option_xpath))
-        )
-        la_habana_option.click()
+        try:
+            input_box.click()
+        except Exception:
+            self.driver.execute_script("arguments[0].click();", input_box)
+        # Esperar y seleccionar la opción de destino (más robusto)
+        # Buscar la opción por texto exacto dentro del span interior
+        option_xpath = f"//span[contains(@class, 'multiselect__option') and span[normalize-space(text())='{destination}']]"
+        # Si no la encuentra, intentar buscar por contiene (para casos como 'Santiago')
+        try:
+            option_elem = wait.until(
+                EC.element_to_be_clickable((By.XPATH, option_xpath))
+            )
+        except Exception:
+            # Fallback: buscar por contiene
+            option_xpath = f"//span[contains(@class, 'multiselect__option') and contains(span/text(), '{destination}') ]"
+            option_elem = wait.until(
+                EC.element_to_be_clickable((By.XPATH, option_xpath))
+            )
+        self._scroll_to_element(option_elem)
+        try:
+            option_elem.click()
+        except Exception:
+            self.driver.execute_script("arguments[0].click();", option_elem)
         print(f"Opción '{destination}' seleccionada.")
 
     def _click_buscar(self):
@@ -159,7 +175,7 @@ class CubaTravelCrawler:
                                 ".htl-card-body h3.media-heading small span.glyphicon-star",
                             )
                         )
-                        print(f"Estrellas: {stars}")
+                        # print(f"Estrellas: {stars}")
                         # Dirección
                         address = (
                             offer.find_element(
@@ -181,7 +197,7 @@ class CubaTravelCrawler:
                         # print(f"Cadena: {cadena}")
                         # Tarifa (más robusto)
                         tarifa = None
-                        # Probar varios selectores posibles para 'tarifa'
+                        # Probar varios selectores posibles para 'tarifa' usando find_elements para evitar timeouts
                         tarifa_selectors = [
                             ".//div[strong[contains(text(),'Tarifa:')]]/span",
                             ".//div[span/strong[contains(text(),'Tarifa:')]]/span",
@@ -189,33 +205,32 @@ class CubaTravelCrawler:
                             ".//span[contains(text(),'Tarifa:')]/following-sibling::span[1]",
                         ]
                         for sel in tarifa_selectors:
-                            try:
-                                tarifa_elem = offer.find_element(By.XPATH, sel)
-                                tarifa = tarifa_elem.text.strip()
+                            elems = offer.find_elements(By.XPATH, sel)
+                            if elems:
+                                tarifa = elems[0].text.strip()
                                 break
-                            except Exception:
-                                continue
                         if not tarifa:
                             # Intentar con CSS selector alternativo
-                            try:
-                                tarifa = offer.find_element(
-                                    By.CSS_SELECTOR, ".tarifa, .rate, .tarifa-label"
-                                ).text.strip()
-                            except Exception:
+                            elems = offer.find_elements(
+                                By.CSS_SELECTOR, ".tarifa, .rate, .tarifa-label"
+                            )
+                            if elems:
+                                tarifa = elems[0].text.strip()
+                            else:
                                 tarifa = None
                         # print(f"Tarifa: {tarifa}")
                         # Precio
                         price = None
-                        try:
-                            price_elem = offer.find_element(By.CSS_SELECTOR, ".price")
-                            price = price_elem.text.strip()
-                        except Exception:
-                            try:
-                                price_elem = offer.find_element(
-                                    By.CSS_SELECTOR, ".media-price p"
-                                )
-                                price = price_elem.text.strip()
-                            except Exception:
+                        price_elems = offer.find_elements(By.CSS_SELECTOR, ".price")
+                        if price_elems:
+                            price = price_elems[0].text.strip()
+                        else:
+                            price_elems = offer.find_elements(
+                                By.CSS_SELECTOR, ".media-price p"
+                            )
+                            if price_elems:
+                                price = price_elems[0].text.strip()
+                            else:
                                 price = None
                         # Si el precio es 'No disponible', dejarlo así y no buscar más
                         if price and price.lower().strip() == "no disponible":
@@ -240,39 +255,76 @@ class CubaTravelCrawler:
 
     def crawl(self, urls):
         # Lista de destinos a probar, definida en la configuración
-        destinos = self.config.get("destinations", ["La Habana"])
+        destinos = self.config.get("destinations", ["Cuba"])
 
         for url in urls:
             if not self.is_allowed(url):
                 print(f"Saltando (disallow): {url}")
                 continue
             try:
-                self.driver.get(url)
-                WebDriverWait(self.driver, 60).until(
-                    lambda d: d.execute_script("return document.readyState")
-                    in ["interactive", "complete"]
-                )
+                # self.driver.get(url)
+                # WebDriverWait(self.driver, 60).until(
+                #     lambda d: d.execute_script("return document.readyState")
+                #     in ["interactive", "complete"]
+                # )
                 print(f"Crawleando: {url}")
-                wait = WebDriverWait(self.driver, 60)
-                booking_box = wait.until(
-                    EC.presence_of_element_located(
-                        (By.CLASS_NAME, "booking-box-container")
-                    )
-                )
-                print("Contenedor de reservas encontrado.")
-                self._scroll_to_element(booking_box)
+                # wait = WebDriverWait(self.driver, 60)
+                # booking_box = wait.until(
+                #     EC.presence_of_element_located(
+                #         (By.CLASS_NAME, "booking-box-container")
+                #     )
+                # )
+                # print("Contenedor de reservas encontrado.")
+                # self._scroll_to_element(booking_box)
+
+                results = {}
                 for destino in destinos:
+                    self.driver.get(url)
+                    time.sleep(2)
+                    # Inyectar CSS para ocultar videos e iframes
+                    self.driver.execute_script(
+                        """
+                        var style = document.createElement('style');
+                        style.innerHTML = 'video, iframe, .video-background, .ytp-cued-thumbnail-overlay-image { display: none !important; }';
+                        document.head.appendChild(style);
+                    """
+                    )
+                    # Pausar todos los videos
+                    self.driver.execute_script(
+                        """
+                        var vids = document.querySelectorAll('video');
+                        vids.forEach(function(v) { v.pause && v.pause(); v.src = ""; });
+                    """
+                    )
+                    WebDriverWait(self.driver, 60).until(
+                        lambda d: d.execute_script("return document.readyState")
+                        in ["interactive", "complete"]
+                    )
+                    wait = WebDriverWait(self.driver, 60)
+                    booking_box = wait.until(
+                        EC.presence_of_element_located(
+                            (By.CLASS_NAME, "booking-box-container")
+                        )
+                    )
                     self._select_destination(wait, destino)
                     self._click_buscar()
                     print(f"Esperando resultados para '{destino}'...")
-                    time.sleep(60)  # Esperar 1 minuto para cargar resultados
+                    try:
+                        wait.until(EC.presence_of_element_located((By.ID, "Page1")))
+                    except Exception:
+                        wait.until(
+                            EC.presence_of_element_located(
+                                (By.CSS_SELECTOR, ".row.pb15")
+                            )
+                        )
+                        time.sleep(1)
                     offers = self.extract_offers()
+                    results[destino] = offers
                     if offers:
                         print(f"Ofertas encontradas para '{destino}': {len(offers)}")
-                        for offer in offers:
-                            print(offer)
                     else:
                         print(f"No se encontraron ofertas para '{destino}'.")
+                return results
             except Exception as e:
                 print(f"Error al acceder a {url}: {e}")
                 traceback.print_exc()

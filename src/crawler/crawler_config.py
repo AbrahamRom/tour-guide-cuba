@@ -82,6 +82,30 @@ CRAWLER_CONFIG = {
         "Owlin Bot": {"disallow": ["/"], "crawl_delay": None},
         "Owlin": {"disallow": ["/"], "crawl_delay": None},
     },
+    # Añadir destinos por defecto para el crawler
+    "destinations": [
+        "La Habana",
+        "Varadero",
+        "Camagüey",
+        "Las Tunas",
+        "Granma",
+        "Ciego de Ávila",
+        "Matanzas",
+        "Guantanamo",
+        # "Isla de la Juventud",
+        "Cayo Largo del Sur",
+        "Sancti Spiritus",
+        "Artemisa",
+        "Pinar Del Río",
+        # "Mayabeque",
+        "Villa Clara",
+        # "Cayo Guillermo",
+        "Santa Maria",
+        # "Cayo Coco",
+        "Santiago",
+        "Cienfuegos",
+        "Holguín",
+    ],
 }
 
 # Parámetros de configuración para Selenium
@@ -90,13 +114,13 @@ SELENIUM_CONFIG = {
     "headless": False,  # Cambia a True si deseas ejecutar en modo headless
     "window_size": "1920,1080",
     "user_agent": "Mozilla/5.0 (compatible; TourGuideCubaBot/1.0; +https://www.cuba.travel)",
-    "implicit_wait": 10,  # segundos
+    "implicit_wait": 0,  # segundos (antes 10, ahora 0 para máxima velocidad)
     "page_load_timeout": 120,  # segundos
     "download_dir": None,  # Puedes especificar un directorio de descargas si lo necesitas
-    "disable_images": False,  # Si deseas deshabilitar la carga de imágenes
+    "disable_images": True,  # Si deseas deshabilitar la carga de imágenes
     "disable_javascript": False,  # Si deseas deshabilitar JavaScript
-    "disable_notifications": False,  # Si deseas deshabilitar notificaciones
-    "disable_cookies": False,  # Si deseas deshabilitar cookies
+    "disable_notifications": True,  # Si deseas deshabilitar notificaciones
+    "disable_cookies": True,  # Si deseas deshabilitar cookies
     "disable_stylesheets": False,  # Si deseas deshabilitar hojas de estilo
 }
 
