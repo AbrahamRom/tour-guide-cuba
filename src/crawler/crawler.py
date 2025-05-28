@@ -163,10 +163,34 @@ class CubaTravelCrawler:
                 offer_divs2 = [o for o in offer_divs2 if o.is_displayed()]
                 for offer in offer_divs2:
                     try:
-                        # Nombre
-                        name = offer.find_element(
+                        # Nombre y URL de la descripción
+                        name_elem = offer.find_element(
                             By.CSS_SELECTOR, ".htl-card-body h3.media-heading a"
-                        ).text.strip()
+                        )
+                        name = name_elem.text.strip()
+                        hotel_url = name_elem.get_attribute("href")
+                        if hotel_url and hotel_url.strip().lower().startswith(
+                            "javascript"
+                        ):
+                            # Intentar construir la URL a partir del src/data-src de la imagen
+                            hotel_url = None
+                            try:
+                                img_elem = offer.find_element(
+                                    By.CSS_SELECTOR, ".htl-thumb img"
+                                )
+                                img_src = img_elem.get_attribute(
+                                    "data-src"
+                                ) or img_elem.get_attribute("src")
+                                match = re.search(
+                                    r"/hotel\.multimedia/[^/]+/(\d+)/Hotel/", img_src
+                                )
+                                if match:
+                                    hotel_id = match.group(1)
+                                    # Construir la URL de detalle
+                                    # Puedes ajustar los parámetros según tu búsqueda real
+                                    hotel_url = f"https://www.cuba.travel//Hotel/Detail?propertyNumber=HT;{hotel_id}&refpoint={destino}&iata=HAV&checkIn=20250604&checkOut=20250605&rooms=1&adults=1&children=0&ages=0&currency=USD&tab=info"
+                            except Exception as e:
+                                print(f"No se pudo construir la URL de detalle: {e}")
                         print(f"Procesando oferta: {name}")
                         # Estrellas
                         stars = len(
@@ -244,6 +268,7 @@ class CubaTravelCrawler:
                                 "cadena": cadena,
                                 "tarifa": tarifa,
                                 "price": price,
+                                "hotel_url": hotel_url,
                             }
                         )
                     except Exception as e:
