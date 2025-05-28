@@ -1,5 +1,5 @@
 import streamlit as st
-from chatbot_logic import (
+from src.chatbot.bot import (
     initialize_conversation,
     chatbot_conversation
 )
