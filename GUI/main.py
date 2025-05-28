@@ -1,8 +1,20 @@
 import streamlit as st
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 from state import get_state
 from modules import (
-    chatbot, recommender, planner, rag, simulator,
-    knowledge, user, export, notifications, help
+    chatbot,
+    recommender,
+    planner,
+    rag,
+    simulator,
+    knowledge,
+    user,
+    export,
+    notifications,
+    help,
 )
 
 st.set_page_config(page_title="SmartTour Cuba", layout="wide", page_icon=":palm_tree:")
@@ -41,7 +53,7 @@ st.markdown(
     }
     </style>
     """,
-    unsafe_allow_html=True
+    unsafe_allow_html=True,
 )
 
 menu_items = [
@@ -62,38 +74,66 @@ menu_keys = [label for label, icon in menu_items]
 if "menu" not in st.session_state:
     st.session_state.menu = "Inicio"
 
+
 # --- Manejo del botón Inicio ---
 def go_home():
     st.session_state.menu = "Inicio"
 
+
 # Página principal (Inicio)
 if st.session_state.menu == "Inicio":
-    st.image("assets/logo.png", use_container_width=False, output_format="PNG", width=140)
-    st.markdown("<h1 style='text-align:center; color:#00b894;'>SmartTour Cuba</h1>", unsafe_allow_html=True)
-    st.markdown("<h4 style='text-align:center; color:#636e72;'>Tu asistente inteligente de viajes en Cuba</h4>", unsafe_allow_html=True)
+    st.image(
+        "assets/logo.png", use_container_width=False, output_format="PNG", width=140
+    )
+    st.markdown(
+        "<h1 style='text-align:center; color:#00b894;'>SmartTour Cuba</h1>",
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        "<h4 style='text-align:center; color:#636e72;'>Tu asistente inteligente de viajes en Cuba</h4>",
+        unsafe_allow_html=True,
+    )
     st.write("")
     # Menú animado en grid
     cols = st.columns(2)
     for i in range(0, len(menu_items), 2):
         with cols[0]:
-            if st.button(f"{menu_items[i][1]}  {menu_items[i][0]}", key=f"menu_{menu_items[i][0]}", help=menu_items[i][0], use_container_width=True):
+            if st.button(
+                f"{menu_items[i][1]}  {menu_items[i][0]}",
+                key=f"menu_{menu_items[i][0]}",
+                help=menu_items[i][0],
+                use_container_width=True,
+            ):
                 st.session_state.menu = menu_items[i][0]
                 st.rerun()
-        if i+1 < len(menu_items):
+        if i + 1 < len(menu_items):
             with cols[1]:
-                if st.button(f"{menu_items[i+1][1]}  {menu_items[i+1][0]}", key=f"menu_{menu_items[i+1][0]}", help=menu_items[i+1][0], use_container_width=True):
-                    st.session_state.menu = menu_items[i+1][0]
+                if st.button(
+                    f"{menu_items[i+1][1]}  {menu_items[i+1][0]}",
+                    key=f"menu_{menu_items[i+1][0]}",
+                    help=menu_items[i + 1][0],
+                    use_container_width=True,
+                ):
+                    st.session_state.menu = menu_items[i + 1][0]
                     st.rerun()
     st.write("")
-    st.markdown("<div style='text-align:center; color:#636e72;'>Selecciona una opción para comenzar</div>", unsafe_allow_html=True)
+    st.markdown(
+        "<div style='text-align:center; color:#636e72;'>Selecciona una opción para comenzar</div>",
+        unsafe_allow_html=True,
+    )
 else:
     # Botón para volver al inicio (funcional)
     col_home, col_spacer = st.columns([1, 9])
     with col_home:
-        if st.button("🏠 Inicio", key="btn_inicio", help="Volver al inicio", use_container_width=True):
+        if st.button(
+            "🏠 Inicio",
+            key="btn_inicio",
+            help="Volver al inicio",
+            use_container_width=True,
+        ):
             go_home()
             st.rerun()
-    
+
     state = get_state()
     menu = st.session_state.menu
     if menu == "Chatbot":
