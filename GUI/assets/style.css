@@ -1,0 +1,15 @@
+body {
+    background: #f5f7fa;
+}
+
+.stButton>button {
+    border-radius: 20px;
+    background: #00b894;
+    color: white;
+    font-weight: bold;
+}
+
+.stExpanderHeader {
+    font-size: 1.1em;
+    color: #0984e3;
+}
