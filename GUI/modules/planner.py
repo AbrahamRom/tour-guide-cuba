@@ -102,9 +102,6 @@ def render(state):
                     "No se encontró un itinerario válido para los parámetros dados."
                 )
 
-    # Mapa interactivo (placeholder)
-    st.map()  # Reemplazar con mapa real
-
     # Vista previa de itinerario
     st.subheader("Itinerario Detallado")
     for item in state.get("itinerario", []):
