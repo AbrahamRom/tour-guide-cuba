@@ -1,2 +1,5 @@
 streamlit
-pyyaml
+sentence-transformers
+faiss-cpu
+PyYAML
+requests
