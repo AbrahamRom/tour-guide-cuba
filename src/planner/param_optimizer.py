@@ -36,7 +36,7 @@ def optimize_pso(repo: HotelRepository, n_trials=30):
             budget,
             destino,
             num_particles=num_particles,
-            num_iter=50,
+            num_iter=40,
             alpha=alpha,
             beta=beta,
             gamma=gamma,
@@ -76,7 +76,7 @@ def optimize_aco(repo: HotelRepository, n_trials=30):
             budget,
             destino,
             num_ants=num_ants,
-            num_iter=50,
+            num_iter=40,
             alpha=alpha,
             beta=beta,
             gamma=gamma,
@@ -122,7 +122,7 @@ def random_weights_and_params():
     return alpha, beta, gamma, nights, budget, destino
 
 
-def run_experiments(n_experiments=100, output_file="experiment_results.csv"):
+def run_experiments(n_experiments=1000, output_file="experiment_results.csv"):
     results = []
     repo = HotelRepository.from_csv(
         r"e:/Universidad/3er Año/2do Semestre/Proyecto Conjunto/tour-guide-cuba/tourism_data.csv"
@@ -133,10 +133,10 @@ def run_experiments(n_experiments=100, output_file="experiment_results.csv"):
             f"\nExperimento {i+1}: nights={nights}, budget={budget}, destino={destino}"
         )
         best_pso_params, best_pso_fitness, best_pso_weights = optimize_pso(
-            repo, n_trials=50
+            repo, n_trials=100
         )
         best_aco_params, best_aco_fitness, best_aco_weights = optimize_aco(
-            repo, n_trials=50
+            repo, n_trials=100
         )
         results.append(
             {
