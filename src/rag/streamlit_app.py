@@ -3,6 +3,8 @@ from app.config import load_config
 from app.rag_engine import RAGEngine
 from app.ollama_interface import OllamaClient
 
+
+
 config = load_config()
 ollama = OllamaClient()
 
