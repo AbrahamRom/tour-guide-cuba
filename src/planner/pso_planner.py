@@ -7,21 +7,28 @@ from src.planner.fitness import calcular_fitness
 
 
 class PSOPlanner:
+    """
+    Planificador basado en Particle Swarm Optimization (PSO) para itinerarios de hoteles.
+    """
+
     def __init__(
         self,
         hotel_repo: HotelRepository,
         nights: int,
         budget: float,
         destino: str,
-        num_particles=42,  # Dado por el ajuste de parametros
-        num_iter=500,
-        alpha=1.0,
-        beta=1.0,
-        gamma=1.0,
-        w=0.7,  # Inercia
-        c1=1.5,  # Cognitivo
-        c2=1.5,  # Social
+        num_particles: int = 42,  # Valor óptimo ajustado
+        num_iter: int = 500,
+        alpha: float = 1.0,
+        beta: float = 1.0,
+        gamma: float = 1.0,
+        w: float = 0.7,  # Factor de inercia
+        c1: float = 1.5,  # Componente cognitivo
+        c2: float = 1.5,  # Componente social
     ):
+        """
+        Inicializa el planificador PSO con los parámetros dados.
+        """
         self.hotel_repo = hotel_repo
         self.nights = nights
         self.budget = budget
@@ -39,6 +46,9 @@ class PSOPlanner:
         self.num_hotels = len(self.hotels)
 
     def _random_solution(self) -> List[int]:
+        """
+        Genera una solución aleatoria válida (lista de índices de hoteles).
+        """
         solution = []
         budget_left = self.budget
         for _ in range(self.nights):
@@ -53,9 +63,17 @@ class PSOPlanner:
         return solution
 
     def _solution_to_hotels(self, solution: List[int]) -> List[Hotel]:
+        """
+        Convierte una solución de índices a una lista de objetos Hotel.
+        """
         return [self.hotels[i] for i in solution]
 
     def search_best_path(self) -> Tuple[List[Hotel], float]:
+        """
+        Ejecuta el algoritmo PSO para encontrar el mejor itinerario de hoteles.
+        Devuelve la mejor solución y su fitness.
+        """
+        # Inicialización de partículas y velocidades
         particles = [self._random_solution() for _ in range(self.num_particles)]
         velocities = [np.zeros(self.nights) for _ in range(self.num_particles)]
         personal_best = [p[:] for p in particles]
@@ -74,15 +92,18 @@ class PSOPlanner:
         global_best = personal_best[global_best_idx][:]
         global_best_fitness = personal_best_fitness[global_best_idx]
 
+        # Iteraciones principales de PSO
         for _ in range(self.num_iter):
             for i in range(self.num_particles):
                 for d in range(self.nights):
                     r1, r2 = random.random(), random.random()
+                    # Actualización de velocidad
                     velocities[i][d] = (
                         self.w * velocities[i][d]
                         + self.c1 * r1 * (personal_best[i][d] - particles[i][d])
                         + self.c2 * r2 * (global_best[d] - particles[i][d])
                     )
+                    # Movimiento probabilístico
                     if random.random() < 1 / (1 + np.exp(-velocities[i][d])):
                         budget_left = self.budget - sum(
                             self.hotels[particles[i][j]].price for j in range(d)
@@ -94,6 +115,7 @@ class PSOPlanner:
                         ]
                         if valid:
                             particles[i][d] = random.choice(valid)
+                # Reparación de soluciones que exceden el presupuesto
                 budget_used = 0
                 for d in range(self.nights):
                     price = self.hotels[particles[i][d]].price
@@ -110,6 +132,7 @@ class PSOPlanner:
                         else:
                             particles[i][d] = 0
                     budget_used += self.hotels[particles[i][d]].price
+                # Evaluación de fitness
                 hotels_sol = self._solution_to_hotels(particles[i])
                 fit = calcular_fitness(
                     hotels_sol,
@@ -119,6 +142,7 @@ class PSOPlanner:
                     self.beta,
                     self.gamma,
                 )
+                # Actualización de mejores personales y globales
                 if fit > personal_best_fitness[i]:
                     personal_best[i] = particles[i][:]
                     personal_best_fitness[i] = fit

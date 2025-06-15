@@ -2,14 +2,38 @@ import sys
 import os
 import streamlit as st
 
+# --- Importación de módulos del proyecto ---
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 from src.data.hotel_repository import HotelRepository
 from src.planner.graph_explorer import GraphExplorer
 from src.planner.aco_planner import ACOPlanner
 from src.planner.pso_planner import PSOPlanner
 
+# --- Mapeo difuso para preferencias del usuario ---
+FUZZY_MAP = {
+    "Ahorrar lo máximo posible": 5.0,
+    "Ahorrar bastante": 2.5,
+    "Gasto equilibrado": 1.0,
+    "Gastar cerca del presupuesto": 0.5,
+    "Gastar más si es necesario": 0.1,
+    "No quiero moverme nunca": 10.0,
+    "Prefiero pocos cambios": 3.0,
+    "Indiferente": 1.0,
+    "Me gusta cambiar a veces": 0.5,
+    "Quiero probar muchos hoteles": 0.1,
+    "Solo los mejores hoteles": 5.0,
+    "Prefiero buena calidad": 2.5,
+    "Me conformo con lo básico": 0.5,
+    "No me importa la calificación": 0.1,
+}
 
+
+# --- Configuración de restricciones y preferencias del usuario ---
 def get_configuracion():
+    """
+    Muestra los controles de configuración y preferencias difusas para el usuario.
+    Devuelve los parámetros seleccionados y los pesos difusos para el planificador.
+    """
     with st.expander("Configuración de restricciones"):
         tiempo = st.slider("Tiempo máximo (días)", 1, 30, 7)
         presupuesto = st.slider("Presupuesto máximo ($USD)", 50, 5000, 1000)
@@ -27,70 +51,32 @@ def get_configuracion():
             "Método de planificación",
             ["Clásico (búsqueda)", "Metaheurística (ACO)", "Metaheurística (PSO)"],
         )
-        # --- Preferencias difusas ---
+        # Preferencias difusas
         budget_choice = st.selectbox(
             "¿Qué tan importante es ajustar el presupuesto?",
-            [
-                "Ahorrar lo máximo posible",
-                "Ahorrar bastante",
-                "Gasto equilibrado",
-                "Gastar cerca del presupuesto",
-                "Gastar más si es necesario",
-            ],
+            list(FUZZY_MAP.keys())[:5],
         )
         changes_choice = st.selectbox(
             "¿Qué tan importante es evitar cambios de hotel?",
-            [
-                "No quiero moverme nunca",
-                "Prefiero pocos cambios",
-                "Indiferente",
-                "Me gusta cambiar a veces",
-                "Quiero probar muchos hoteles",
-            ],
+            list(FUZZY_MAP.keys())[5:10],
         )
         stars_choice = st.selectbox(
             "¿Qué tan importante es la calificación del hotel?",
-            [
-                "Solo los mejores hoteles",
-                "Prefiero buena calidad",
-                "Indiferente",
-                "Me conformo con lo básico",
-                "No me importa la calificación",
-            ],
+            list(FUZZY_MAP.keys())[10:],
         )
-        # Mapeo ajustado: el valor máximo es 10, el mínimo es 0
-        fuzzy_map = {
-            "Ahorrar lo máximo posible": 5.0,
-            "Ahorrar bastante": 2.5,
-            "Gasto equilibrado": 1.0,
-            "Gastar cerca del presupuesto": 0.5,
-            "Gastar más si es necesario": 0.1,
-            "No quiero moverme nunca": 10.0,
-            "Prefiero pocos cambios": 3.0,
-            "Indiferente": 1.0,
-            "Me gusta cambiar a veces": 0.5,
-            "Quiero probar muchos hoteles": 0.1,
-            "Solo los mejores hoteles": 5.0,
-            "Prefiero buena calidad": 2.5,
-            "Me conformo con lo básico": 0.5,
-            "No me importa la calificación": 0.1,
-        }
-        beta = fuzzy_map[budget_choice]
-        gamma = fuzzy_map[changes_choice]
-        alpha = fuzzy_map[stars_choice]
-        params = {}
-        if metodo == "Metaheurística (ACO)":
-            params["alpha"] = alpha
-            params["beta"] = beta
-            params["gamma"] = gamma
-        elif metodo == "Metaheurística (PSO)":
-            params["alpha"] = alpha
-            params["beta"] = beta
-            params["gamma"] = gamma
+        # Traducción de preferencias a pesos
+        beta = FUZZY_MAP[budget_choice]
+        gamma = FUZZY_MAP[changes_choice]
+        alpha = FUZZY_MAP[stars_choice]
+        params = {"alpha": alpha, "beta": beta, "gamma": gamma}
         return tiempo, presupuesto, destino, prioridad, metodo, params
 
 
+# --- Planificación clásica ---
 def planificar_clasico(repo, tiempo, presupuesto, destino):
+    """
+    Ejecuta la planificación clásica (búsqueda) y retorna el itinerario y mensaje.
+    """
     explorer = GraphExplorer(repo, tiempo, presupuesto, destino)
     best_node = explorer.search_best_path()
     if best_node:
@@ -114,7 +100,11 @@ def planificar_clasico(repo, tiempo, presupuesto, destino):
         )
 
 
+# --- Planificación con ACO ---
 def planificar_aco(repo, tiempo, presupuesto, destino, params):
+    """
+    Ejecuta la planificación con ACO y retorna el itinerario y mensaje.
+    """
     planner = ACOPlanner(
         repo,
         tiempo,
@@ -153,7 +143,11 @@ def planificar_aco(repo, tiempo, presupuesto, destino, params):
         )
 
 
+# --- Planificación con PSO ---
 def planificar_pso(repo, tiempo, presupuesto, destino, params):
+    """
+    Ejecuta la planificación con PSO y retorna el itinerario y mensaje.
+    """
     planner = PSOPlanner(
         repo,
         tiempo,
@@ -192,13 +186,21 @@ def planificar_pso(repo, tiempo, presupuesto, destino, params):
         )
 
 
+# --- Mostrar itinerario detallado ---
 def mostrar_itinerario(itinerario):
+    """
+    Muestra el itinerario detallado en la interfaz.
+    """
     st.subheader("Itinerario Detallado")
     for item in itinerario:
         st.markdown(f"**Día {item['dia']}**: {item['actividad']} (${item['costo']})")
 
 
+# --- Render principal del módulo de planificación ---
 def render(state):
+    """
+    Renderiza la interfaz del planificador de rutas y gestiona la generación del itinerario.
+    """
     st.header("🗺️ Planificador de Rutas")
     st.markdown("Visualiza y ajusta tu itinerario de viaje.")
     tiempo, presupuesto, destino, prioridad, metodo, params = get_configuracion()

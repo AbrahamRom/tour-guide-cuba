@@ -1,27 +1,60 @@
 import sys
 import os
 import csv
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
-
-import optuna
 import random
+import optuna
+import pandas as pd
+import numpy as np
 from src.data.hotel_repository import HotelRepository
 from src.planner.aco_planner import ACOPlanner
 from src.planner.pso_planner import PSOPlanner
-import pandas as pd
-import numpy as np
 
 
-def random_weights():
-    # Genera tres pesos aleatorios positivos que suman 3.0 (o puedes usar otra suma)
+# -------------------- Utilidades de generación de pesos y parámetros --------------------
+def random_weights() -> list:
+    """
+    Genera tres pesos aleatorios positivos que suman 3.0.
+    """
     vals = [random.uniform(0.5, 2.0) for _ in range(3)]
     s = sum(vals)
     return [v * 3.0 / s for v in vals]
 
 
-def optimize_pso(repo: HotelRepository, n_trials=30):
+def random_experiment_params() -> tuple:
+    """
+    Genera parámetros aleatorios para un experimento (noches, presupuesto, destino).
+    """
+    nights = random.randint(3, 10)
+    budget = random.randint(200, 1500)
+    destinos = [
+        "La Habana",
+        "Varadero",
+        "Camagüey",
+        "Matanzas",
+        "Ciego de Ávila",
+        "Holguín",
+        "Santiago",
+        "Cienfuegos",
+        "Santa Maria",
+    ]
+    destino = random.choice(destinos)
+    return nights, budget, destino
 
+
+def random_weights_and_params() -> tuple:
+    """
+    Genera pesos y parámetros aleatorios para un experimento.
+    """
+    alpha, beta, gamma = random_weights()
+    nights, budget, destino = random_experiment_params()
+    return alpha, beta, gamma, nights, budget, destino
+
+
+# -------------------- Optimizadores de parámetros para PSO y ACO --------------------
+def optimize_pso(repo: HotelRepository, n_trials=30):
+    """
+    Optimiza los parámetros de PSO usando Optuna.
+    """
     alpha, beta, gamma, nights, budget, destino = random_weights_and_params()
 
     def objective(trial):
@@ -50,17 +83,13 @@ def optimize_pso(repo: HotelRepository, n_trials=30):
     study.optimize(objective, n_trials=n_trials)
     best_trial = study.best_trial
     print("Mejores parámetros PSO:", study.best_params)
-    # print(
-    #     f"alpha: {best_trial.user_attrs['alpha']:.3f}, beta: {best_trial.user_attrs['beta']:.3f}, gamma: {best_trial.user_attrs['gamma']:.3f}"
-    # )
-    # print(
-    #     f"nights: {best_trial.user_attrs['nights']}, budget: {best_trial.user_attrs['budget']}, destino: {best_trial.user_attrs['destino']}"
-    # )
     return study.best_params, -study.best_value, best_trial.user_attrs
 
 
 def optimize_aco(repo: HotelRepository, n_trials=30):
-
+    """
+    Optimiza los parámetros de ACO usando Optuna.
+    """
     alpha, beta, gamma, nights, budget, destino = random_weights_and_params()
 
     def objective(trial):
@@ -91,40 +120,14 @@ def optimize_aco(repo: HotelRepository, n_trials=30):
     study.optimize(objective, n_trials=n_trials)
     best_trial = study.best_trial
     print("Mejores parámetros ACO:", study.best_params)
-    # print(
-    #     f"alpha: {best_trial.user_attrs['alpha']:.3f}, beta: {best_trial.user_attrs['beta']:.3f}, gamma: {best_trial.user_attrs['gamma']:.3f}"
-    # )
-    # print(
-    #     f"nights: {best_trial.user_attrs['nights']}, budget: {best_trial.user_attrs['budget']}, destino: {best_trial.user_attrs['destino']}"
-    # )
     return study.best_params, -study.best_value, best_trial.user_attrs
 
 
-def random_experiment_params():
-    nights = random.randint(3, 10)
-    budget = random.randint(200, 1500)
-    destinos = [
-        "La Habana",
-        "Varadero",
-        "Camagüey",
-        "Matanzas",
-        "Ciego de Ávila",
-        "Holguín",
-        "Santiago",
-        "Cienfuegos",
-        "Santa Maria",
-    ]
-    destino = random.choice(destinos)
-    return nights, budget, destino
-
-
-def random_weights_and_params():
-    alpha, beta, gamma = random_weights()
-    nights, budget, destino = random_experiment_params()
-    return alpha, beta, gamma, nights, budget, destino
-
-
-def run_experiments(n_experiments=1000, output_file="experiment_results.csv"):
+# -------------------- Ejecución de experimentos masivos --------------------
+def run_experiments(n_experiments=100, output_file="experiment_results.csv"):
+    """
+    Ejecuta múltiples experimentos de optimización y guarda los resultados en un CSV.
+    """
     results = []
     repo = HotelRepository.from_csv(
         r"e:/Universidad/3er Año/2do Semestre/Proyecto Conjunto/tour-guide-cuba/tourism_data.csv"
@@ -167,15 +170,10 @@ def run_experiments(n_experiments=1000, output_file="experiment_results.csv"):
     print(f"\nResultados guardados en {output_file}")
 
 
+# -------------------- Utilidades de análisis de resultados --------------------
 def get_mode_rounded(csv_file, column, decimals=2):
     """
     Calcula la moda de una columna numérica racional redondeando los valores.
-    Args:
-        csv_file (str): Ruta al archivo CSV.
-        column (str): Nombre de la columna.
-        decimals (int): Decimales para redondear.
-    Returns:
-        float: Valor más frecuente (moda) redondeado.
     """
     df = pd.read_csv(csv_file)
     rounded = df[column].round(decimals)
@@ -185,12 +183,6 @@ def get_mode_rounded(csv_file, column, decimals=2):
 def get_histogram_mode(csv_file, column, bin_width=0.05):
     """
     Encuentra el intervalo más frecuente (bin) de una columna numérica racional usando histogramas.
-    Args:
-        csv_file (str): Ruta al archivo CSV.
-        column (str): Nombre de la columna.
-        bin_width (float): Ancho de los bins.
-    Returns:
-        tuple: Intervalo (bin) más frecuente como (inicio, fin).
     """
     df = pd.read_csv(csv_file)
     min_val = df[column].min()
@@ -204,16 +196,12 @@ def get_histogram_mode(csv_file, column, bin_width=0.05):
 def get_discrete_mode(csv_file, column):
     """
     Calcula la moda de una columna discreta (entera) en un archivo CSV.
-    Args:
-        csv_file (str): Ruta al archivo CSV.
-        column (str): Nombre de la columna.
-    Returns:
-        int or float: Valor más frecuente (moda).
     """
     df = pd.read_csv(csv_file)
     return df[column].mode()[0]
 
 
+# -------------------- Ejemplo de uso directo --------------------
 if __name__ == "__main__":
     # run_experiments()
     mode_aco_num_ants = get_discrete_mode("experiment_results.csv", "aco_num_ants")

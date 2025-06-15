@@ -6,19 +6,26 @@ from src.planner.fitness import calcular_fitness
 
 
 class ACOPlanner:
+    """
+    Planificador basado en Ant Colony Optimization (ACO) para itinerarios de hoteles.
+    """
+
     def __init__(
         self,
         hotel_repo: HotelRepository,
         nights: int,
         budget: float,
         destino: str,
-        num_ants=48,  # Dado por el ajuste de parametros
-        num_iter=300,
-        alpha=1.0,
-        beta=1.0,
-        gamma=1.0,
-        evaporation=0.12,  # Dado por el ajuste de parametros
+        num_ants: int = 48,  # Valor óptimo ajustado
+        num_iter: int = 300,
+        alpha: float = 1.0,
+        beta: float = 1.0,
+        gamma: float = 1.0,
+        evaporation: float = 0.12,  # Valor óptimo ajustado
     ):
+        """
+        Inicializa el planificador ACO con los parámetros dados.
+        """
         self.hotel_repo = hotel_repo
         self.nights = nights
         self.budget = budget
@@ -35,6 +42,9 @@ class ACOPlanner:
         self.pheromones = [[1.0 for _ in self.hotels] for _ in range(nights)]
 
     def construct_solution(self) -> List[Hotel]:
+        """
+        Construye una solución (itinerario) para una hormiga, respetando el presupuesto.
+        """
         solution = []
         budget_left = self.budget
         last_hotel_idx = None
@@ -53,7 +63,12 @@ class ACOPlanner:
             last_hotel_idx = hotel_idx
         return solution
 
-    def _calculate_probabilities(self, night, budget_left, last_hotel_idx):
+    def _calculate_probabilities(
+        self, night: int, budget_left: float, last_hotel_idx: int
+    ) -> List[float]:
+        """
+        Calcula las probabilidades de elegir cada hotel para una noche dada.
+        """
         probabilities = []
         for idx, hotel in enumerate(self.hotels):
             if hotel.price > budget_left:
@@ -62,14 +77,17 @@ class ACOPlanner:
             pheromone = self.pheromones[night][idx]
             heuristic = hotel.stars / hotel.price if hotel.price > 0 else 0
             if last_hotel_idx is not None and idx != last_hotel_idx:
-                heuristic *= 0.8  # penaliza cambio de hotel
+                heuristic *= 0.8  # Penaliza cambio de hotel
             probabilities.append(pheromone * heuristic)
         total = sum(probabilities)
         if total == 0:
             return []
         return [p / total for p in probabilities]
 
-    def _roulette_wheel_selection(self, probabilities):
+    def _roulette_wheel_selection(self, probabilities: List[float]) -> int:
+        """
+        Selecciona un índice basado en las probabilidades (ruleta).
+        """
         r = random.random()
         cumulative = 0
         for idx, p in enumerate(probabilities):
@@ -79,6 +97,9 @@ class ACOPlanner:
         return len(probabilities) - 1
 
     def update_pheromones(self, solutions: List[List[Hotel]], fitnesses: List[float]):
+        """
+        Actualiza la matriz de feromonas aplicando evaporación y depósito según fitness.
+        """
         # Evaporación
         for night in range(self.nights):
             for idx in range(len(self.hotels)):
@@ -90,6 +111,10 @@ class ACOPlanner:
                 self.pheromones[night][idx] += fit
 
     def search_best_path(self) -> Tuple[List[Hotel], float]:
+        """
+        Ejecuta el algoritmo ACO para encontrar el mejor itinerario de hoteles.
+        Devuelve la mejor solución y su fitness.
+        """
         best_solution = []
         best_fitness = float("-inf")
         for _ in range(self.num_iter):
