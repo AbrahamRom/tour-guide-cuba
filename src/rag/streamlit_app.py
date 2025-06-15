@@ -120,21 +120,26 @@ st.markdown(f"<h2 style='text-align:center;margin-bottom:0.7em'>{config['ui']['t
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
-# Chat container
-with st.container():
-    st.markdown('<div class="chat-container">', unsafe_allow_html=True)
-    for msg in st.session_state.chat_history:
-        if msg["role"] == "user":
-            st.markdown(f'<div class="msg-user">{msg["content"]}</div>', unsafe_allow_html=True)
-        else:
-            st.markdown(f'<div class="msg-bot">{msg["content"]}</div>', unsafe_allow_html=True)
-    st.markdown('<div style="clear:both"></div>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
+# Chat container (sin st.container())
+# st.markdown('<div class="chat-container">', unsafe_allow_html=True)
+for msg in st.session_state.chat_history:
+    if msg["role"] == "user":
+        st.markdown(f'<div class="msg-user">{msg["content"]}</div>', unsafe_allow_html=True)
+    else:
+        st.markdown(f'<div class="msg-bot">{msg["content"]}</div>', unsafe_allow_html=True)
+st.markdown('<div style="clear:both"></div>', unsafe_allow_html=True)
+st.markdown('</div>', unsafe_allow_html=True)
 
-# Modern input bar and controls
+# Modern input bar and controls (sin st.container())
 with st.form(key="chat_input_form", clear_on_submit=True):
-    st.markdown('<div class="input-bar">', unsafe_allow_html=True)
-    user_input = st.text_area("", placeholder="Escribe tu mensaje...", key="input_text", height=40, label_visibility="collapsed")
+    # st.markdown('<div class="input-bar">', unsafe_allow_html=True)
+    user_input = st.text_area(
+        "",
+        placeholder="Escribe tu mensaje...",
+        key="input_text",
+        height=70,
+        label_visibility="collapsed"
+    )
     send_col, _ = st.columns([1, 8])
     with send_col:
         send_clicked = st.form_submit_button("➤", use_container_width=False)
@@ -179,4 +184,5 @@ if send_clicked and user_input.strip():
     response_text = "".join(response_chunks).strip()
     st.session_state.chat_history.append({"role": "bot", "content": response_text})
 
-    st.experimental_rerun()
+    # st.experimental_rerun()
+
