@@ -27,15 +27,66 @@ def get_configuracion():
             "Método de planificación",
             ["Clásico (búsqueda)", "Metaheurística (ACO)", "Metaheurística (PSO)"],
         )
+        # --- Preferencias difusas ---
+        budget_choice = st.selectbox(
+            "¿Qué tan importante es ajustar el presupuesto?",
+            [
+                "Ahorrar lo máximo posible",
+                "Ahorrar bastante",
+                "Gasto equilibrado",
+                "Gastar cerca del presupuesto",
+                "Gastar más si es necesario",
+            ],
+        )
+        changes_choice = st.selectbox(
+            "¿Qué tan importante es evitar cambios de hotel?",
+            [
+                "No quiero moverme nunca",
+                "Prefiero pocos cambios",
+                "Indiferente",
+                "Me gusta cambiar a veces",
+                "Quiero probar muchos hoteles",
+            ],
+        )
+        stars_choice = st.selectbox(
+            "¿Qué tan importante es la calificación del hotel?",
+            [
+                "Solo los mejores hoteles",
+                "Prefiero buena calidad",
+                "Indiferente",
+                "Me conformo con lo básico",
+                "No me importa la calificación",
+            ],
+        )
+        # Mapeo ajustado: el valor máximo es 10, el mínimo es 0
+        fuzzy_map = {
+            "Ahorrar lo máximo posible": 5.0,
+            "Ahorrar bastante": 2.5,
+            "Gasto equilibrado": 1.0,
+            "Gastar cerca del presupuesto": 0.5,
+            "Gastar más si es necesario": 0.1,
+            "No quiero moverme nunca": 10.0,
+            "Prefiero pocos cambios": 3.0,
+            "Indiferente": 1.0,
+            "Me gusta cambiar a veces": 0.5,
+            "Quiero probar muchos hoteles": 0.1,
+            "Solo los mejores hoteles": 5.0,
+            "Prefiero buena calidad": 2.5,
+            "Me conformo con lo básico": 0.5,
+            "No me importa la calificación": 0.1,
+        }
+        beta = fuzzy_map[budget_choice]
+        gamma = fuzzy_map[changes_choice]
+        alpha = fuzzy_map[stars_choice]
         params = {}
         if metodo == "Metaheurística (ACO)":
-            params["alpha"] = st.slider("Peso estrellas (α)", 0.0, 3.0, 1.0)
-            params["beta"] = st.slider("Peso costo (β)", 0.0, 3.0, 1.0)
-            params["gamma"] = st.slider("Peso cambios (γ)", 0.0, 3.0, 1.0)
+            params["alpha"] = alpha
+            params["beta"] = beta
+            params["gamma"] = gamma
         elif metodo == "Metaheurística (PSO)":
-            params["alpha"] = st.slider("Peso estrellas (α)", 0.0, 3.0, 1.0)
-            params["beta"] = st.slider("Peso costo (β)", 0.0, 3.0, 1.0)
-            params["gamma"] = st.slider("Peso cambios (γ)", 0.0, 3.0, 1.0)
+            params["alpha"] = alpha
+            params["beta"] = beta
+            params["gamma"] = gamma
         return tiempo, presupuesto, destino, prioridad, metodo, params
 
 

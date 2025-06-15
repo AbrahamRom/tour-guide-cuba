@@ -14,7 +14,7 @@ class PSOPlanner:
         budget: float,
         destino: str,
         num_particles=42,  # Dado por el ajuste de parametros
-        num_iter=300,
+        num_iter=500,
         alpha=1.0,
         beta=1.0,
         gamma=1.0,
