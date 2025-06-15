@@ -29,15 +29,10 @@ def get_configuracion():
         )
         params = {}
         if metodo == "Metaheurística (ACO)":
-            params["num_ants"] = st.slider("Número de hormigas", 5, 50, 15)
-            params["num_iter"] = st.slider("Iteraciones", 10, 200, 50)
             params["alpha"] = st.slider("Peso estrellas (α)", 0.0, 3.0, 1.0)
             params["beta"] = st.slider("Peso costo (β)", 0.0, 3.0, 1.0)
             params["gamma"] = st.slider("Peso cambios (γ)", 0.0, 3.0, 1.0)
-            params["evaporation"] = st.slider("Evaporación feromona", 0.0, 1.0, 0.5)
         elif metodo == "Metaheurística (PSO)":
-            params["num_particles"] = st.slider("Número de partículas", 5, 50, 20)
-            params["num_iter"] = st.slider("Iteraciones", 10, 200, 50)
             params["alpha"] = st.slider("Peso estrellas (α)", 0.0, 3.0, 1.0)
             params["beta"] = st.slider("Peso costo (β)", 0.0, 3.0, 1.0)
             params["gamma"] = st.slider("Peso cambios (γ)", 0.0, 3.0, 1.0)
@@ -61,7 +56,11 @@ def planificar_clasico(repo, tiempo, presupuesto, destino):
             "success",
         )
     else:
-        return [], "No se encontró un itinerario válido para los parámetros dados.", "error"
+        return (
+            [],
+            "No se encontró un itinerario válido para los parámetros dados.",
+            "error",
+        )
 
 
 def planificar_aco(repo, tiempo, presupuesto, destino, params):
@@ -70,19 +69,18 @@ def planificar_aco(repo, tiempo, presupuesto, destino, params):
         tiempo,
         presupuesto,
         destino,
-        num_ants=params["num_ants"],
-        num_iter=params["num_iter"],
         alpha=params["alpha"],
         beta=params["beta"],
         gamma=params["gamma"],
-        evaporation=params["evaporation"],
     )
     best_solution, best_fitness = planner.search_best_path()
     if best_solution:
         total_stars = sum(h.stars for h in best_solution)
         total_cost = sum(h.price for h in best_solution)
         cambios = sum(
-            1 for i in range(1, len(best_solution)) if best_solution[i] != best_solution[i - 1]
+            1
+            for i in range(1, len(best_solution))
+            if best_solution[i] != best_solution[i - 1]
         )
         return (
             [
@@ -97,7 +95,11 @@ def planificar_aco(repo, tiempo, presupuesto, destino, params):
             "success",
         )
     else:
-        return [], "No se encontró un itinerario válido para los parámetros dados.", "error"
+        return (
+            [],
+            "No se encontró un itinerario válido para los parámetros dados.",
+            "error",
+        )
 
 
 def planificar_pso(repo, tiempo, presupuesto, destino, params):
@@ -106,8 +108,6 @@ def planificar_pso(repo, tiempo, presupuesto, destino, params):
         tiempo,
         presupuesto,
         destino,
-        num_particles=params["num_particles"],
-        num_iter=params["num_iter"],
         alpha=params["alpha"],
         beta=params["beta"],
         gamma=params["gamma"],
@@ -117,7 +117,9 @@ def planificar_pso(repo, tiempo, presupuesto, destino, params):
         total_stars = sum(h.stars for h in best_solution)
         total_cost = sum(h.price for h in best_solution)
         cambios = sum(
-            1 for i in range(1, len(best_solution)) if best_solution[i] != best_solution[i - 1]
+            1
+            for i in range(1, len(best_solution))
+            if best_solution[i] != best_solution[i - 1]
         )
         return (
             [
@@ -132,7 +134,11 @@ def planificar_pso(repo, tiempo, presupuesto, destino, params):
             "success",
         )
     else:
-        return [], "No se encontró un itinerario válido para los parámetros dados.", "error"
+        return (
+            [],
+            "No se encontró un itinerario válido para los parámetros dados.",
+            "error",
+        )
 
 
 def mostrar_itinerario(itinerario):
@@ -152,11 +158,17 @@ def render(state):
         )
         repo = HotelRepository.from_csv(csv_path)
         if metodo == "Clásico (búsqueda)":
-            itinerario, mensaje, tipo = planificar_clasico(repo, tiempo, presupuesto, destino)
+            itinerario, mensaje, tipo = planificar_clasico(
+                repo, tiempo, presupuesto, destino
+            )
         elif metodo == "Metaheurística (ACO)":
-            itinerario, mensaje, tipo = planificar_aco(repo, tiempo, presupuesto, destino, params)
+            itinerario, mensaje, tipo = planificar_aco(
+                repo, tiempo, presupuesto, destino, params
+            )
         elif metodo == "Metaheurística (PSO)":
-            itinerario, mensaje, tipo = planificar_pso(repo, tiempo, presupuesto, destino, params)
+            itinerario, mensaje, tipo = planificar_pso(
+                repo, tiempo, presupuesto, destino, params
+            )
         state["itinerario"] = itinerario
         if tipo == "success":
             st.success(mensaje)

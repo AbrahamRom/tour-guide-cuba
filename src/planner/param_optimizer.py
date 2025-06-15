@@ -9,6 +9,8 @@ import random
 from src.data.hotel_repository import HotelRepository
 from src.planner.aco_planner import ACOPlanner
 from src.planner.pso_planner import PSOPlanner
+import pandas as pd
+import numpy as np
 
 
 def random_weights():
@@ -165,28 +167,68 @@ def run_experiments(n_experiments=1000, output_file="experiment_results.csv"):
     print(f"\nResultados guardados en {output_file}")
 
 
-# def main():
-#     repo = HotelRepository.from_csv(
-#         r"e:/Universidad/3er Año/2do Semestre/Proyecto Conjunto/tour-guide-cuba/tourism_data.csv"
-#     )
-#     nights = 7
-#     budget = 800
-#     destino = "La Habana"
-#     print("Optimizando PSO...")
-#     best_pso_params, best_pso_fitness, best_pso_weights = optimize_pso(
-#         repo, nights, budget, destino, n_trials=100
-#     )
-#     print("Mejores parámetros PSO:", best_pso_params)
-#     print("Pesos alpha, beta, gamma:", best_pso_weights)
-#     print("Mejor fitness PSO:", best_pso_fitness)
-#     print("\nOptimizando ACO...")
-#     best_aco_params, best_aco_fitness, best_aco_weights = optimize_aco(
-#         repo, nights, budget, destino, n_trials=100
-#     )
-#     print("Mejores parámetros ACO:", best_aco_params)
-#     print("Pesos alpha, beta, gamma:", best_aco_weights)
-#     print("Mejor fitness ACO:", best_aco_fitness)
+def get_mode_rounded(csv_file, column, decimals=2):
+    """
+    Calcula la moda de una columna numérica racional redondeando los valores.
+    Args:
+        csv_file (str): Ruta al archivo CSV.
+        column (str): Nombre de la columna.
+        decimals (int): Decimales para redondear.
+    Returns:
+        float: Valor más frecuente (moda) redondeado.
+    """
+    df = pd.read_csv(csv_file)
+    rounded = df[column].round(decimals)
+    return rounded.mode()[0]
+
+
+def get_histogram_mode(csv_file, column, bin_width=0.05):
+    """
+    Encuentra el intervalo más frecuente (bin) de una columna numérica racional usando histogramas.
+    Args:
+        csv_file (str): Ruta al archivo CSV.
+        column (str): Nombre de la columna.
+        bin_width (float): Ancho de los bins.
+    Returns:
+        tuple: Intervalo (bin) más frecuente como (inicio, fin).
+    """
+    df = pd.read_csv(csv_file)
+    min_val = df[column].min()
+    max_val = df[column].max()
+    bins = np.arange(min_val, max_val + bin_width, bin_width)
+    counts, bin_edges = np.histogram(df[column], bins=bins)
+    max_bin_index = np.argmax(counts)
+    return (bin_edges[max_bin_index], bin_edges[max_bin_index + 1])
+
+
+def get_discrete_mode(csv_file, column):
+    """
+    Calcula la moda de una columna discreta (entera) en un archivo CSV.
+    Args:
+        csv_file (str): Ruta al archivo CSV.
+        column (str): Nombre de la columna.
+    Returns:
+        int or float: Valor más frecuente (moda).
+    """
+    df = pd.read_csv(csv_file)
+    return df[column].mode()[0]
 
 
 if __name__ == "__main__":
-    run_experiments()
+    # run_experiments()
+    mode_aco_num_ants = get_discrete_mode("experiment_results.csv", "aco_num_ants")
+    mode_pso_num_particles = get_discrete_mode(
+        "experiment_results.csv", "pso_num_particles"
+    )
+    print("Moda aco_num_ants:", mode_aco_num_ants)
+    print("Moda pso_num_particles:", mode_pso_num_particles)
+    df = pd.read_csv("experiment_results.csv")
+    # Crear un histograma con bins de 0.05 (ajusta según tus datos)
+    counts, bins = np.histogram(df["aco_evaporation"], bins=np.arange(0, 1.05, 0.05))
+    max_bin_index = np.argmax(counts)
+    best_interval = (bins[max_bin_index], bins[max_bin_index + 1])
+    print(f"Intervalo más frecuente para aco_evaporation: {best_interval}")
+    # Redondear a 2 decimales (puedes ajustar esto)
+    rounded = df["aco_evaporation"].round(3)
+    best_value = rounded.mode()[0]
+    print(f"Valor más frecuente (redondeado) para aco_evaporation: {best_value}")

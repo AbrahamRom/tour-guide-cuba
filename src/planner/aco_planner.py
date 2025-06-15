@@ -12,12 +12,12 @@ class ACOPlanner:
         nights: int,
         budget: float,
         destino: str,
-        num_ants=10,
-        num_iter=50,
+        num_ants=48,  # Dado por el ajuste de parametros
+        num_iter=300,
         alpha=1.0,
         beta=1.0,
         gamma=1.0,
-        evaporation=0.5,
+        evaporation=0.12,  # Dado por el ajuste de parametros
     ):
         self.hotel_repo = hotel_repo
         self.nights = nights
