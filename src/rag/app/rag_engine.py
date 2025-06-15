@@ -8,15 +8,19 @@ class RAGEngine:
         self.ollama = OllamaClient()
         self.config = config
 
-    def answer(self, query, model_name):
+    def build_prompt(self, query):
         docs = self.retriever.retrieve(query) if self.use_rag else []
         context = "\n".join(docs)
         prompt = f"""You are a friendly tourism assistant. Answer in the same language as the question.
-        
+
 Question: {query}
 {f"Context:\n{context}" if context else ""}
 Answer:"""
-        return self.ollama.generate(
+        return prompt
+
+    def stream_answer(self, query, model_name):
+        prompt = self.build_prompt(query)
+        return self.ollama.stream_generate(
             model=model_name,
             prompt=prompt,
             temperature=self.config["llm"]["temperature"],
