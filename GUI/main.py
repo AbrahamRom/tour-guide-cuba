@@ -20,7 +20,8 @@ from modules import (
 st.set_page_config(page_title="SmartTour Cuba", layout="wide", page_icon=":palm_tree:")
 
 # Custom CSS for modern look and animated menu
-with open("assets/style.css") as f:
+css_path = os.path.join(os.path.dirname(__file__), "assets", "style.css")
+with open(css_path) as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 st.markdown(
@@ -82,9 +83,8 @@ def go_home():
 
 # Página principal (Inicio)
 if st.session_state.menu == "Inicio":
-    st.image(
-        "assets/logo.png", use_container_width=False, output_format="PNG", width=140
-    )
+    logo_path = os.path.join(os.path.dirname(__file__), "assets", "logo.png")
+    st.image(logo_path, use_container_width=False, output_format="PNG", width=140)
     st.markdown(
         "<h1 style='text-align:center; color:#00b894;'>SmartTour Cuba</h1>",
         unsafe_allow_html=True,
