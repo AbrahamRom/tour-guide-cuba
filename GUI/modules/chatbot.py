@@ -1,16 +1,25 @@
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
+
 import streamlit as st
+
 from .bot import (
     initialize_conversation,
     chatbot_conversation
 )
+
 import json
+
 
 def render(state):
     # Set Streamlit page config
     # st.set_page_config(page_title="Travel Planner Chatbot", layout="wide")
 
     # Custom CSS styling
-    st.markdown("""
+    st.markdown(
+        """
         <style>
         .main {
             background-color: #f0f2f6;
@@ -22,12 +31,17 @@ def render(state):
             margin-bottom: 10px;
         }
         </style>
-    """, unsafe_allow_html=True)
+    """,
+        unsafe_allow_html=True,
+    )
 
     st.title("🌍 Travel Planner Assistant")
 
     # Language selection
-    language = st.sidebar.selectbox("Select Language", ["English", "Spanish", "French", "German", "Italian", "Portuguese"])
+    language = st.sidebar.selectbox(
+        "Select Language",
+        ["English", "Spanish", "French", "German", "Italian", "Portuguese"],
+    )
     if "language" not in state:
         state["language"] = language
     if state["language"] != language:
@@ -48,11 +62,13 @@ def render(state):
     user_input = st.chat_input("Say something to your travel assistant...")
 
     if user_input:
+
         reply, state["conversation"], state["collected_data"] = chatbot_conversation(
             user_input,
             state["conversation"],
             state["collected_data"],
             state["language"]
+
         )
         state["chat_history"].append((user_input, reply))
 
@@ -97,5 +113,5 @@ def render(state):
             label="Download Preferences as JSON",
             data=json.dumps(state["collected_data"], indent=2),
             file_name="travel_preferences.json",
-            mime="application/json"
+            mime="application/json",
         )
