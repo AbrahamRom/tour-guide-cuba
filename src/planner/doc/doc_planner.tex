@@ -1,0 +1,189 @@
+\documentclass{article}
+\usepackage[spanish]{babel}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{shapes, arrows, positioning}
+
+\title{Planificador de Hospedaje en Hoteles}
+\author{Sistema de Optimización de Itinerarios}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Introducción}
+Este sistema utiliza metaheurísticas para optimizar itinerarios de hoteles considerando:
+\begin{itemize}
+    \item Presupuesto total
+    \item Calidad (estrellas) de hoteles
+    \item Preferencia por minimizar cambios de hotel
+    \item Restricciones de destino y disponibilidad
+\end{itemize}
+
+\section{Función Objetivo (Fitness)}
+\label{sec:fitness}
+Definida en \texttt{fitness.py}, evalúa soluciones mediante:
+
+\begin{equation}
+\text{fitness} = \alpha \times \text{stars\_norm} + \beta \times (1 - \text{cost\_norm}) + \gamma \times (1 - \text{changes\_norm})
+\end{equation}
+
+Donde:
+\begin{align*}
+\text{stars\_norm} &= \frac{\sum \text{estrellas}}{\text{noches} \times \text{max\_stars}} \\
+\text{cost\_norm} &= \min\left(\frac{\text{costo\_total}}{\text{presupuesto}}, 1\right) \\
+\text{changes\_norm} &= \frac{\text{cambios\_hotel}}{\text{noches} - 1}
+\end{align*}
+
+\section{Metaheurísticas Implementadas}
+
+\subsection{Búsqueda en Profundidad (DFS)}
+\label{subsec:dfs}
+Implementada en \texttt{graph\_explorer.py} y \texttt{graph\_node.py}.
+
+\begin{itemize}
+    \item \textbf{Estrategia}: Búsqueda exhaustiva con backtracking
+    \item \textbf{Representación}: Árbol donde cada nodo contiene:
+    \begin{verbatim}
+class GraphNode:
+    night: int
+    hotel: Hotel
+    budget_left: float
+    stars_accum: int
+    path: List[Tuple[int, Hotel]]
+    \end{verbatim}
+    
+    \item \textbf{Flujo}:
+    \begin{enumerate}
+        \item Inicializa con todos los hoteles válidos para la primera noche
+        \item Expande nodos generando hijos válidos (presupuesto)
+        \item Ordena opciones por: estrellas $\downarrow$ y relación estrellas/precio $\downarrow$
+        \item Mantiene la mejor solución completa
+    \end{enumerate}
+    
+    \item \textbf{Ventaja}: Óptimo garantizado
+    \item \textbf{Limitación}: Complejidad exponencial $O(h^n)$
+\end{itemize}
+
+\subsection{Optimización por Colonia de Hormigas (ACO)}
+\label{subsec:aco}
+Implementada en \texttt{aco\_planner.py}.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[node distance=1.5cm, auto]
+    \tikzstyle{block} = [rectangle, draw, text width=12em, text centered, rounded corners, minimum height=4em]
+    \tikzstyle{line} = [draw, -latex']
+    
+    \node [block] (init) {Inicializar matriz de feromonas};
+    \node [block, below of=init] (construct) {Construir soluciones para $k$ hormigas};
+    \node [block, below of=construct] (evaluate) {Evaluar fitness de cada solución};
+    \node [block, below of=evaluate] (update) {Actualizar feromonas};
+    \node [block, below of=update] (best) {Guardar mejor solución global};
+    \node [block, left of=construct, node distance=4cm] (stop) {Devolver mejor solución};
+    
+    \path [line] (init) -- (construct);
+    \path [line] (construct) -- (evaluate);
+    \path [line] (evaluate) -- (update);
+    \path [line] (update) -- (best);
+    \path [line] (best) -- ++(0,-1) -- ++(-4,0) |- (construct);
+    \path [line] (best) -| (stop);
+    
+    \node at (5,-8) [text width=8em] {Itera $n$ veces};
+\end{tikzpicture}
+\caption{Diagrama de flujo del algoritmo ACO}
+\end{figure}
+
+\textbf{Ecuación de probabilidad}:
+\begin{equation}
+P(i) = \frac{\tau_i \times \eta_i}{\sum_{j} \tau_j \times \eta_j}
+\end{equation}
+Donde:
+\begin{itemize}
+    \item $\tau_i$: Feromona en hotel $i$
+    \item $\eta_i$: Heurística $\frac{\text{estrellas}_i}{\text{precio}_i}$
+    \item Penalización por cambio: $\eta_i \times 0.8$ si $i \neq$ hotel anterior
+\end{itemize}
+
+\textbf{Actualización de feromonas}:
+\begin{align*}
+\tau_i^{(t+1)} &= (1 - \rho) \times \tau_i^{(t)} + \Delta\tau_i \\
+\Delta\tau_i &= \sum \text{fitness}(\text{soluciones que usan } i)
+\end{align*}
+
+\subsection{Optimización por Enjambre de Partículas (PSO)}
+\label{subsec:pso}
+Implementada en \texttt{pso\_planner.py}.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[node distance=1.5cm, auto]
+    \tikzstyle{block} = [rectangle, draw, text width=10em, text centered, rounded corners, minimum height=4em]
+    \tikzstyle{line} = [draw, -latex']
+    
+    \node [block] (init) {Inicializar partículas y velocidades};
+    \node [block, below of=init] (velocity) {Actualizar velocidades};
+    \node [block, below of=velocity] (position) {Actualizar posiciones};
+    \node [block, below of=position] (repair) {Reparar soluciones inválidas};
+    \node [block, below of=repair] (evaluate) {Evaluar fitness};
+    \node [block, below of=evaluate] (update) {Actualizar mejores locales/globales};
+    \node [block, right of=update, node distance=4cm] (output) {Devolver mejor solución};
+    
+    \path [line] (init) -- (velocity);
+    \path [line] (velocity) -- (position);
+    \path [line] (position) -- (repair);
+    \path [line] (repair) -- (evaluate);
+    \path [line] (evaluate) -- (update);
+    \path [line] (update) -- ++(0,-1) -- ++(-4,0) |- (velocity);
+    \path [line] (update) -- (output);
+    
+    \node at (5,-9) [text width=8em] {Itera $n$ veces};
+\end{tikzpicture}
+\caption{Diagrama de flujo del algoritmo PSO}
+\end{figure}
+
+\textbf{Ecuaciones de actualización}:
+\begin{align*}
+v_{id}^{(t+1)} &= w \cdot v_{id}^{(t)} + c_1 r_1 (p_{id} - x_{id}^{(t)}) + c_2 r_2 (g_d - x_{id}^{(t)}) \\
+P(\text{cambio}) &= \frac{1}{1 + e^{-v_{id}^{(t+1)}}}
+\end{align*}
+
+\textbf{Mecanismos clave}:
+\begin{itemize}
+    \item Representación: Vector de índices de hoteles
+    \item Reparación: Reemplazar hoteles que exceden presupuesto
+    \item Sigmoide: Transforma velocidad a probabilidad de cambio
+\end{itemize}
+
+\section{Comparativo de Algoritmos}
+\begin{table}[h]
+\centering
+\begin{tabular}{lccc}
+\toprule
+Característica & DFS & ACO & PSO \\
+\midrule
+Optimalidad & Garantizada & Heurística & Heurística \\
+Complejidad temporal & $O(h^n)$ & $O(n \cdot k \cdot h)$ & $O(n \cdot p \cdot d)$ \\
+Espacio de búsqueda & Pequeños & Grandes & Grandes \\
+Paralelización & Difícil & Alta & Muy Alta \\
+Noches recomendadas & $<7$ & $<15$ & $>10$ \\
+Sensibilidad a parámetros & Baja & Media & Alta \\
+\bottomrule
+\end{tabular}
+\caption{Comparativo de metaheurísticas}
+\end{table}
+
+\section{Conclusiones}
+\begin{itemize}
+    \item \textbf{DFS}: Ideal para problemas pequeños con garantía de optimalidad
+    \item \textbf{ACO}: Balance óptimo entre exploración y explotación
+    \item \textbf{PSO}: Alto rendimiento en problemas grandes con paralelización
+    \item \textbf{Función fitness}: Combina calidad, costo y estabilidad en métrica unificada
+\end{itemize}
+
+\end{document}

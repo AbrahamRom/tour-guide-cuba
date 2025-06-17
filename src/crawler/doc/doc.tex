@@ -1,0 +1,223 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{booktabs}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+\title{Documentación del Crawler para cuba.travel}
+\author{Equipo de Desarrollo}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\section{Introducción}
+Este documento describe el funcionamiento del crawler desarrollado para extraer información de ofertas hoteleras del sitio web \texttt{cuba.travel}. El sistema utiliza Selenium para automatizar la navegación y extracción de datos, con configuración basada en reglas de \texttt{robots.txt}.
+
+\section{Configuración del Crawler}
+\subsection{Archivo de configuración (\texttt{crawler\_config.py})}
+Contiene parámetros esenciales para el funcionamiento del crawler:
+
+\begin{lstlisting}[language=Python, caption=Configuración principal]
+# crawler_config.py
+CRAWLER_CONFIG = {
+    "sitemap": "https://www.cuba.travel/sitemapindex.xml",
+    "user_agents": {
+        "*": {
+            "disallow": [
+                "/admin/",
+                "/App_Browsers/",
+                # ... (lista completa de exclusiones)
+            ],
+            "crawl_delay": None,
+        },
+        # ... (configuraciones por user-agent)
+    },
+    "destinations": [
+        "La Habana",
+        "Varadero",
+        # ... (lista completa de destinos)
+    ],
+}
+\end{lstlisting}
+
+\subsection{Configuración de Selenium}
+Parámetros para controlar el navegador:
+
+\begin{lstlisting}[language=Python, caption=Configuración de Selenium]
+SELENIUM_CONFIG = {
+    "driver": "chrome",
+    "headless": False,
+    "window_size": "1920,1080",
+    "user_agent": "Mozilla/5.0 (compatible; TourGuideCubaBot/1.0; ...)",
+    "implicit_wait": 0,
+    "page_load_timeout": 120,
+    "disable_images": True,
+    "disable_javascript": False,
+    "disable_cookies": True,
+}
+\end{lstlisting}
+
+\section{Clase CubaTravelCrawler}
+\subsection{Estructura principal}
+Clase que gestiona todo el proceso de crawling:
+
+\begin{lstlisting}[language=Python, caption=Clase principal del crawler]
+class CubaTravelCrawler:
+    def __init__(self, base_url="https://www.cuba.travel/"):
+        self.base_url = base_url
+        self.config = CRAWLER_CONFIG
+        self.selenium_config = SELENIUM_CONFIG
+        self.driver = self._init_driver()
+        self.disallow_patterns = self._compile_disallow_patterns()
+        self.crawl_delay = self._get_crawl_delay()
+    
+    # ... (funciones internos)
+\end{lstlisting}
+
+\subsection{Métodos principales}
+\begin{itemize}
+    \item \texttt{\_init\_driver()}: Inicializa el controlador de Chrome con las opciones configuradas
+    \item \texttt{\_compile\_disallow\_patterns()}: Convierte reglas de robots.txt a patrones regex
+    \item \texttt{is\_allowed(url)}: Verifica si una URL está permitida para crawling
+    \item \texttt{\_select\_destination(wait, destination)}: Selecciona un destino en la interfaz
+    \item \texttt{extract\_offers()}: Extrae datos de las ofertas en la página actual
+    \item \texttt{crawl(urls)}: Ejecuta el proceso completo de crawling
+    \item \texttt{close()}: Cierra el navegador y limpia recursos
+\end{itemize}
+
+\section{Flujo de Trabajo}
+El proceso de crawling sigue estos pasos:
+\begin{enumerate}
+    \item Inicializar el navegador Chrome con configuración personalizada
+    \item Para cada URL proporcionada:
+    \begin{enumerate}
+        \item Verificar si está permitida por robots.txt
+        \item Cargar la página principal
+        \item Para cada destino en la lista de destinos:
+        \begin{enumerate}
+            \item Seleccionar el destino en el menú desplegable
+            \item Hacer clic en el botón "Buscar"
+            \item Recorrer todas las páginas de resultados
+            \item Extraer datos de cada oferta hotelera
+        \end{enumerate}
+    \end{enumerate}
+    \item Retornar resultados estructurados por destino
+\end{enumerate}
+
+\section{Estructura de Salida}
+Los datos extraídos tienen el siguiente formato por destino:
+
+\begin{lstlisting}[caption=Estructura de datos de salida]
+{
+    "La Habana": [
+        {
+            "name": "Hotel Nacional de Cuba",
+            "stars": 5,
+            "address": "Calle 21 y O, Vedado",
+            "cadena": "Gran Caribe",
+            "tarifa": "Todo Incluido",
+            "price": "$150/noche",
+            "hotel_url": "https://www.cuba.travel/.../detail"
+        },
+        # ... ofertas
+    ],
+    "Varadero": [
+        # ... ofertas para Varadero
+    ],
+    # ... otros destinos
+}
+\end{lstlisting}
+
+\section{Ejemplo de Uso}
+Implementación básica del crawler:
+
+\begin{lstlisting}[language=Python, caption=Ejemplo de implementación]
+from crawler import CubaTravelCrawler
+
+# Inicializar crawler
+crawler = CubaTravelCrawler()
+
+# Ejecutar crawling en URL principal
+results = crawler.crawl(["https://www.cuba.travel/"])
+
+# Procesar resultados
+for destino, ofertas in results.items():
+    print(f"\nDestino: {destino} ({len(ofertas)} ofertas)")
+    for hotel in ofertas:
+        print(f"- {hotel['name']} ({hotel['stars']}*)")
+
+# Liberar recursos
+crawler.close()
+\end{lstlisting}
+
+\section{Optimizaciones Implementadas}
+\begin{itemize}
+    \item Directorio temporal para datos de usuario
+    \item Deshabilitación de imágenes y cookies
+    \item Patrones regex para URLs prohibidas
+    \item Scroll automático a elementos
+    \item Manejo robusto de paginación
+    \item Inyección de CSS para ocultar elementos multimedia
+\end{itemize}
+
+\section{Limitaciones y Mejoras Futuras}
+\subsection{Limitaciones Actuales}
+\begin{itemize}
+    \item Dependencia de selectores CSS/XPATH específicos
+    \item No manejo de CAPTCHAs o bloqueos avanzados
+    \item Extracción de precios sensible a cambios en la estructura HTML
+\end{itemize}
+
+\subsection{Mejoras Sugeridas}
+\begin{itemize}
+    \item Implementar sistema de proxies rotativos
+    \item Añadir reintentos automáticos para fallos
+    \item Integrar parámetros de búsqueda personalizables (fechas, huéspedes)
+    \item Añadir soporte para almacenamiento en base de datos
+    \item Implementar monitoreo de cambios en la estructura del sitio
+\end{itemize}
+
+\section{Consideraciones Éticas}
+\begin{itemize}
+    \item Respeto estricto a robots.txt y politicas del sitio
+    \item User-agent identificable con información de contacto
+    \item Crawl-delay configurado para minimizar impacto
+    \item Uso responsable de los datos extraídos
+\end{itemize}
+
+\end{document}
