@@ -149,26 +149,6 @@ El módulo de planificación constituye el núcleo del sistema, utilizando algor
 
 Implementado como método de referencia para problemas de tamaño pequeño ($< 7$ noches), garantiza la solución óptima mediante exploración exhaustiva del espacio de búsqueda.
 
-\begin{lstlisting}[language=Python, caption=Estructura del algoritmo DFS]
-class GraphExplorer:
-    def search_best_path(self) -> Tuple[List[Hotel], float]:
-        best_solution = []
-        best_fitness = float('-inf')
-        
-        def dfs(node: GraphNode):
-            if node.night == self.nights:
-                fitness = calcular_fitness(node.path, ...)
-                if fitness > best_fitness:
-                    best_fitness = fitness
-                    best_solution = node.path
-                return
-            
-            for hotel in self.get_valid_hotels(node):
-                child = self.create_child_node(node, hotel)
-                dfs(child)
-        
-        return best_solution, best_fitness
-\end{lstlisting}
 
 \subsubsection{Optimización por Colonia de Hormigas (ACO)}
 
@@ -245,33 +225,6 @@ El sistema RAG de SmartTour Cuba combina recuperación de información basada en
 \item \textbf{Generador LLM}: Modelos Ollama locales para respuestas contextuales
 \end{itemize}
 
-\subsection{Implementación Técnica}
-
-\begin{lstlisting}[language=Python, caption=Arquitectura del sistema RAG]
-class RAGEngine:
-    def __init__(self, config, use_rag=True):
-        self.use_rag = use_rag
-        self.embedder = SentenceTransformer('all-MiniLM-L6-v2')
-        self.faiss_index = self._load_faiss_index()
-        self.knowledge_base = self._load_knowledge_base()
-        
-    def stream_answer(self, query: str, model: str):
-        if self.use_rag:
-            context = self._retrieve_context(query)
-            prompt = self._build_prompt(query, context)
-        else:
-            prompt = self._build_simple_prompt(query)
-            
-        return self._generate_response(prompt, model)
-        
-    def _retrieve_context(self, query: str) -> str:
-        query_embedding = self.embedder.encode([query])
-        distances, indices = self.faiss_index.search(
-            query_embedding, k=3
-        )
-        return self._format_context(indices, distances)
-\end{lstlisting}
-
 \subsection{Base de Conocimiento}
 
 La base de conocimiento se estructura en categorías temáticas:
@@ -285,31 +238,8 @@ La base de conocimiento se estructura en categorías temáticas:
 
 \subsection{Procesamiento de Archivos ZIM}
 
-Para enriquecer la base de conocimiento, el sistema incluye procesamiento de archivos ZIM de Wikipedia:
+Para enriquecer la base de conocimiento, el sistema incluye procesamiento de archivos ZIM de Ecured:
 
-\begin{lstlisting}[language=Python, caption=Procesamiento de archivos ZIM]
-def extract_articles(zim_path, filter_func):
-    server = ZIMServer(zim_path)
-    articles = list(server.iter_articles())
-    
-    with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
-        for entry in tqdm(articles):
-            if not entry or len(entry.get("title", "")) < MIN_TEXT_LENGTH:
-                continue
-                
-            raw_content = server.get_article(entry["url"])
-            soup = BeautifulSoup(raw_content, "html.parser")
-            text = clean_text(soup.get_text())
-            
-            article = {
-                "title": entry["title"],
-                "content": text,
-                "summary": summarize_article(text)
-            }
-            
-            if filter_func(article):
-                json.dump(article, f, ensure_ascii=False)
-\end{lstlisting}
 
 \subsection{Resultados de Evaluación}
 
@@ -334,59 +264,11 @@ Satisfacción usuario & 4.3/5 & 3.1/5 \\
 
 El chatbot de SmartTour Cuba utiliza modelos de lenguaje avanzados para mantener conversaciones naturales con usuarios, extrayendo información de perfiles turísticos y proporcionando recomendaciones personalizadas.
 
-\subsection{Arquitectura del Chatbot}
-
-\begin{lstlisting}[language=Python, caption=Estructura del chatbot]
-class ChatbotLogic:
-    def __init__(self):
-        self.openrouter_client = OpenRouterClient()
-        self.conversation_history = []
-        self.user_profile = {}
-        
-    def process_message(self, message: str) -> dict:
-   
-        extracted_data = self.extract_user_data(message)
-        
-        # Actualizar perfil
-        self.update_user_profile(extracted_data)
-        
-        # Generar respuesta contextual
-        response = self.generate_response(message)
-        
-        return {
-            "response": response,
-            "extracted_data": extracted_data,
-            "profile_complete": self.is_profile_complete()
-        }
-        
-    def extract_user_data(self, message: str) -> dict:
-        prompt = self.build_extraction_prompt(message)
-        response = self.openrouter_client.chat_completion(prompt)
-        return json.loads(response)
-\end{lstlisting}
 
 \subsection{Extracción de Información de Usuario}
 
 El sistema utiliza esquemas JSON para validar y estructurar la información extraída:
 
-\begin{lstlisting}[language=Python, caption=Esquema de validación de datos]
-user_data_schema = {
-    "type": "object",
-    "properties": {
-        "name": {"type": "string"},
-        "age": {"type": "integer", "minimum": 0},
-        "travel_interests": {
-            "type": "array",
-            "items": {"type": "string"}
-        },
-        "budget": {"type": "number", "minimum": 0},
-        "travel_duration": {"type": "integer", "minimum": 1},
-        "medical_conditions": {"type": "array"},
-        "additional_preferences": {"type": "string"}
-    },
-    "required": ["name", "travel_interests", "budget"]
-}
-\end{lstlisting}
 
 \subsection{Integración con Modelos de Lenguaje}
 
@@ -403,47 +285,6 @@ El chatbot puede utilizar diferentes proveedores de LLM:
 \subsection{Objetivos del Crawler}
 
 El módulo de web crawling mantiene actualizada la base de datos de ofertas hoteleras mediante extracción automatizada de información del sitio oficial cuba.travel.
-
-\subsection{Arquitectura del Crawler}
-
-\begin{lstlisting}[language=Python, caption=Clase principal del crawler]
-class CubaTravelCrawler:
-    def __init__(self, base_url="https://www.cuba.travel/"):
-        self.base_url = base_url
-        self.config = CRAWLER_CONFIG
-        self.driver = self._init_selenium_driver()
-        self.disallow_patterns = self._compile_robots_txt()
-        
-    def crawl(self, urls: List[str]) -> Dict[str, List[dict]]:
-        results = {}
-        for url in urls:
-            if self.is_allowed(url):
-                destination_data = self.extract_destination_offers(url)
-                results.update(destination_data)
-        return results
-        
-    def extract_offers(self) -> List[dict]:
-        offers = []
-        offer_elements = self.driver.find_elements(
-            By.CSS_SELECTOR, ".htl-card"
-        )
-        
-        for element in offer_elements:
-            offer_data = {
-                "name": self.safe_extract_text(
-                    element, ".htl-card-body h3 a"
-                ),
-                "stars": len(element.find_elements(
-                    By.CSS_SELECTOR, ".glyphicon-star"
-                )),
-                "address": self.safe_extract_text(
-                    element, ".description span"
-                ),
-                "price": self.extract_price(element)
-            }
-            offers.append(offer_data)
-        return offers
-\end{lstlisting}
 
 \subsection{Configuración y Cumplimiento}
 
@@ -482,38 +323,6 @@ hotel\_url & URL de detalles \\
 
 El sistema de recomendaciones utiliza filtrado colaborativo y basado en contenido para sugerir destinos y actividades personalizadas.
 
-\begin{lstlisting}[language=Python, caption=Motor de recomendaciones]
-class RecommendationEngine:
-    def __init__(self):
-        self.user_profiles = {}
-        self.content_features = self._load_content_features()
-        
-    def generate_recommendations(self, user_id: str, 
-                               preferences: dict) -> List[dict]:
-        # Filtrado basado en contenido
-        content_recs = self._content_based_filtering(preferences)
-        
-        # Filtrado colaborativo
-        collaborative_recs = self._collaborative_filtering(user_id)
-        
-      
-        final_recs = self._hybrid_recommendation(
-            content_recs, collaborative_recs
-        )
-        
-        return self._rank_recommendations(final_recs)
-        
-    def _content_based_filtering(self, preferences: dict) -> List[dict]:
-        similarity_scores = []
-        for destination in self.destinations:
-            score = self._calculate_content_similarity(
-                preferences, destination.features
-            )
-            similarity_scores.append((destination, score))
-        
-        return sorted(similarity_scores, 
-                     key=lambda x: x[1], reverse=True)
-\end{lstlisting}
 
 \subsection{Factores de Recomendación}
 
@@ -538,32 +347,6 @@ El simulador permite evaluar el impacto de condiciones variables en los itinerar
 \item \textbf{Restricciones Temporales}: Cierres de atracciones, horarios especiales
 \item \textbf{Presupuestaria}: Recálculo por cambios en disponibilidad económica
 \end{itemize}
-
-\begin{lstlisting}[language=Python, caption=Motor de simulación]
-class ScenarioSimulator:
-    def simulate_weather_impact(self, itinerary: List[dict], 
-                               weather: str) -> List[dict]:
-        adjusted_itinerary = []
-        
-        for day in itinerary:
-            if weather == "Lluvia" and day["type"] == "outdoor":
-                # Buscar alternativa bajo techo
-                alternative = self._find_indoor_alternative(day)
-                adjusted_itinerary.append(alternative)
-            else:
-                adjusted_itinerary.append(day)
-                
-        return adjusted_itinerary
-        
-    def simulate_budget_change(self, itinerary: List[dict], 
-                              new_budget: float) -> List[dict]:
-        current_cost = sum(day["cost"] for day in itinerary)
-        
-        if new_budget < current_cost:
-            return self._optimize_for_budget(itinerary, new_budget)
-        else:
-            return self._enhance_with_budget(itinerary, new_budget)
-\end{lstlisting}
 
 \section{Interfaz de Usuario}
 
@@ -619,29 +402,6 @@ El sistema integrado de SmartTour Cuba opera mediante el siguiente flujo:
 \item \textbf{Exportación}: El itinerario final se presenta en formato descargable
 \end{enumerate}
 
-\subsection{API y Servicios}
-
-El sistema expone una API REST ([`routes.py`](file:///c%3A/Users/HP/Desktop/IA/Proyecto/tour-guide-cuba/src/api/routes.py)) que permite integración con sistemas externos:
-
-\begin{lstlisting}[language=Python, caption=Endpoints principales de la API]
-@app.post("/api/v1/plan-itinerary")
-async def plan_itinerary(request: ItineraryRequest):
-    planner = select_planner(request.algorithm)
-    result = planner.search_best_path()
-    return ItineraryResponse(hotels=result[0], fitness=result[1])
-    
-@app.post("/api/v1/rag-query")
-async def rag_query(query: RAGQuery):
-    engine = RAGEngine(config, use_rag=query.use_rag)
-    response = engine.stream_answer(query.text, query.model)
-    return RAGResponse(answer=response)
-    
-@app.get("/api/v1/recommendations/{user_id}")
-async def get_recommendations(user_id: str):
-    recommender = RecommendationEngine()
-    recs = recommender.generate_recommendations(user_id)
-    return RecommendationResponse(recommendations=recs)
-\end{lstlisting}
 
 \section{Resultados Experimentales}
 
