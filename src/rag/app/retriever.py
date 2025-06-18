@@ -1,32 +1,55 @@
+# app/retriever.py
+from qdrant_client import QdrantClient
+from qdrant_client.http.models import Distance, VectorParams, PointStruct
 from sentence_transformers import SentenceTransformer
-import faiss
-import numpy as np
 import json
-import os
+import uuid
 
 class Retriever:
-    def __init__(self, config, kb_path="data/knowledge_base.json"):
+    def __init__(self, config):
+        self.config = config
         self.model = SentenceTransformer(config["retriever"]["model"])
-        self.k = config["retriever"]["top_k"]
-        self.documents = self._load_documents(kb_path)
-        self.index, self.doc_map = self._build_index()
+        self.qdrant = QdrantClient(host="localhost", port=6333)
+        self.collection_name = config["retriever"]["collection"]
+        self._init_collection()
+        self._load_documents(config["retriever"]["knowledge_base"])
+
+    def _init_collection(self):
+        if not self.qdrant.collection_exists(self.collection_name):
+            self.qdrant.create_collection(
+                collection_name=self.collection_name,
+                vectors_config=VectorParams(
+                    size=768, distance=Distance.COSINE
+                )
+            )
 
     def _load_documents(self, path):
         with open(path, "r", encoding="utf-8") as f:
-            return json.load(f)
+            docs = json.load(f)
 
-    def _build_index(self):
-        embeddings = []
-        doc_map = {}
-        for i, doc in enumerate(self.documents):
-            emb = self.model.encode(doc["content"])
-            embeddings.append(emb)
-            doc_map[i] = doc["content"]
-        index = faiss.IndexFlatL2(len(embeddings[0]))
-        index.add(np.array(embeddings))
-        return index, doc_map
+        existing = self.qdrant.count(self.collection_name).count
+        if existing >= len(docs):
+            return  # Skip if already loaded
 
-    def retrieve(self, query):
-        query_vec = self.model.encode(query)
-        D, I = self.index.search(np.array([query_vec]), self.k)
-        return [self.doc_map[i] for i in I[0]]
+        points = []
+        for doc in docs:
+            vector = self.model.encode(doc["content"]).tolist()
+            points.append(PointStruct(
+                id=str(uuid.uuid4()),
+                vector=vector,
+                payload={"text": doc["content"]}
+            ))
+
+        self.qdrant.upsert(
+            collection_name=self.collection_name,
+            points=points
+        )
+
+    def retrieve(self, query, k=3):
+        vector = self.model.encode(query).tolist()
+        hits = self.qdrant.search(
+            collection_name=self.collection_name,
+            query_vector=vector,
+            limit=k
+        )
+        return [hit.payload["text"] for hit in hits]
