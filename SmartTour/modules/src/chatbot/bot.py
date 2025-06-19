@@ -4,6 +4,7 @@ import os
 import json
 import streamlit as st
 from jsonschema import validate, ValidationError
+import re
 # Añade la ruta relativa para acceder al módulo 'app'
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'src', 'app' )))
 # Importa OllamaClient desde la ruta correcta
@@ -86,6 +87,52 @@ def translate_prompt(text, target_language, model):
     ]
     return ask_ollama(prompt, model) or text
 
+def extract_json_from_response(response):
+    """
+    Extrae el primer objeto JSON válido de la respuesta, ignorando metadatos de Ollama.
+    Si la respuesta contiene un campo 'response', intenta extraer el JSON de ahí.
+    """
+    try:
+        # Intenta parsear la respuesta completa como JSON
+        parsed = json.loads(response)
+        # Si tiene campo 'response'
+        if isinstance(parsed, dict) and "response" in parsed:
+            resp_val = parsed["response"]
+            # Si el campo response es un string vacío, no hay datos útiles
+            if not resp_val or not str(resp_val).strip():
+                return None
+            # Si el campo response parece un JSON embebido, intenta parsearlo
+            try:
+                resp_json = json.loads(resp_val)
+                if any(k in data_schema['properties'] for k in resp_json):
+                    return resp_json
+            except Exception:
+                # Si no es JSON, pero es texto, intenta buscar un bloque JSON dentro del string
+                matches = re.findall(r'\{.*?\}', resp_val, re.DOTALL)
+                for match in matches:
+                    try:
+                        resp_json = json.loads(match)
+                        if any(k in data_schema['properties'] for k in resp_json):
+                            return resp_json
+                    except Exception:
+                        continue
+                return None
+        # Si el JSON parseado ya es un objeto con campos relevantes
+        if any(k in data_schema['properties'] for k in parsed):
+            return parsed
+    except Exception:
+        pass
+    # Si no es JSON válido, busca el primer bloque {...}
+    matches = re.findall(r'\{.*?\}', response, re.DOTALL)
+    for match in matches:
+        try:
+            parsed = json.loads(match)
+            if any(k in data_schema['properties'] for k in parsed):
+                return parsed
+        except Exception:
+            continue
+    return None
+
 def extract_field_value(field, user_response, language, model):
     prompt = (
         f"The user answered: '{user_response}'. "
@@ -98,11 +145,11 @@ def extract_field_value(field, user_response, language, model):
         {"role": "system", "content": prompt},
         {"role": "user", "content": ""}
     ], model)
+    # Extrae solo el JSON relevante, ignorando metadatos
+    extracted = extract_json_from_response(response)
+    if not extracted or field not in extracted:
+        return None
     try:
-        extracted = json.loads(response)
-        # Si el modelo devuelve un objeto vacío o el campo no está presente, es respuesta incompatible
-        if not extracted or field not in extracted:
-            return None
         validate(instance=extracted, schema={"type": "object", "properties": {field: data_schema['properties'][field]}, "required": [field]})
         return extracted
     except (json.JSONDecodeError, ValidationError):
