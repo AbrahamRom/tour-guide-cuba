@@ -1,6 +1,6 @@
 from typing import List, Optional
-from src.data.hotel_repository import HotelRepository
-from src.planner.graph_node import GraphNode
+from ..data.hotel_repository import HotelRepository
+from .graph_node import GraphNode
 
 
 class GraphExplorer:

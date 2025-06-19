@@ -1,9 +1,9 @@
 from typing import List, Tuple
 import random
 import numpy as np
-from src.data.hotel import Hotel
-from src.data.hotel_repository import HotelRepository
-from src.planner.fitness import calcular_fitness
+from ..data.hotel import Hotel
+from ..data.hotel_repository import HotelRepository
+from .fitness import calcular_fitness
 
 
 class PSOPlanner:

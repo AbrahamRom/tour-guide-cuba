@@ -1,5 +1,5 @@
 from typing import List
-from src.data.hotel import Hotel
+from ..data.hotel import Hotel
 
 
 def calcular_fitness(

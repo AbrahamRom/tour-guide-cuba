@@ -4,10 +4,10 @@ import streamlit as st
 
 # --- Importación de módulos del proyecto ---
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
-from src.data.hotel_repository import HotelRepository
-from src.planner.graph_explorer import GraphExplorer
-from src.planner.aco_planner import ACOPlanner
-from src.planner.pso_planner import PSOPlanner
+from .src.data.hotel_repository import HotelRepository
+from .src.planner.graph_explorer import GraphExplorer
+from .src.planner.aco_planner import ACOPlanner
+from .src.planner.pso_planner import PSOPlanner
 
 # --- Mapeo difuso para preferencias del usuario ---
 FUZZY_MAP = {

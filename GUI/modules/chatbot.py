@@ -1,11 +1,9 @@
 import sys
 import os
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
-
 import streamlit as st
 
-from ...src.chatbot.bot import (
+from .src.chatbot.bot import (
     initialize_conversation,
     chatbot_conversation
 )
@@ -58,17 +56,32 @@ def render(state):
     if "chat_history" not in state:
         state["chat_history"] = []
 
+    # Selección de modelo Ollama
+    from app.ollama_interface import OllamaClient
+    ollama_client = OllamaClient()
+    available_models = ollama_client.list_models()
+    if "ollama_model" not in state:
+        state["ollama_model"] = available_models[0] if available_models else ""
+    selected_model = st.sidebar.selectbox(
+        "Select Ollama Model",
+        available_models,
+        index=available_models.index(state["ollama_model"]) if state["ollama_model"] in available_models else 0,
+        format_func=lambda x: f"🤖 {x}",
+        help="Choose the local LLM model for responses.",
+    )
+    state["ollama_model"] = selected_model
+
     # Chat interface
     user_input = st.chat_input("Say something to your travel assistant...")
 
     if user_input:
-
+        # Pasa el modelo seleccionado a chatbot_conversation a través del state
         reply, state["conversation"], state["collected_data"] = chatbot_conversation(
             user_input,
             state["conversation"],
             state["collected_data"],
-            state["language"]
-
+            state["language"],
+            model=state["ollama_model"]
         )
         state["chat_history"].append((user_input, reply))
 

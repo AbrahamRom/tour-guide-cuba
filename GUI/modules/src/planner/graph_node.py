@@ -1,5 +1,5 @@
 from typing import List, Tuple
-from src.data.hotel import Hotel
+from ..data.hotel import Hotel
 
 
 class GraphNode:

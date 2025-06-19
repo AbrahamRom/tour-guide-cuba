@@ -7,7 +7,7 @@ from jsonschema import validate, ValidationError
 # Añade la ruta relativa para acceder al módulo 'app'
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'src', 'app' )))
 # Importa OllamaClient desde la ruta correcta
-from app.ollama_interface import OllamaClient
+from ..rag.app.ollama_interface import OllamaClient
 
 # Inicializa el cliente Ollama
 ollama_client = OllamaClient()
