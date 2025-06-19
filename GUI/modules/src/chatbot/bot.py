@@ -11,7 +11,7 @@ from ..rag.app.ollama_interface import OllamaClient
 
 # Inicializa el cliente Ollama
 ollama_client = OllamaClient()
-OLLAMA_MODEL = "mistral"  # Cambia por el modelo local que prefieras
+OLLAMA_MODEL = "openhermes:latest"  # Cambia por el modelo local que prefieras
 
 REQUIRED_FIELDS = [
     "name", "age", "travel_interests", "places_to_visit",
@@ -49,7 +49,7 @@ def ask_ollama(messages, model=OLLAMA_MODEL):
         response += chunk
     return response.strip()
 
-def generate_flexible_prompt(field, language):
+def generate_flexible_prompt(field, language, model):
     """Genera una sola pregunta enriquecida y traducida para un campo dado."""
     base_instruction = (
         f"Please generate a friendly, natural, and slightly varied question to ask the user about their {field}. "
@@ -60,7 +60,7 @@ def generate_flexible_prompt(field, language):
     response = ask_ollama([
         {"role": "system", "content": base_instruction},
         {"role": "user", "content": ""}
-    ])
+    ], model)
     # Si el modelo devuelve varias líneas, toma solo la primera pregunta encontrada
     if response:
         lines = [line.strip() for line in response.split('\n') if line.strip()]
@@ -71,22 +71,22 @@ def generate_flexible_prompt(field, language):
         return lines[0]  # fallback
     return f"Could you tell me your {field}?"
 
-def generate_prompt(collected_data, language):
+def generate_prompt(collected_data, language, model):
     for field in ["name"] + REQUIRED_FIELDS:
         if field not in collected_data:
-            return field, generate_flexible_prompt(field, language)
-    return None, translate_prompt("Thanks! I’ve collected everything I need.", language)
+            return field, generate_flexible_prompt(field, language, model)
+    return None, translate_prompt("Thanks! I’ve collected everything I need.", language, model)
 
-def translate_prompt(text, target_language):
+def translate_prompt(text, target_language, model):
     if target_language.lower() == "english":
         return text
     prompt = [
         {"role": "system", "content": f"Translate the following text into {target_language}."},
         {"role": "user", "content": text},
     ]
-    return ask_ollama(prompt) or text
+    return ask_ollama(prompt, model) or text
 
-def extract_field_value(field, user_response, language="English"):
+def extract_field_value(field, user_response, language, model):
     prompt = (
         f"The user answered: '{user_response}'. "
         f"Extract only the value for '{field}' in JSON format. "
@@ -97,7 +97,7 @@ def extract_field_value(field, user_response, language="English"):
     response = ask_ollama([
         {"role": "system", "content": prompt},
         {"role": "user", "content": ""}
-    ])
+    ], model)
     try:
         extracted = json.loads(response)
         # Si el modelo devuelve un objeto vacío o el campo no está presente, es respuesta incompatible
@@ -108,7 +108,7 @@ def extract_field_value(field, user_response, language="English"):
     except (json.JSONDecodeError, ValidationError):
         return None
 
-def try_update_fields_from_user_input(user_input, language):
+def try_update_fields_from_user_input(user_input, language, model):
     prompt = f"""
 The user said: '{user_input}'. Identify which of the following fields they want to update and extract the new value(s) in JSON format:
 {REQUIRED_FIELDS}.
@@ -117,7 +117,7 @@ Only return a JSON object with the updated fields and values. If nothing relevan
     response = ask_ollama([
         {"role": "system", "content": prompt},
         {"role": "user", "content": ""}
-    ])
+    ], model)
     try:
         parsed = json.loads(response)
         for key in list(parsed):
@@ -127,37 +127,37 @@ Only return a JSON object with the updated fields and values. If nothing relevan
     except Exception:
         return {}
 
-def initialize_conversation(language):
+def initialize_conversation(language, model):
     # Solo la instrucción de sistema y la primera pregunta (nombre)
     return [
         {"role": "system", "content": f"You are a friendly travel assistant helping users plan their trip in {language}."},
-        {"role": "assistant", "content": generate_flexible_prompt("name", language)},
+        {"role": "assistant", "content": generate_flexible_prompt("name", language, model)},
     ]
 
-def chatbot_conversation(user_input, conversation_history, collected_data, language):
+def chatbot_conversation(user_input, conversation_history, collected_data, language, model):
     # Si la conversación está vacía (solo system y pregunta de nombre), muestra la pregunta de nombre
     if len(conversation_history) == 2 and not user_input:
         return conversation_history[-1]["content"], conversation_history, collected_data
 
     # Intentar actualizar datos existentes si ya fueron completados
     if all(field in collected_data for field in REQUIRED_FIELDS):
-        possible_updates = try_update_fields_from_user_input(user_input, language)
+        possible_updates = try_update_fields_from_user_input(user_input, language, model)
         if possible_updates:
             collected_data.update(possible_updates)
             confirmation = f"Updated data: {json.dumps(possible_updates, indent=2)}"
-            confirmation = translate_prompt(confirmation, language)
+            confirmation = translate_prompt(confirmation, language, model)
             conversation_history.append({"role": "user", "content": user_input})
             conversation_history.append({"role": "assistant", "content": confirmation})
             return confirmation, conversation_history, collected_data
 
     # Fase de recolección inicial de datos
-    last_field, next_question = generate_prompt(collected_data, language)
+    last_field, next_question = generate_prompt(collected_data, language, model)
 
     if last_field and user_input:
-        update = extract_field_value(last_field, user_input, language)
+        update = extract_field_value(last_field, user_input, language, model)
         if update is not None:
             collected_data.update(update)
-            last_field, next_question = generate_prompt(collected_data, language)
+            last_field, next_question = generate_prompt(collected_data, language, model)
         else:
             # Respuesta incompatible, reintentar la pregunta
             error_msg = {
@@ -183,7 +183,7 @@ def chatbot_conversation(user_input, conversation_history, collected_data, langu
         return next_question, conversation_history, collected_data
 
     summary = "Thanks! Here's a summary of your travel preferences:\n" + json.dumps(collected_data, indent=2)
-    summary = translate_prompt(summary, language)
+    summary = translate_prompt(summary, language, model)
     if user_input:
         conversation_history.append({"role": "user", "content": user_input})
     conversation_history.append({"role": "assistant", "content": summary})

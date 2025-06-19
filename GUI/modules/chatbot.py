@@ -9,7 +9,7 @@ from .src.chatbot.bot import (
 )
 
 import json
-
+from .src.rag.app.ollama_interface import OllamaClient
 
 def render(state):
     # Set Streamlit page config
@@ -44,32 +44,38 @@ def render(state):
         state["language"] = language
     if state["language"] != language:
         state["language"] = language
-        state["conversation"] = initialize_conversation(language)
+        # El modelo se selecciona después, así que lo pasamos luego
+        state["conversation"] = None
         state["collected_data"] = {}
-        state["chat_history"] = []
-
-    # Session state initialization (use dict keys, not attributes)
-    if "conversation" not in state:
-        state["conversation"] = initialize_conversation(state["language"])
-    if "collected_data" not in state:
-        state["collected_data"] = {}
-    if "chat_history" not in state:
         state["chat_history"] = []
 
     # Selección de modelo Ollama
-    from app.ollama_interface import OllamaClient
+  
     ollama_client = OllamaClient()
     available_models = ollama_client.list_models()
-    if "ollama_model" not in state:
-        state["ollama_model"] = available_models[0] if available_models else ""
+    if not available_models:
+        st.sidebar.error("No Ollama models found. Please add a model to Ollama.")
+        return
+    if "ollama_model" not in state or state["ollama_model"] not in available_models:
+        state["ollama_model"] = available_models[0]
     selected_model = st.sidebar.selectbox(
         "Select Ollama Model",
         available_models,
-        index=available_models.index(state["ollama_model"]) if state["ollama_model"] in available_models else 0,
+        index=available_models.index(state["ollama_model"]),
         format_func=lambda x: f"🤖 {x}",
         help="Choose the local LLM model for responses.",
     )
     state["ollama_model"] = selected_model
+
+    # Inicialización de la conversación con el modelo seleccionado
+    if "conversation" not in state or state["conversation"] is None:
+        state["conversation"] = initialize_conversation(state["language"], state["ollama_model"])
+
+    # Session state initialization (use dict keys, not attributes)
+    if "collected_data" not in state:
+        state["collected_data"] = {}
+    if "chat_history" not in state:
+        state["chat_history"] = []
 
     # Chat interface
     user_input = st.chat_input("Say something to your travel assistant...")
