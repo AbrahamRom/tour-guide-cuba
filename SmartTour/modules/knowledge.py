@@ -80,7 +80,7 @@ def render(state):
             "select_model_help": "Choose the LLM model for responses.",
             "rag_checkbox": "Use RAG (Retrieval Augmented Generation)",
             "rag_checkbox_help": "Enable or disable retrieval augmented generation.",
-            "spinner": "The assistant is writing...",
+            "spinner": "The assistant is thinking...",
             "title": "🌍 Travel Planner Assistant"
         },
         "Spanish": {
@@ -89,7 +89,7 @@ def render(state):
             "select_model_help": "Elige el modelo LLM para las respuestas.",
             "rag_checkbox": "Usar RAG (Generación aumentada por recuperación)",
             "rag_checkbox_help": "Activa o desactiva la generación aumentada por recuperación.",
-            "spinner": "El asistente está escribiendo...",
+            "spinner": "El asistente está pensando...",
             "title": "🌍 Asistente de Planificación de Viajes"
         },
         "French": {
@@ -98,7 +98,7 @@ def render(state):
             "select_model_help": "Choisissez le modèle LLM pour les réponses.",
             "rag_checkbox": "Utiliser RAG (Génération augmentée par récupération)",
             "rag_checkbox_help": "Activer ou désactiver la génération augmentée par récupération.",
-            "spinner": "L'assistant écrit...",
+            "spinner": "L'assistant réfléchit...",
             "title": "🌍 Assistant de Planification de Voyage"
         },
         "German": {
@@ -107,7 +107,7 @@ def render(state):
             "select_model_help": "Wählen Sie das LLM-Modell für Antworten.",
             "rag_checkbox": "RAG verwenden (Retrieval Augmented Generation)",
             "rag_checkbox_help": "Aktivieren oder deaktivieren Sie die Retrieval Augmented Generation.",
-            "spinner": "Der Assistent schreibt...",
+            "spinner": "Der Assistent denkt nach...",
             "title": "🌍 Reiseplanungsassistent"
         },
         "Italian": {
@@ -116,7 +116,7 @@ def render(state):
             "select_model_help": "Scegli il modello LLM per le risposte.",
             "rag_checkbox": "Usa RAG (Generazione aumentata dal recupero)",
             "rag_checkbox_help": "Abilita o disabilita la generazione aumentata dal recupero.",
-            "spinner": "L'assistente sta scrivendo...",
+            "spinner": "L'assistente sta pensando...",
             "title": "🌍 Assistente Pianificazione Viaggi"
         },
         "Portuguese": {
@@ -125,7 +125,7 @@ def render(state):
             "select_model_help": "Escolha o modelo LLM para as respostas.",
             "rag_checkbox": "Usar RAG (Geração aumentada por recuperação)",
             "rag_checkbox_help": "Ative ou desative a geração aumentada por recuperação.",
-            "spinner": "O assistente está escrevendo...",
+            "spinner": "O assistente está pensando...",
             "title": "🌍 Assistente de Planejamento de Viagens"
         }
     }
@@ -195,38 +195,59 @@ def render(state):
             """,
             unsafe_allow_html=True
         )
-        # # Mostrar el contenido de chat_history_KB en un mensaje de Streamlit para depuración
-        # st.info(f"chat_history_KB: {state['chat_history_KB']}")
 
-        # Placeholder para la respuesta del asistente
+        # Spinner animado simple (fuera de la burbuja de mensaje)
+        spinner_placeholder = st.empty()
+        spinner_placeholder.markdown(
+            f"""
+            <div style="display: flex; align-items: left; margin: 12px 0; justify-content: flex-start;">
+            <div style="margin-right: 12px; display: flex; align-items: left;">
+                <span class="stSpinner" style="display:inline-block;width:24px;height:24px;border:4px solid #ccc;border-top:4px solid #3498db;border-radius:50%;animation:spin 1s linear infinite;"></span>
+                <span style="margin-left: 8px;">{TEXTS[language]['spinner']}</span>
+            </div>
+            <div class="chat-avatar">🤖</div>
+            </div>
+            <style>
+            @keyframes spin {{
+            0% {{ transform: rotate(0deg); }}
+            100% {{ transform: rotate(360deg); }}
+            }}
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
+
         assistant_placeholder = st.empty()
         streamed_text = ""
         engine = RAGEngine(config, use_rag)
         chat_history = state["chat_history_KB"].copy()
-        with st.spinner(TEXTS[language]["spinner"]):
-            for chunk in engine.stream_answer(
-                user_input.strip(),
-                selected_model,
-                chat_history=chat_history
-            ):
-                if chunk.strip().startswith("{"):
-                    try:
-                        data = json.loads(chunk)
-                        streamed_text += data.get("response", "")
-                    except:
-                        continue
-                else:
-                    streamed_text += chunk
-                assistant_placeholder.markdown(
-                    f"""
-                    <div class="chat-row chat-row-assistant">
-                        <div style="flex:1"></div>
-                        <div class="chat-bubble-assistant">{streamed_text}</div>
-                        <div class="chat-avatar">🤖</div>
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
+        first_chunk = True
+        for chunk in engine.stream_answer(
+            user_input.strip(),
+            selected_model,
+            chat_history=chat_history
+        ):
+            if first_chunk:
+                spinner_placeholder.empty()  # Elimina el spinner al recibir el primer chunk
+                first_chunk = False
+            if chunk.strip().startswith("{"):
+                try:
+                    data = json.loads(chunk)
+                    streamed_text += data.get("response", "")
+                except:
+                    continue
+            else:
+                streamed_text += chunk
+            assistant_placeholder.markdown(
+                f"""
+                <div class="chat-row chat-row-assistant">
+                    <div style="flex:1"></div>
+                    <div class="chat-bubble-assistant">{streamed_text}</div>
+                    <div class="chat-avatar">🤖</div>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
         state["chat_history_KB"].append({"role": "user", "content": user_input.strip()})
         state["chat_history_KB"].append({"role": "assistant", "content": streamed_text})
 
