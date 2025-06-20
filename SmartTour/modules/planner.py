@@ -8,6 +8,7 @@ from .src.data.hotel_repository import HotelRepository
 from .src.planner.graph_explorer import GraphExplorer
 from .src.planner.aco_planner import ACOPlanner
 from .src.planner.pso_planner import PSOPlanner
+from . import map  # Importa el módulo del mapa
 
 # --- Mapeo difuso para preferencias del usuario ---
 FUZZY_MAP = {
@@ -186,14 +187,34 @@ def planificar_pso(repo, tiempo, presupuesto, destino, params):
         )
 
 
+def itinerario_a_ubicaciones(itinerario):
+    """
+    Convierte el itinerario en una lista de ubicaciones para el mapa, organizadas por días.
+    Cada ubicación es un dict con 'name' y 'popup' (día y actividad).
+    """
+    ubicaciones = []
+    for item in itinerario:
+        ubicaciones.append({
+            "name": item["actividad"].split(":")[-1].strip(),  # Extrae el nombre del hotel
+            "popup": f"Día {item['dia']}: {item['actividad']} (${item['costo']})"
+        })
+    return ubicaciones
+
+
 # --- Mostrar itinerario detallado ---
 def mostrar_itinerario(itinerario):
     """
-    Muestra el itinerario detallado en la interfaz.
+    Muestra el itinerario detallado en la interfaz y el botón para ver el mapa.
     """
     st.subheader("Itinerario Detallado")
     for item in itinerario:
         st.markdown(f"**Día {item['dia']}**: {item['actividad']} (${item['costo']})")
+    if itinerario:
+        col1, col2 = st.columns([3,1])
+        with col2:
+            if st.button("🗺️ Ver mapa", help="Visualiza el itinerario en el mapa"):
+                ubicaciones = itinerario_a_ubicaciones(itinerario)
+                map.itinerary_map_view(ubicaciones, title="Mapa del Itinerario por Días")
 
 
 # --- Render principal del módulo de planificación ---
