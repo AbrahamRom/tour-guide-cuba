@@ -191,11 +191,16 @@ def itinerario_a_ubicaciones(itinerario):
     """
     Convierte el itinerario en una lista de ubicaciones para el mapa, organizadas por días.
     Cada ubicación es un dict con 'name' y 'popup' (día y actividad).
+    Asume que todos los hoteles están ubicados en Cuba.
     """
     ubicaciones = []
     for item in itinerario:
+        # Extrae el nombre del hotel y asegura que termine con ', Cuba'
+        nombre_hotel = item["actividad"].split(":")[-1].strip()
+        if not nombre_hotel.endswith("Cuba"):
+            nombre_hotel = f"{nombre_hotel}, Cuba"
         ubicaciones.append({
-            "name": item["actividad"].split(":")[-1].strip(),  # Extrae el nombre del hotel
+            "name": nombre_hotel,
             "popup": f"Día {item['dia']}: {item['actividad']} (${item['costo']})"
         })
     return ubicaciones
@@ -213,8 +218,11 @@ def mostrar_itinerario(itinerario):
         col1, col2 = st.columns([3,1])
         with col2:
             if st.button("🗺️ Ver mapa", help="Visualiza el itinerario en el mapa"):
-                ubicaciones = itinerario_a_ubicaciones(itinerario)
-                map.itinerary_map_view(ubicaciones, title="Mapa del Itinerario por Días")
+                st.session_state["mostrar_mapa"] = True
+        # Mostrar el mapa si la bandera está activa
+        if st.session_state.get("mostrar_mapa", False):
+            ubicaciones = itinerario_a_ubicaciones(itinerario)
+            map.itinerary_map_view(ubicaciones, title="Mapa del Itinerario por Días")
 
 
 # --- Render principal del módulo de planificación ---
@@ -228,7 +236,7 @@ def render(state):
 
     if st.button("Generar itinerario"):
         csv_path = os.path.abspath(
-            os.path.join(os.path.dirname(__file__), "../../tourism_data.csv")
+            os.path.join(os.path.dirname(__file__), "../../DATA/tourism_data.csv")
         )
         repo = HotelRepository.from_csv(csv_path)
         if metodo == "Clásico (búsqueda)":
@@ -244,6 +252,8 @@ def render(state):
                 repo, tiempo, presupuesto, destino, params
             )
         state["itinerario"] = itinerario
+        # Oculta el mapa al generar un nuevo itinerario
+        st.session_state["mostrar_mapa"] = False
         if tipo == "success":
             st.success(mensaje)
         else:
