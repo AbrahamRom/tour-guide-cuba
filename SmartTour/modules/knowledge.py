@@ -134,9 +134,9 @@ def render(state):
 
     if "language" not in state:
         state["language"] = language
-    if state["language"] != language:
+    # Solo actualiza el idioma, no borres el historial
+    elif state["language"] != language:
         state["language"] = language
-        state["chat_history_KB"] = []
 
     # Session state initialization (use dict keys, not attributes)
     if "chat_history_KB" not in state:
@@ -195,6 +195,8 @@ def render(state):
             """,
             unsafe_allow_html=True
         )
+        # # Mostrar el contenido de chat_history_KB en un mensaje de Streamlit para depuración
+        # st.info(f"chat_history_KB: {state['chat_history_KB']}")
 
         # Placeholder para la respuesta del asistente
         assistant_placeholder = st.empty()
