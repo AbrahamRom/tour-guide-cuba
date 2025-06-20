@@ -110,22 +110,21 @@ def render(state):
     if "chat_history" not in state:
         state["chat_history"] = []
 
+    # Diccionario de textos por idioma para el spinner
+    SPINNER_TEXTS = {
+        "English": "The assistant is thinking...",
+        "Spanish": "El asistente está pensando...",
+        "French": "L'assistant réfléchit...",
+        "German": "Der Assistent denkt nach...",
+        "Italian": "L'assistente sta pensando...",
+        "Portuguese": "O assistente está pensando..."
+    }
+
     # Chat interface
     user_input = st.chat_input("Say something to your travel assistant...")
 
-    if user_input:
-        reply, state["conversation"], state["collected_data"] = chatbot_conversation(
-            user_input,
-            state["conversation"],
-            state["collected_data"],
-            state["language"],
-            model=state["ollama_model"]
-        )
-        state["chat_history"].append((user_input, reply))
-
-    # Display chat messages with chat bubbles and avatars
+    # Mostrar mensajes previos (historial)
     for user_msg, bot_msg in state["chat_history"]:
-        # User message (left-aligned)
         st.markdown(
             f"""
             <div class="chat-row chat-row-user">
@@ -135,7 +134,6 @@ def render(state):
             """,
             unsafe_allow_html=True
         )
-        # Assistant message (right-aligned)
         st.markdown(
             f"""
             <div class="chat-row chat-row-assistant">
@@ -146,6 +144,64 @@ def render(state):
             """,
             unsafe_allow_html=True
         )
+
+    # Streaming de la respuesta del asistente
+    if user_input:
+        # Mostrar mensaje del usuario inmediatamente
+        st.markdown(
+            f"""
+            <div class="chat-row chat-row-user">
+                <div class="chat-avatar">🧑</div>
+                <div class="chat-bubble-user">{user_input}</div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+        # Añadir el mensaje del usuario al historial temporalmente (no guardar aún la respuesta del bot)
+        state["chat_history"].append((user_input, ""))
+
+        # Placeholder para la respuesta del asistente
+        assistant_placeholder = st.empty()
+        streamed_text = ""
+
+        # Spinner animado mientras se genera la respuesta
+        spinner_text = SPINNER_TEXTS.get(state["language"], SPINNER_TEXTS["English"])
+        with st.spinner(spinner_text):
+            # Construir historial para el modelo (sin el system prompt)
+            conversation_history = state.get("conversation", [])
+            if not conversation_history:
+                conversation_history = initialize_conversation(state["language"], state["ollama_model"])
+            conversation_history.append({"role": "user", "content": user_input})
+            ollama_history = [msg for msg in conversation_history if msg["role"] in ("user", "assistant")]
+            prompt = user_input
+
+            # Streaming real
+            from .src.chatbot.bot import ollama_client  # Import directo para usar el stream
+            for chunk in ollama_client.stream_generate(state["ollama_model"], prompt, chat_history=ollama_history[:-1]):
+                try:
+                    data = json.loads(chunk)
+                    if isinstance(data, dict) and "response" in data:
+                        streamed_text += data["response"]
+                except Exception:
+                    continue
+                # Actualiza el mensaje del asistente en tiempo real
+                assistant_placeholder.markdown(
+                    f"""
+                    <div class="chat-row chat-row-assistant">
+                        <div style="flex:1"></div>
+                        <div class="chat-bubble-assistant">{streamed_text}</div>
+                        <div class="chat-avatar">🤖</div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
+        # Actualiza el historial con la respuesta final
+        state["chat_history"][-1] = (user_input, streamed_text)
+        # Actualiza la conversación para el próximo turno
+        if "conversation" not in state or not state["conversation"]:
+            state["conversation"] = initialize_conversation(state["language"], state["ollama_model"])
+        state["conversation"].append({"role": "user", "content": user_input})
+        state["conversation"].append({"role": "assistant", "content": streamed_text})
 
     # Sidebar to show collected data in a stylized form
     st.sidebar.header("🧳 Collected Travel Data")
@@ -158,6 +214,15 @@ def render(state):
             )
     else:
         st.sidebar.info("No travel data collected yet.")
+
+    # Option to download data
+    if state["collected_data"]:
+        st.sidebar.download_button(
+            label="Download Preferences as JSON",
+            data=json.dumps(state["collected_data"], indent=2),
+            file_name="travel_preferences.json",
+            mime="application/json",
+        )
 
     # Option to download data
     if state["collected_data"]:
