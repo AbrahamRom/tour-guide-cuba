@@ -120,8 +120,16 @@ def render(state):
         "Portuguese": "O assistente está pensando..."
     }
 
-    # Chat interface
-    user_input = st.chat_input("Say something to your travel assistant...")
+    # Chat input adaptado al idioma
+    CHAT_INPUT_PLACEHOLDER = {
+        "English": "Say something to your travel assistant...",
+        "Spanish": "Dile algo a tu asistente de viajes...",
+        "French": "Dites quelque chose à votre assistant de voyage...",
+        "German": "Sagen Sie etwas zu Ihrem Reiseassistenten...",
+        "Italian": "Parla con il tuo assistente di viaggio...",
+        "Portuguese": "Fale algo para o seu assistente de viagem..."
+    }
+    user_input = st.chat_input(CHAT_INPUT_PLACEHOLDER.get(state["language"], CHAT_INPUT_PLACEHOLDER["English"]))
 
     # Mostrar mensajes previos (historial)
     for user_msg, bot_msg in state["chat_history"]:
@@ -224,11 +232,4 @@ def render(state):
             mime="application/json",
         )
 
-    # Option to download data
-    if state["collected_data"]:
-        st.sidebar.download_button(
-            label="Download Preferences as JSON",
-            data=json.dumps(state["collected_data"], indent=2),
-            file_name="travel_preferences.json",
-            mime="application/json",
-        )
+

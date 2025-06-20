@@ -1,6 +1,6 @@
-from app.ollama_interface import OllamaClient
-from app.retriever import Retriever
-from app.fallback_scraper import search_ecured
+from .ollama_interface import OllamaClient
+from .retriever import Retriever
+from .fallback_scraper import search_ecured
 
 class RAGEngine:
     def __init__(self, config, use_rag=True):

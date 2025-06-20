@@ -1,6 +1,8 @@
 retriever:
   model: all-MiniLM-L6-v2
   top_k: 3
+  collection: smarttour_kb
+  knowledge_base: modules/src/rag/data/knowledge_base.json
 
 llm:
   temperature: 0.7
