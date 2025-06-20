@@ -50,6 +50,23 @@ def ask_ollama(messages, model=OLLAMA_MODEL):
         response += chunk
     return response.strip()
 
+def ask_ollama_stream(prompt, model=OLLAMA_MODEL, chat_history=None):
+    """
+    Envía el prompt y el historial de chat a Ollama y devuelve el texto generado (streaming).
+    Procesa correctamente los chunks JSON de Ollama.
+    """
+    response = ""
+    for chunk in ollama_client.stream_generate(model, prompt, chat_history=chat_history):
+        # Cada chunk puede ser un JSON con campo "response"
+        try:
+            data = json.loads(chunk)
+            if isinstance(data, dict) and "response" in data:
+                response += data["response"]
+        except Exception:
+            # Si no es JSON, ignora el chunk
+            continue
+    return response.strip()
+
 def generate_flexible_prompt(field, language, model):
     """Genera una sola pregunta enriquecida y traducida para un campo dado."""
     base_instruction = (
@@ -177,61 +194,31 @@ Only return a JSON object with the updated fields and values. If nothing relevan
 def initialize_conversation(language, model):
     # Solo la instrucción de sistema y la primera pregunta (nombre)
     return [
-        {"role": "system", "content": f"You are a friendly travel assistant helping users plan their trip in {language}."},
-        {"role": "assistant", "content": generate_flexible_prompt("name", language, model)},
+        {"role": "system", "content": f"You are a friendly travel assistant helping users plan their trip in {language}."}
     ]
 
 def chatbot_conversation(user_input, conversation_history, collected_data, language, model):
-    # Si la conversación está vacía (solo system y pregunta de nombre), muestra la pregunta de nombre
-    if len(conversation_history) == 2 and not user_input:
-        return conversation_history[-1]["content"], conversation_history, collected_data
+    """
+    Flujo de conversación tipo chat, similar al RAG: el usuario escribe, el modelo responde, se muestra todo el historial.
+    """
+    # Inicializa historial si está vacío
+    if not conversation_history:
+        conversation_history = initialize_conversation(language, model)
 
-    # Intentar actualizar datos existentes si ya fueron completados
-    if all(field in collected_data for field in REQUIRED_FIELDS):
-        possible_updates = try_update_fields_from_user_input(user_input, language, model)
-        if possible_updates:
-            collected_data.update(possible_updates)
-            confirmation = f"Updated data: {json.dumps(possible_updates, indent=2)}"
-            confirmation = translate_prompt(confirmation, language, model)
-            conversation_history.append({"role": "user", "content": user_input})
-            conversation_history.append({"role": "assistant", "content": confirmation})
-            return confirmation, conversation_history, collected_data
+    # Añade el mensaje del usuario al historial
+    conversation_history.append({"role": "user", "content": user_input})
 
-    # Fase de recolección inicial de datos
-    last_field, next_question = generate_prompt(collected_data, language, model)
+    # Construye el historial para Ollama (sin el system prompt)
+    ollama_history = [msg for msg in conversation_history if msg["role"] in ("user", "assistant")]
 
-    if last_field and user_input:
-        update = extract_field_value(last_field, user_input, language, model)
-        if update is not None:
-            collected_data.update(update)
-            last_field, next_question = generate_prompt(collected_data, language, model)
-        else:
-            # Respuesta incompatible, reintentar la pregunta
-            error_msg = {
-                "english": "Sorry, your answer was not compatible with the requested information. Please try again and provide a valid answer.",
-                "spanish": "Lo siento, tu respuesta no fue compatible con la información solicitada. Por favor, intenta de nuevo y proporciona una respuesta válida.",
-                "french": "Désolé, votre réponse n'était pas compatible avec l'information demandée. Veuillez réessayer et fournir une réponse valide.",
-                "german": "Entschuldigung, Ihre Antwort war nicht kompatibel mit der angeforderten Information. Bitte versuchen Sie es erneut und geben Sie eine gültige Antwort an.",
-                "italian": "Spiacente, la tua risposta non era compatibile con le informazioni richieste. Per favore riprova e fornisci una risposta valida.",
-                "portuguese": "Desculpe, sua resposta não foi compatível com a informação solicitada. Por favor, tente novamente e forneça uma resposta válida."
-            }
-            lang_key = language.lower()
-            msg = error_msg.get(lang_key, error_msg["english"])
-            conversation_history.append({"role": "user", "content": user_input})
-            conversation_history.append({"role": "assistant", "content": msg})
-            # Repite la misma pregunta
-            conversation_history.append({"role": "assistant", "content": next_question})
-            return f"{msg}\n\n{next_question}", conversation_history, collected_data
+    # Prompt: el último mensaje del usuario
+    prompt = user_input
 
-    if next_question:
-        if user_input:
-            conversation_history.append({"role": "user", "content": user_input})
-        conversation_history.append({"role": "assistant", "content": next_question})
-        return next_question, conversation_history, collected_data
+    # Llama a Ollama y obtiene la respuesta (streaming)
+    response = ask_ollama_stream(prompt, model=model, chat_history=ollama_history[:-1])
 
-    summary = "Thanks! Here's a summary of your travel preferences:\n" + json.dumps(collected_data, indent=2)
-    summary = translate_prompt(summary, language, model)
-    if user_input:
-        conversation_history.append({"role": "user", "content": user_input})
-    conversation_history.append({"role": "assistant", "content": summary})
-    return summary, conversation_history, collected_data
+    # Añade la respuesta al historial
+    conversation_history.append({"role": "assistant", "content": response})
+
+    # No se recolectan datos estructurados, solo chat plano
+    return response, conversation_history, collected_data
