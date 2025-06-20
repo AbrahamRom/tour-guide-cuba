@@ -142,6 +142,14 @@ def render(state):
     if "chat_history_KB" not in state:
         state["chat_history_KB"] = []
 
+    # Menú de acciones en el sidebar
+    user_action = st.sidebar.selectbox(
+        "\u2699\ufe0f Actions",
+        ["None", "Important", "Search", "Summarize", "Clear"],
+        index=0,
+        help="Select an action for your message."
+    )
+
     # Chat interface
     user_input = st.chat_input(TEXTS[language]["chat_input"])
 
@@ -184,72 +192,105 @@ def render(state):
             )
 
     # Chat input and streaming response
-    if user_input:
-        # Mostrar mensaje del usuario inmediatamente
-        st.markdown(
-            f"""
-            <div class="chat-row chat-row-user">
-                <div class="chat-avatar">🧑</div>
-                <div class="chat-bubble-user">{user_input.strip()}</div>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
-        # Spinner animado simple (fuera de la burbuja de mensaje)
-        spinner_placeholder = st.empty()
-        spinner_placeholder.markdown(
-            f"""
-            <div style="display: flex; align-items: left; margin: 12px 0; justify-content: flex-start;">
-            <div style="margin-right: 12px; display: flex; align-items: left;">
-                <span class="stSpinner" style="display:inline-block;width:24px;height:24px;border:4px solid #ccc;border-top:4px solid #3498db;border-radius:50%;animation:spin 1s linear infinite;"></span>
-                <span style="margin-left: 8px;">{TEXTS[language]['spinner']}</span>
-            </div>
-            <div class="chat-avatar">🤖</div>
-            </div>
-            <style>
-            @keyframes spin {{
-            0% {{ transform: rotate(0deg); }}
-            100% {{ transform: rotate(360deg); }}
-            }}
-            </style>
-            """,
-            unsafe_allow_html=True
-        )
-
-        assistant_placeholder = st.empty()
-        streamed_text = ""
-        engine = RAGEngine(config, use_rag)
-        chat_history = state["chat_history_KB"].copy()
-        first_chunk = True
-        for chunk in engine.stream_answer(
-            user_input.strip(),
-            selected_model,
-            chat_history=chat_history
-        ):
-            if first_chunk:
-                spinner_placeholder.empty()  # Elimina el spinner al recibir el primer chunk
-                first_chunk = False
-            if chunk.strip().startswith("{"):
-                try:
-                    data = json.loads(chunk)
-                    streamed_text += data.get("response", "")
-                except:
-                    continue
-            else:
-                streamed_text += chunk
-            assistant_placeholder.markdown(
+    if user_input or user_action == "Clear" or user_action == "Summarize":
+        if user_action == "Clear":
+            state["chat_history_KB"] = []
+            st.experimental_rerun()
+        elif user_action == "Summarize":
+            engine = RAGEngine(config, use_rag)
+            chat_history = state["chat_history_KB"].copy()
+            summary = ""
+            with st.spinner("Summarizing conversation..."):
+                for chunk in engine.stream_answer(
+                    "Summarize the conversation so far.",
+                    selected_model,
+                    chat_history=chat_history,
+                    action_tag="summarize"
+                ):
+                    chunk = chunk.strip()
+                    if chunk.startswith('{'):
+                        try:
+                            data = json.loads(chunk)
+                            summary += data.get("response", "")
+                        except:
+                            continue
+                    else:
+                        summary += chunk
+            st.info(summary)
+        elif user_input:
+            # Mostrar mensaje del usuario inmediatamente
+            st.markdown(
                 f"""
-                <div class="chat-row chat-row-assistant">
-                    <div style="flex:1"></div>
-                    <div class="chat-bubble-assistant">{streamed_text}</div>
-                    <div class="chat-avatar">🤖</div>
+                <div class="chat-row chat-row-user">
+                    <div class="chat-avatar">🧑</div>
+                    <div class="chat-bubble-user">{user_input.strip()}</div>
                 </div>
                 """,
                 unsafe_allow_html=True
             )
-        state["chat_history_KB"].append({"role": "user", "content": user_input.strip()})
-        state["chat_history_KB"].append({"role": "assistant", "content": streamed_text})
+
+            # Spinner animado simple (fuera de la burbuja de mensaje)
+            spinner_placeholder = st.empty()
+            spinner_placeholder.markdown(
+                f"""
+                <div style="display: flex; align-items: left; margin: 12px 0; justify-content: flex-start;">
+                <div style="margin-right: 12px; display: flex; align-items: left;">
+                    <span class="stSpinner" style="display:inline-block;width:24px;height:24px;border:4px solid #ccc;border-top:4px solid #3498db;border-radius:50%;animation:spin 1s linear infinite;"></span>
+                    <span style="margin-left: 8px;">{TEXTS[language]['spinner']}</span>
+                </div>
+                <div class="chat-avatar">🤖</div>
+                </div>
+                <style>
+                @keyframes spin {{
+                0% {{ transform: rotate(0deg); }}
+                100% {{ transform: rotate(360deg); }}
+                }}
+                </style>
+                """,
+                unsafe_allow_html=True
+            )
+
+            assistant_placeholder = st.empty()
+            streamed_text = ""
+            engine = RAGEngine(config, use_rag)
+            chat_history = state["chat_history_KB"].copy()
+            action_tag = None
+            if user_action == "Important":
+                action_tag = "important"
+            elif user_action == "Search":
+                action_tag = "search"
+            first_chunk = True
+            for chunk in engine.stream_answer(
+                user_input.strip(),
+                selected_model,
+                chat_history=chat_history,
+                action_tag=action_tag
+            ):
+                if first_chunk:
+                    spinner_placeholder.empty()  # Elimina el spinner al recibir el primer chunk
+                    first_chunk = False
+                if chunk.strip().startswith("{"):
+                    try:
+                        data = json.loads(chunk)
+                        streamed_text += data.get("response", "")
+                    except:
+                        continue
+                else:
+                    streamed_text += chunk
+                assistant_placeholder.markdown(
+                    f"""
+                    <div class="chat-row chat-row-assistant">
+                        <div style="flex:1"></div>
+                        <div class="chat-bubble-assistant">{streamed_text}</div>
+                        <div class="chat-avatar">🤖</div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
+            state["chat_history_KB"].append({"role": "user", "content": user_input.strip()})
+            state["chat_history_KB"].append({"role": "assistant", "content": streamed_text})
+        # Reiniciar el menú de acción a None después de cada acción
+        st.session_state["_sidebar_action"] = 0
 
 
 
