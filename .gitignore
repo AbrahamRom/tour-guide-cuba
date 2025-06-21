@@ -178,3 +178,5 @@ cython_debug/
 *.out
 *.gz
 *.toc
+
+SmartTour/modules/src/searcher/data/documents/
