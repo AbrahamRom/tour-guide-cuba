@@ -3,18 +3,19 @@ import sys
 import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
+
 from state import get_state
 from modules import (
     chatbot,
     recommender,
     planner,
-    rag,
     simulator,
     knowledge,
     user,
     export,
     notifications,
     help,
+    searcher
 )
 
 st.set_page_config(page_title="SmartTour Cuba", layout="wide", page_icon=":palm_tree:")
@@ -143,7 +144,7 @@ else:
     elif menu == "Planificador de Rutas":
         planner.render(state)
     elif menu == "Recuperador":
-        rag.render(state)
+        searcher.render(state)
     elif menu == "Simulador":
         simulator.render(state)
     elif menu == "Base de Conocimiento":
