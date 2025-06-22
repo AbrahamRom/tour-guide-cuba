@@ -1,7 +1,7 @@
 import os
 import json
 import pandas as pd
-from config import EMBEDDING_MODEL
+from modules.src.recommender.config import EMBEDDING_MODEL
 
 class Offer:
     def __init__(self, raw_data: dict):

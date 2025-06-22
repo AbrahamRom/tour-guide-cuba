@@ -1,4 +1,4 @@
-from config import EMBEDDING_MODEL
+from modules.src.recommender.config import EMBEDDING_MODEL
 
 class UserProfile:
     def __init__(self, data: dict):
