@@ -180,3 +180,4 @@ cython_debug/
 *.toc
 
 SmartTour/modules/src/searcher/data/documents/
+DATA
