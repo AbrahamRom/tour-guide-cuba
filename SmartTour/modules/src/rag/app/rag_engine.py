@@ -1,0 +1,64 @@
+from .ollama_interface import OllamaClient
+from .retriever import Retriever
+from .fallback_scraper import search_wikipedia
+
+class RAGEngine:
+    def __init__(self, config, use_rag=True):
+        self.use_rag = use_rag
+        self.retriever = Retriever(config)
+        self.ollama = OllamaClient()
+        self.config = config
+
+
+    
+    def build_prompt(self, query, chat_history, action_tag=None):
+        context = ""
+        force_search = False
+        summarize = False
+        if action_tag == "search":
+            force_search = True
+        if action_tag == "summarize":
+            summarize = True
+        if self.use_rag or force_search:
+            docs = self.retriever.retrieve(query) if not force_search else []
+            if docs and not force_search:
+                context = "\n".join(docs)
+            else:
+                ecured_fallback = search_wikipedia(query)
+                if ecured_fallback:
+                    context = ecured_fallback
+
+        history_text = ""
+        if chat_history:
+            # Assuming chat_history is a list of dicts with 'role' and 'content'
+            formatted_history = []
+            for turn in chat_history:
+                role = turn.get("role", "user")
+                content = turn.get("content", "")
+                formatted_history.append(f"{role.capitalize()}: {content}")
+            history_text = "\n".join(formatted_history)
+
+        important_note = ""
+        if action_tag == "important":
+            important_note = "\n[The last user message is marked as IMPORTANT. Prioritize this information in your answer.]"
+        summarize_note = ""
+        if summarize:
+            summarize_note = "\n[Summarize the conversation so far. Provide a concise summary.]"
+
+        prompt = f"""You are a warm and helpful tourism assistant. Answer in the same language as the question.
+Take into account the previous conversation in the chat_history field, as the user may refer to information already provided.{important_note}{summarize_note}
+
+{f"Chat History:\n{history_text}\n" if history_text else ""}
+Question: {query}
+{f"Context:\n{context}" if context else ""}
+Answer:"""
+        return prompt
+
+    def stream_answer(self, query, model_name, chat_history=None, action_tag=None):
+        prompt = self.build_prompt(query, chat_history, action_tag=action_tag)
+        return self.ollama.stream_generate(
+            model=model_name,
+            prompt=prompt,
+            temperature=self.config["llm"]["temperature"],
+            max_tokens=self.config["llm"]["max_tokens"],
+        )
