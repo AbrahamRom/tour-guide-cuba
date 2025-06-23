@@ -1,0 +1,44 @@
+{
+  "url": "https://www.alamesacuba.com/es/ciego-de-avila/restaurant/la-atarraya/#place-map",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Zona Chambas Ciego de Ávila Majagua Morón",
+        "Tipo de Cocina Al Carbón Caribeña Cocina Creativa Cubana Española Infusiones Internacional interNacional Italiana Ligera ligera Marinera Mexicana",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cafetería Pizzería Restaurante",
+        "De Martes a Domingo 12:30 - 18:00 hrs",
+        "Exclusivo espacio enclavado dentro de la Laguna de la Leche, el lago natural de agua dulce más grande de Cuba situado a unos 4 km de la ciudad de Morón en el litoral norte y centro del país. Un gran rancho sostenido por pilotes al que se accede a través de un puente. Podrá disfrutar de excelentes platillos confeccionados fundamentalmente con mariscos dentro de los que se destacan las paellas y el pescado empanizado, acompañado de vinos, cócteles y otras bebidas. Un lugar muy atractivo bañado por la fresca brisa marinera. Desde el interior y en los corredores se puede apreciar el hermoso paisaje y algunas especies de peces debido a la transparencia y tranquilidad de las aguas, también se pueden hacer paseos en botes Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "Cóctel de Camarón en Salsa Mayonesa -",
+        "Petit Entremés de Jamón y Vianda Frita -",
+        "Petit Entremés de Jamón y Queso -",
+        "Rueda de Pescado a la Catalana -",
+        "Cola de Langosta a la Plancha -",
+        "Bistec de Pollo con Queso Gratinado -",
+        "Bistec de Cerdo con Queso Gratinado -",
+        "Filete de Pescado Montetoro La Atarraya -",
+        "{% trans 'Información adicional'}",
+        "Accesible, Música grabada, Parqueo, Servicio en exteriores, Área de fumadores",
+        "El Embarcadero Final, Laguna de la Leche, Morón",
+        "¨Paella La Atarraya¨: Plato tradicional de la cocina española elaborado en nuestra casa con una exquisita combinación de arroz, productos del mar y la tierra durante 45 minutos",
+        "¨Filete de pescado Monte Toro¨: Filete de pescado fresco, sazonado con sal, pimienta y limón, empanado y relleno con jamón y queso."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": []
+}

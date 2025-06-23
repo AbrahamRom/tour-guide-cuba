@@ -1,0 +1,35 @@
+{
+  "url": "https://www.alamesacuba.com/es/cienfuegos/restaurant/pelicano/",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Tipo de Cocina Al Carbón Cubana Internacional Italiana Mediterránea",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP",
+        "Tipo de lugar Bar Cafetería Pizzería Restaurante",
+        "De Lunes a Sábado 12:00 - 22:30 hrs",
+        "Desde un lugar especial, con una majestuosa vista en ambos lados de la bahía de Punta Gorda, abrimos nuestras puertas cuando la magia del ocaso ocurre al mismo tiempo que el sol toca el océano. Aquí Ud. puede disfrutar de una variedad de platos elaborados exclusivamente para su placer, todo esta cocinado al carbón y acompañado con deliciosos cócteles nacionales e internacionales. Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "{% trans 'Información adicional'}",
+        "(+53) 4353 4124, (+53) 5377 1351",
+        "Bar, Buffet para eventos, Espacio reservado, Música grabada",
+        "Ave 0 e/ 35 y 37 # 3506B altos Punta Gorda., Cienfuegos",
+        "¨Brochetas Pelícano¨: Cerdo, pollo, vegetales y camarones"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": []
+}

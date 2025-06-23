@@ -1,0 +1,34 @@
+{
+  "url": "https://www.alamesacuba.com/es/camaguey/restaurant/rincon-de-la-musica/",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Tipo de Cocina Al Carbón Cubana Española Heladería Infusiones Internacional Italiana Ligera Pastelería Rápida Vegetariana",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP de $22.00 a $28.00 USD de €21.20 a €26.95 EUR de $2640.00 a $3360.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cafetería Dulcería Pizzería Restaurante",
+        "Todos los días 11:00 - 23:00 hrs",
+        "Un espacio donde confluyen la música tradicional cubana en vivo, de 7:00 p.m. a 9:00 p.m., todos los días excepto los martes y sábados, cuando da paso a música grabada y pantallas para el disfrute de los más... Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "{% trans 'Información adicional'}",
+        "Accesible, Bar, Climatización, Comida para llevar, Música grabada, Presentaciones en vivo, Reservación de salón, Área de fumadores",
+        "República 287, e/ San Esteban y Callejón Finlay, Camagüey",
+        "¨Camarón con maíz¨: Camarón salteado con maíz, mantequilla, ají, cebolla, perfumado con vino seco y aderezado con vegetales"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": []
+}

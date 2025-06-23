@@ -1,0 +1,34 @@
+{
+  "url": "https://www.alamesacuba.com/es/camaguey/restaurant/el-tablao/#place-map",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Tipo de Cocina Al Carbón Cubana Española Heladería Infusiones Internacional Italiana Ligera Pastelería Rápida Vegetariana",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP de $22.00 a $28.00 USD de €21.20 a €26.95 EUR de $2640.00 a $3360.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cafetería Dulcería Pizzería Restaurante",
+        "Cubana, Española, Internacional",
+        "Todos los días 10:00 - 22:00 hrs",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "{% trans 'Información adicional'}",
+        "Accesible, Bar, Buffet para eventos, Carta de vinos, Comida para llevar, Música grabada, Parqueo, Reservación de salón, Área de fumadores",
+        "Parque Lago de los Sueños. Reparto Julio Antonio Mella, Camagüey",
+        "¨Paella mixta¨: Exquisita paella a base de mariscos, carnes rojas y vegetales. También puede solicitar su variante vegetariana o solo de mariscos"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": []
+}

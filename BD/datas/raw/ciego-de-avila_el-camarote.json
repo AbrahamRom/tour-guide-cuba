@@ -1,0 +1,35 @@
+{
+  "url": "https://www.alamesacuba.com/es/ciego-de-avila/restaurant/el-camarote/",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Zona Chambas Ciego de Ávila Majagua Morón",
+        "Tipo de Cocina Al Carbón Caribeña Cocina Creativa Cubana Española Infusiones Internacional interNacional Italiana Ligera ligera Marinera Mexicana",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cafetería Pizzería Restaurante",
+        "De Lunes a Martes, De Jueves a Domingo 11:00 - 15:00 hrs. De Lunes a Martes, De Jueves a Domingo 18:30 - 23:00 hrs",
+        "Como bote en el muelle, El Camarote ofrece anclar en las calles avileñas para un buen deguste… Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "{% trans 'Información adicional'}",
+        "Accesible, Bar, Carta de vinos, Climatización, Comida para llevar, Espacio reservado, Música grabada, Reservación de salón, Área de fumadores",
+        "Calle República #183, e/ Simón Reyes y José María Agramonte, Ciego de Ávila",
+        "¨Pescado al Camarote¨: Filete de pescado grillé con salsa bechamel, queso y camarón"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": []
+}
