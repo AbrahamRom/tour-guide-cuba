@@ -1,0 +1,36 @@
+{
+  "url": "https://www.alamesacuba.com/es/las-tunas/restaurant/olympic/#place_info_plus",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Tipo de Cocina Asados Cubana Española Internacional Italiana Pastelería",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cremería Dulcería Pizzería Restaurante",
+        "Todos los días 11:00 - 23:00 hrs",
+        "Elegante decoración con aires minimalistas inspiradas en ese fenómeno mundial que representan las Olimpiadas, con 5 espacios para el disfrute donde puede encontrar, parrillada, portal, salón principal, bar y reservado. Olympic es un sitio que lo hará sentir cómodo, pues cuenta con un personal profesional, que le garantizará una esmerada atención. No se lo pierda visítenos. Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "Tostones Rellenos con Camarón -",
+        "Fajitas de Cerdo con Vegetales -",
+        "Ensaladas de Estación (Frijolito, Tomate, Col, Lechuga) -",
+        "{% trans 'Información adicional'}",
+        "Accesible, Bar, Climatización, Comida para llevar, Espacio reservado, Música grabada, Área de fumadores",
+        "Ramón Ortuño #143 e/ Vicente García y Lucas Ortís , Las Tunas"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": []
+}

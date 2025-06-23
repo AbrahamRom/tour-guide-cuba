@@ -1,0 +1,39 @@
+{
+  "url": "https://www.alamesacuba.com/es/villa-clara/restaurant/el-alba/",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Zona Caibarién Remedios Santa Clara",
+        "Tipo de Cocina Al Carbón China Cubana Frutos secos Infusiones Internacional Italiana Japonesa Ligera Marinera",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP de $15.00 a $21.00 USD de €14.45 a €20.20 EUR de $1800.00 a $2520.00 CUP de $22.00 a $28.00 USD de €21.20 a €26.95 EUR de $2640.00 a $3360.00 CUP más de $29.00 USD más de €27.90 EUR más de $3480.00 CUP",
+        "Tipo de lugar A Domicilio Bar Café Restaurante",
+        "Todos los días 11:30 - 22:30 hrs",
+        "Sitio apenas a un centenar de metros del parque Vidal (Central) con variada oferta de comida criolla y trato personalizado en un ambiente de paredes decoradas por los principales caricaturistas de la... Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "{% trans 'Información adicional'}",
+        "(+53) 4220 3935, (+53) 5353 2812",
+        "Accesible, Buffet para eventos, Climatización, Comida para llevar, Música grabada, Reservación de salón",
+        "Efectivo (CUP), Efectivo (EUR), Efectivo (USD)",
+        "Buen Viaje No. 26 e/ Maceo y Parque, Santa Clara",
+        "¨Cerdo asado al Alba¨: Pierna de cerdo asada al carbón con mojo criollo y grillada a la plancha con especies naturales"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": [
+    "andoba2@nauta.cu"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "url": "https://www.alamesacuba.com/es/ciego-de-avila/restaurant/king-joyce/",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Zona Chambas Ciego de Ávila Majagua Morón",
+        "Tipo de Cocina Al Carbón Caribeña Cocina Creativa Cubana Española Infusiones Internacional interNacional Italiana Ligera ligera Marinera Mexicana",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cafetería Pizzería Restaurante",
+        "Cubana, Internacional, Italiana",
+        "Todos los días 12:00 - 23:00 hrs",
+        "En nuestro restaurante usted puede encontrar un excelente ambiente familiar para disfrutar del sabor de una exquisita comida con variados platos, amplia carta de coctelería y excelente café. Donde además se mezclan lo moderno y familiar, y se trabaja para ofrecer los mejores platos con una atención especial. Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "{% trans 'Información adicional'}",
+        "Accesible, Bar, Carta de vinos, Cobra % por el servicio, Comida para llevar, Entrega a Domicilio, Espacio reservado, Parqueo, Reservación de salón",
+        "Serafín Sánchez #68, e/ José Martí y Estrada Palma, Tamarindo. Florencia, Ciego de Ávila",
+        "¨Bistec King¨: Bistec de res empanado relleno con jamón, queso y vegetales."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": [
+    "kingjoycerestaurante@gmail.com"
+  ]
+}
