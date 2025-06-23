@@ -1,0 +1,38 @@
+{
+  "url": "https://www.alamesacuba.com/es/santiago-de-cuba/restaurant/dona-martha/",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Tipo de Cocina Al Carbón Brasería China Cocina creativa Cubana Española Gourmet Internacional Italiana Ligera Rápida",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP de $15.00 a $21.00 USD de €14.45 a €20.20 EUR de $1800.00 a $2520.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cafetería Pizzería Restaurante",
+        "Todos los días 12:00 - 00:00 hrs",
+        "En Doña Martha usted encontrará sentido a la palabra \"satisfacción\". La cubanía de sus genuinos platos logrará que se enamore del momento familiar y acogedor que le ofrecemos. Su elección inteligente nos dará la oportunidad de complacerlo. ¡Lo esperamos! Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "{% trans 'Información adicional'}",
+        "(+53) 2264 1177 , (+53) 5362 9270",
+        "Accesible, Bar, Comida para llevar, Música grabada, Parqueo, Reservación de salón, Servicio en exteriores, Área de fumadores",
+        "Efectivo (CUP), Efectivo (EUR), Efectivo (USD)",
+        "Calle 3 # 152, e/ Avenida de Manduley y Calle 8, Reparto Vista Alegre, Santiago de Cuba",
+        "¨El Rey Tritón¨: Filete de pescado, camarón, Jamón y queso."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": [
+    "sryinet82@gmail.com"
+  ]
+}
