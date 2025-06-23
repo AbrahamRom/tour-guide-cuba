@@ -1,0 +1,86 @@
+{
+  "url": "https://www.alamesacuba.com/es/sancti-spiritus/restaurant/cubita-santander/#place-map",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Zona Cabaiguan Sancti Spiritus Trinidad",
+        "Tipo de Cocina Asiática Caribeña Cocina creativa Cubana India interNacional Internacional Italiana Ligera Marinera Mediterránea Tapas Vegana Vegetariana",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP de $15.00 a $21.00 USD de €14.45 a €20.20 EUR de $1800.00 a $2520.00 CUP de $22.00 a $28.00 USD de €21.20 a €26.95 EUR de $2640.00 a $3360.00 CUP más de $29.00 USD más de €27.90 EUR más de $3480.00 CUP",
+        "Tipo de lugar Bar Cremería Pizzería Restaurante",
+        "Asiática, Cubana, Internacional, Italiana",
+        "De Lunes a Miércoles, De Viernes a Domingo 09:00 - 16:00 hrs. Jueves 09:00 - 23:00 hrs",
+        "La estructura nuestro inmueble, su entorno y ambientación contribuyen a la recreación de un ambiente auténticamente colonial. Puede disfrutar de una agradable climatización sin perder su hermosa vista hacia la ciudad colonial de Trinidad. Sus dueños, Elmer Santander Marcos y Luanis López Santander, son provenientes de una familia de Artistas Alfareros emblemática en la ciudad. Hemos tenido el placer de recibir a grandes personalidades del ámbito cultural y político. Con capacidad para 50 comensales, puede disfrutar aquí del mejor mojito trinitario acompañado de una cena inolvidable. Su visita a nuestro restaurante constituye una ocasión ideal para degustar la buena comida nacional o... Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "Tabla de Sushi (Variedad de Sushi) -",
+        "Carpaccio de Pulpo sobre Lecho de Soya -",
+        "Carpaccio de Res con Salsa de Vino Tinto -",
+        "Ceviche de Pescado al Estilo Cubita -",
+        "Carpaccio de Langosta sobre Lecho de Salsa Teryaki -",
+        "Cóctel de Mariscos y Pescado (Con Salsa de Yogurt y Mayonesa de Coco) -",
+        "Ají Piquillo Relleno de Paté de Atún -",
+        "Piquillo Relleno (Ají Piquillo Relleno con una Pasta de Atún, Queso y Cebolla) -",
+        "Tartar de Camarón con Humo de Habano -",
+        "Bombón de Atún con Gelatina de Frutas -",
+        "Pinchos de Camarón (Empanado con Salsa Piña y Mayonesa de Alioli) -",
+        "Pulpetas de Pescado con Queso Feta -",
+        "Croquetas de Queso Azul con Champiñon -",
+        "Brusquetas de Jamón Deshidratado -",
+        "Crema de Guisantes y Champiñones -",
+        "Crema de Garbanzo con Queso Parmesano -",
+        "Sopa de Pollo al Estilo del Chef (Ajonjolí, Huevo) -",
+        "Ensalada de Vegetales con Aderezos de su Elección (De Yogurt, De Soya, De Vinagreta Italiana, De Vinagreta Clásica, De Cebolla) -",
+        "Espaguetis Amatriciana (Salsa de Tomate, Cebolla y Bacón) -",
+        "Chateaubrian (Filete con Rúcula, Tomate, Vino Tinto, Sal, Pimienta) -",
+        "Valle de los Ingenios (Pechuga de Pollo Rellena a las Finas Hierbas, Perejil, Albahaca, Orégano, Frutos Secos, Piña, Sal y Pimienta) -",
+        "Reina Esther (Langosta Grillé Perfumada con Aceite de Perejil y Guarnecida con Salsa Maracuyá) -",
+        "Langosta Hemingway (Grillé con Sal, Pimienta, Almendra, Ron, Limón, Queso, Picante, Tomate Natural, Cebolla, Ajo, Crema Bechamel) -",
+        "Langosta Varadero (Anillas de Langosta con Champiñones, Salsa de Tomate y Ron) -",
+        "Gambas al Mar Rojo (Enchilado de Camarón Flameado con Brandy) -",
+        "Camarón a la Catalana (Chocolate, Almedra, Salsa Criolla, Vino Rosado) -",
+        "Filete Bersebá (Grillé con Vino Blanco Acompañado con Crema de Piña e Higos Flameados con Brandy y Queso) -",
+        "Filete Alfarero (Grillé con una Anilla de Langosta y Camarón con Salsa Piña) -",
+        "Filete Colosense (Grillé con Vino Blanco, Salsa Verde, Sal, Pimienta) -",
+        "Arca de Noé (Rueda de Sierra Grillé con Salsa de Café) -",
+        "Lomo Saltado Peruano (Tomate Natural, Pimiento, Cebolla, Salsa Soya, Vino Tinto, Sal, Pimienta) -",
+        "Filete de Res a la Douch (Salsa Demi - Glacé, Vino Tinto, Champiñon, Ajo, Cebolla, Sal, Pimienta) -",
+        "Picadillo a la Habanera (Uvas Pasas, Ají, Ajo, Cebolla, Aceituna, Laurel, Vino Seco, Sal, Pimienta) -",
+        "Cordero al Vino Tinto Perfumado al Roble (Lonjas de Pierna de Cordero Asado Perfumado con Humo de Roble) -",
+        "Cordero de Abraham (Ropa Vieja de Cordero con Cebolla, Ajo, Sal, Vino Blanco, Pimienta, Tomate Natural) -",
+        "Sueños del Faraón (Panza de Cerdo Asado al Horno Relleno con Frutos Secos y Plantas Aromáticas, Sal, Pimienta, Perejil, Cilantro, Ajo, Orégano) -",
+        "Maravillas de Judea (Suprema de Cerdo Asado con Salsa de Miel y Mostaza) -",
+        "Lomos de Canán (Lomo de Cerdo Asado Tapado a la Brasa con Salsa de Ajiaco Cubano, Ahumado con Cedro y Vino Tinto) -",
+        "Pechuga de Pollo a la Galilea (Pechuga de Pollo en Salsa de Queso Azul, Champiñones, Crema de Leche, Cebolla, Sal, Pimienta y Vino Blanco) -",
+        "Delicia de Jericó (Ballotin, Bacón, Cebolla, Queso, Uvas Pasas, Chorizo, Sal y Pimienta de Pollo Mixto) -",
+        "Arroz Español (Guisantes, Bacón, Chorizo, Aceitunas, Especies Natural) -",
+        "Vianda Frita (Plátano, Boniato, Papa, Malanga) -",
+        "Arroz Bravo (Fruto Seco, Ají, Picantes y Curry) -",
+        "Duquesa de Malanga a la Francesa -",
+        "Duquesa de Papa a la Italiana -",
+        "Gelatina de Frutas con Mousse de Chocolate -",
+        "Tarta de Vainilla y Chocolate -",
+        "Affogato (Café Caliente con Helado) -",
+        "{% trans 'Información adicional'}",
+        "Accesible, Bar, Buffet para eventos, Carta de vinos, Climatización, Cobra % por el servicio, Comida para llevar, Espacio reservado, Parqueo, Presentaciones en vivo, Reservación de salón, Área de fumadores",
+        "Antonio Maceo, #471, e/ Simón Bolívar y Francisco J. Zerquera, Trinidad",
+        "¨Cordero en ropa vieja¨: Carne de cordero en hebras sazonadas con especias naturales y condimentadas con hierbas aromáticas."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": [
+    "restaurantecubitasantander@gmail.com"
+  ]
+}

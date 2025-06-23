@@ -1,0 +1,34 @@
+{
+  "url": "https://www.alamesacuba.com/es/santiago-de-cuba/restaurant/la-uva/",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Tipo de Cocina Al Carbón Brasería China Cocina creativa Cubana Española Gourmet Internacional Italiana Ligera Rápida",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP de $15.00 a $21.00 USD de €14.45 a €20.20 EUR de $1800.00 a $2520.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cafetería Pizzería Restaurante",
+        "Todos los días 10:00 - 22:00 hrs",
+        "Lo natural y acogedor de nuestro sitio le envolverá rápidamente. En un clima mágico, se deleitará con platos pensados y creados para usted. A través de un servicio de calidad encontrará con nosotros el lugar adecuado a donde regresar una y otra vez. Disfrute de la buena mesa y de buenos momentos en La Uva. ¡Visítenos! Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "{% trans 'Información adicional'}",
+        "Accesible, Bar, Buffet para eventos, Comida para llevar, Desayuno, Música grabada, Parqueo, Área de fumadores",
+        "Efectivo (CUP), Efectivo (EUR), Efectivo (USD)",
+        "¨Parrillada Piolyn¨: Lomo Ahumado, chuleta de cerdo y pollo, todo a la brasa."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": []
+}
