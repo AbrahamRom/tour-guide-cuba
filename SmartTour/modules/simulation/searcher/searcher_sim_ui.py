@@ -1,6 +1,6 @@
 # simulator/searcher_sim_ui.py
 import streamlit as st
-from .searcher_sim import simulate_search_query
+from .searcher_sim import simulate_search_query, evaluate_searcher_with_dataset
 from .searcher_queries import search_queries
 
 def render_search_simulator():
@@ -31,3 +31,13 @@ def render_search_simulator():
                 **Top Titles:** {', '.join(r['titles'])}  
                 **Top Score:** `{r['top_score']:.2f}`
                 """)
+
+    if st.button("Evaluate with Cranfield Dataset"):
+        with st.spinner("Evaluating searcher with Cranfield dataset..."):
+            metrics = evaluate_searcher_with_dataset(top_k=top_k, correct=correct, max_queries=30)
+        st.success("Evaluation complete!")
+        st.metric("Precision", f"{metrics['average_precision']:.3f}")
+        st.metric("Recall", f"{metrics['average_recall']:.3f}")
+        st.metric("F1", f"{metrics['average_f1']:.3f}")
+        st.metric("Avg. Latency", f"{metrics['average_latency']:.2f} s")
+        st.write("Details:", metrics["details"])
