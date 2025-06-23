@@ -103,7 +103,7 @@ def render(state):
                         )
 
                 # LLM automatic explanation with spinner
-                st.markdown("### 🤖 ¿Por qué estas recomendaciones?")
+                st.markdown("### 🤖 ¿Qué es lo mejor para ti?")
                 prompt = (
                     f"{prompt_placeholder[language]}\n\nPerfil de usuario:\n{profile_json}\n\nOfertas:\n" +
                     "\n".join([str(o.raw) for o in offer_objs])
