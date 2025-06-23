@@ -34,7 +34,7 @@ def ask_ollama(messages, model=OLLAMA_MODEL):
     prompt = messages[-1]["content"]
     chat_history = messages[:-1]
     response = ""
-    for chunk in ollama_client.stream_generate(model, prompt, chat_history=chat_history):
+    for chunk in ollama_client.stream_generate(model, prompt):
         response += chunk
     return response.strip()
 
