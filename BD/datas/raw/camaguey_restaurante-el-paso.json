@@ -1,0 +1,66 @@
+{
+  "url": "https://www.alamesacuba.com/es/camaguey/restaurant/restaurante-el-paso/",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Tipo de Cocina Al Carbón Cubana Española Heladería Infusiones Internacional Italiana Ligera Pastelería Rápida Vegetariana",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP de $22.00 a $28.00 USD de €21.20 a €26.95 EUR de $2640.00 a $3360.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cafetería Dulcería Pizzería Restaurante",
+        "Todos los días 09:00 - 23:00 hrs. Todos los días 18:00 - 20:00 hrs",
+        "Este lugar se conocía como Pozo de Gracia, por tener el pozo más fértil de la región. A iniciativa del Cabildo en mayo de 1825 se decide demoler tres casas para formar una plaza de mayor en torno a la Iglesia del Carmen, única de dos torres en la ciudad. Luego de abierto el espacio fue denominado Calle del Paso o Plaza del Carmen, de esta fecha data nuestra casa. Hoy no solo es el paso a la Iglesia y al buen pozo, es el paso de estilos, costumbres, generaciones, el paso del tiempo y su... Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "Boquitas de Jamón y Aceitunas -",
+        "Boquitas de Tocineta y Aceitunas -",
+        "Sandwich de Ropa Vieja y Vegetales -",
+        "Sandwich de Atún, Cebolla y Vegetales -",
+        "Sandwich de Jamón y Queso Criollo -",
+        "Bolitas de Queso con Salsa Agridulce -",
+        "Coctel de Atún, Piña y Aceitunas -",
+        "Camarones Rebosados con Salsa Acridulce -",
+        "Ropa Vieja de Res sobre Casabe -",
+        "Pollo al Chocolate con Ajonjolí -",
+        "Chuletas Ahumadas en Salsa Agridulce -",
+        "Masas de Cerdo Fritas con Mojo Criollo -",
+        "Julianas de Cerdo Salteadas con Vegetales -",
+        "Filete de Pescado Grillado al Limón -",
+        "Enchilado de Camarones a lo Cubano -",
+        "Camarones Grillados con Ajo y Cebolla -",
+        "Arroz Frito Especial para Dos -",
+        "Casquitos de Guayaba con Queso -",
+        "Mermelada de Frutas con Queso -",
+        "Batido de Helado con Miel y Maní -",
+        "Batido de Chocolate Espolvoreado con Canela -",
+        "Vino Blanco o Tinto por Copa (120ml) -",
+        "Vino Frontera Cabernet Sauvignon -",
+        "Vino Chileno Luis Felipe, Merlot -",
+        "Vino Chileno Casas Patronales, Merlot -",
+        "Vino Casillero del Diablo Sauvignon Blanc -",
+        "Vino Frontera Sauvignon Blanc -",
+        "Copa de Vermouth Blanco o Tinto (90ml) -",
+        "Licor de Melocotón, Manzana y Avellanas -",
+        "Licores Nacionales de Varios Sabores -",
+        "{% trans 'Información adicional'}",
+        "(+53) 3227 4321, (+53) 5239 0939",
+        "Bar, Buffet para eventos, Carta de vinos, Climatización, Comida para llevar, Desayuno, Entrega a Domicilio, Espacio reservado, Música grabada, Parqueo, Presentaciones en vivo, Reservación de salón, Servicio en exteriores",
+        "Efectivo (CUP), Efectivo (EUR), Efectivo (USD)",
+        "Hermanos Agüero No. 261, e/ Carmen y Honda, Plaza del Carmen, Camagüey",
+        "¨Tinajón de boniato con ropa vieja sobre casabe¨: Plato de la cocina tradicional camagüeyana a base de tasajo y carne de res"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": []
+}

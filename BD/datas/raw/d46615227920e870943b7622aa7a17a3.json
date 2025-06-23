@@ -1,0 +1,35 @@
+{
+  "url": "https://www.alamesacuba.com/es/la-habana/restaurant/san-francisco-23/",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Zona Arroyo Naranjo Boyeros Centro Habana Cerro Cotorro Diez de Octubre Guanabacoa Habana del Este Habana Vieja La Lisa Marianao Playa Plaza de la Revolución Regla",
+        "Tipo de Cocina Al Carbón Árabe Asados Asiática Brasería Brasileña Caribeña Charcutería China Cocina Creativa Cocina creativa Contemporánea Crêpes Criolla Cubana Cubana Cubana estilizada Cubana Estilizada Dulcería Escandinava Española Francesa Fusión Fusión asiática Gourmet Griega Heladería Infusiones Internacional interNacional interNacional Iraní Italiana Italiana Japonesa Libanesa ligera Ligera Marinera Mediterránea Mexicana Mixta Nikkei Norteamericana Panadería Pastelería Peruana Portuguesa Productos naturales Productos Naturales Productos Naturales Rápida Regional italiana Rusa Tapas Turca Vegana Vegetariana Vinoteca",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP de $15.00 a $21.00 USD de €14.45 a €20.20 EUR de $1800.00 a $2520.00 CUP de $22.00 a $28.00 USD de €21.20 a €26.95 EUR de $2640.00 a $3360.00 CUP más de $29.00 USD más de €27.90 EUR más de $3480.00 CUP",
+        "Tipo de lugar A Domicilio Bar Bodeguita Café Cafetería Centro Cultural Cremería Crêperie Dulcería Pizzería Restaurante Tienda de productos naturales",
+        "Todos los días 10:00 - 17:00 hrs",
+        "Ofrece productos elaborados con gran sabor además de cárnicos y helados. Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "{% trans 'Información adicional'}",
+        "Comida para llevar, Entrega a Domicilio"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": [
+    "sanfrancisco23@yahoo.es"
+  ]
+}

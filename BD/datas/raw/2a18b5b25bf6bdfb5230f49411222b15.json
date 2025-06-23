@@ -1,0 +1,35 @@
+{
+  "url": "https://www.alamesacuba.com/es/ciego-de-avila/restaurant/el-tiber/",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Zona Chambas Ciego de Ávila Majagua Morón",
+        "Tipo de Cocina Al Carbón Caribeña Cocina Creativa Cubana Española Infusiones Internacional interNacional Italiana Ligera ligera Marinera Mexicana",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cafetería Pizzería Restaurante",
+        "Todos los días 09:30 - 19:00 hrs",
+        "Un oasis paradisíaco dentro de la ciudad, donde además de comer y disfrutar de la refrescante piscina, puedes hospedarte en nuestros cuartos de renta y pasar unas inolvidables vacaciones Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "{% trans 'Información adicional'}",
+        "Accesible, Bar, Buffet para eventos, Carta de vinos, Comida para llevar, Desayuno, Espacio reservado, Música grabada, Parqueo, Presentaciones en vivo, Reservación de salón, Servicio en exteriores, Área de fumadores",
+        "Efectivo (CUP), Efectivo (EUR), Efectivo (USD)",
+        "Zayas #17 e/ Salomé M y Cisneros, Morón"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": []
+}

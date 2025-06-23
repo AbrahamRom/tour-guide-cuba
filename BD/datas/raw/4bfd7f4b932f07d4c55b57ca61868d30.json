@@ -1,0 +1,48 @@
+{
+  "url": "https://www.alamesacuba.com/es/holguin/restaurant/cafe-sofia/",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Tipo de Cocina Brasería Cocina creativa Cubana Cubana Dulcería Española Heladería Infusiones Internacional interNacional Italiana Italiana Japonesa Ligera Marinera Mediterránea Pastelería Regional Cubana",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP de $15.00 a $21.00 USD de €14.45 a €20.20 EUR de $1800.00 a $2520.00 CUP más de $29.00 USD más de €27.90 EUR más de $3480.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cafetería Centro Cultural Cremería Dulcería Pizzería Restaurante",
+        "Cubana, Internacional, Italiana",
+        "Todos los días 08:00 - 23:00 hrs",
+        "Esta moderna cafetería climatizada ubicada discretamente en una de las principales avenidas de la ciudad y cerca del conocido Hospital Lenin se ha ganado ya la preferencia de muchos por la calidad y variedad de sus múltiples ofertas así como la agilidad en el servicio. Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "Cóctel Sofía (Elaborado con Atún, Camarones, Vegetales y Piña) -",
+        "Bufet Mixto (Lonjas de Jamón, Chorizo, Queso, Croquetas, Huevos de Codorniz y Bolitas de Queso) -",
+        "De Atún (Con Mayonesa y Vegetales) -",
+        "Sandwich Sofía (Queso, Jamón Pierna, Jamón Vicking, Pierna de Cerdo Mechada y Vegetales) -",
+        "\"Jumbo\" (Dos Hamburguesas, Jamón, Queso y Vegetales) -",
+        "Espaguetis con Jamón y Chorizo -",
+        "Bistec de Cerdo \"Tres Delicias\" -",
+        "Lonjas de Cerdo (Asadas al Jugo) -",
+        "Bistec de Pollo \"Tres Delicias\" -",
+        "Filete de Pescado Salteado (Con Vegetables) -",
+        "Refresco de Cola con Leche Condensada -",
+        "{% trans 'Información adicional'}",
+        "(+53) 2442 2266, (+53) 5284 2667",
+        "Accesible, Bar, Climatización, Comida para llevar, Desayuno, Música grabada, Parqueo, Reservación de salón",
+        "Ave. de Lo Alamos #51 e/ 20 de Mayo y 24 de Febrero, Holguín"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": [
+    "israelfelipe@nauta.cu"
+  ]
+}

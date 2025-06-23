@@ -1,0 +1,38 @@
+{
+  "url": "https://www.alamesacuba.com/es/pinar-del-rio/restaurant/3j-pinar/",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Tipo de Cocina Al Carbón Cubana Dulcería Heladería Internacional Italiana Ligera Marinera Mediterránea Mexicana Rápida Tapas Vegana Vegetariana",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP de $15.00 a $21.00 USD de €14.45 a €20.20 EUR de $1800.00 a $2520.00 CUP más de $29.00 USD más de €27.90 EUR más de $3480.00 CUP",
+        "Tipo de lugar Bar Cafetería Dulcería Pizzería Restaurante",
+        "Todos los días 08:00 - 02:00 hrs",
+        "Con un escogido y refinado menú, el 3J puede estar orgulloso de ser el espacio gastronómico más popular de Viñales. Su incomparable servicio hacen de los platos y la coctelería un triunfo seguro. Con servicio wifi y decorado con elegancia y sin excesos, como un típico bar de tapas español, constituye el lugar ideal para pasar el rato con los amigos y la familia. Extensas filas esperan para entrar a conocer su magia, ya sea a través de las más exquisitas carnes, los más variados vinos o las más originales combinaciones de ambos. Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "{% trans 'Información adicional'}",
+        "(+1305) 450 0892, (+53) 5331 1658",
+        "Accesible, Bar, Carta de vinos, Climatización, Comida para llevar, Desayuno, Música grabada, Parqueo, Reservación de salón, Servicio en exteriores, Área de fumadores",
+        "Efectivo (CUP), Efectivo (EUR), Efectivo (USD)",
+        "Salvador Cisneros, # 45, Viñales",
+        "¨Cordero al vino tinto¨: Estofado de cordero al vino tinto, croquetas de la casa (atún, pollo, jamón)"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": [
+    "jeanpierer@gmail.com"
+  ]
+}

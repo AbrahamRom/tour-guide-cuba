@@ -1,0 +1,36 @@
+{
+  "url": "https://www.alamesacuba.com/es/mayabeque/restaurant/la-carpintera/",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Zona Bejucal Jaruco Melena del Sur Quivicán San José de las Lajas Santa Cruz del Norte",
+        "Tipo de Cocina Cubana Internacional Italiana Marinera",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP",
+        "Tipo de lugar Pizzería Restaurante",
+        "Todos los días 12:00 - 22:00 hrs",
+        "Escape de la ciudad y visite este lugar que hace de su tranquilidad, buen servicio y sabor de sus propuestas los atributos que lo caracterizan. Además del restaurant, alquilamos habitaciones de lujo! Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "{% trans 'Información adicional'}",
+        "Accesible, Comida para llevar, Música grabada, Parqueo, Servicio en exteriores, Área de fumadores",
+        "Calle 12 No. 1914 e/ 19 y Final, Tapaste., San José de las Lajas"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": [
+    "yolanda.perez56@nauta.cu"
+  ]
+}

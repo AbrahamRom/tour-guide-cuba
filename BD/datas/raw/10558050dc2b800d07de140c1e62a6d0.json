@@ -1,0 +1,37 @@
+{
+  "url": "https://www.alamesacuba.com/es/sancti-spiritus/restaurant/iltriounfo/#place_comments",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Zona Cabaiguan Sancti Spiritus Trinidad",
+        "Tipo de Cocina Asiática Caribeña Cocina creativa Cubana India interNacional Internacional Italiana Ligera Marinera Mediterránea Tapas Vegana Vegetariana",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP de $15.00 a $21.00 USD de €14.45 a €20.20 EUR de $1800.00 a $2520.00 CUP de $22.00 a $28.00 USD de €21.20 a €26.95 EUR de $2640.00 a $3360.00 CUP más de $29.00 USD más de €27.90 EUR más de $3480.00 CUP",
+        "Tipo de lugar Bar Cremería Pizzería Restaurante",
+        "Todos los días 11:30 - 00:00 hrs",
+        "Nuestro restaurante es una combinación de toda la cocina típica y tradicional italiana, de norte a sur, y se caracteriza por la calidad de la comida y la exigencia de “hacerlo todo en casa”. Esto combinado con la diversión y nuestra gran pantalla con música y videos internacionales, así como la presencia de las imágenes de todas las estrellas de la historia de la música y el cine. Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "{% trans 'Información adicional'}",
+        "Accesible, Bar, Carta de vinos, Comida para llevar, Presentaciones en vivo, Reservación de salón",
+        "Efectivo (CUP), Efectivo (EUR), Efectivo (USD)",
+        "Simón Bolivar #502. Trinidad, Sancti Spiritus"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": [
+    "iltrionfo2020@gmail.com"
+  ]
+}

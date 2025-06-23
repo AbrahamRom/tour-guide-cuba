@@ -1,0 +1,36 @@
+{
+  "url": "https://www.alamesacuba.com/es/ciego-de-avila/restaurant/el-divino/#place_menu",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Zona Chambas Ciego de Ávila Majagua Morón",
+        "Tipo de Cocina Al Carbón Caribeña Cocina Creativa Cubana Española Infusiones Internacional interNacional Italiana Ligera ligera Marinera Mexicana",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cafetería Pizzería Restaurante",
+        "Lunes, De Miércoles a Domingo 12:00 - 16:00 hrs. Lunes, De Miércoles a Domingo 18:30 - 23:00 hrs",
+        "El lugar donde será atendido divinamente por un grupo de jóvenes amantes de las artes culinarias Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "Rollito de Cerdo (Jamón, Queso y Chorizo)(Salsa Agridulce) -",
+        "Dulce de Frutabomba con Queso -",
+        "{% trans 'Información adicional'}",
+        "Accesible, Bar, Buffet para eventos, Carta de vinos, Climatización, Comida para llevar, Espacio reservado, Música grabada, Parqueo, Reservación de salón, Área de fumadores",
+        "¨Bistec Divino¨: Lomo de cerdo macerado con plantas aromáticas"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": []
+}

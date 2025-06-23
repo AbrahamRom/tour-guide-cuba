@@ -1,0 +1,34 @@
+{
+  "url": "https://www.alamesacuba.com/es/ciego-de-avila/restaurant/el-pino-atrevido/#place_comments",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Zona Chambas Ciego de Ávila Majagua Morón",
+        "Tipo de Cocina Al Carbón Caribeña Cocina Creativa Cubana Española Infusiones Internacional interNacional Italiana Ligera ligera Marinera Mexicana",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cafetería Pizzería Restaurante",
+        "Todos los días 11:00 - 23:00 hrs",
+        "Un rancho criollo sencillo, que te envuelve en un ambiente rural dentro de la ciudad, la comida tiene el verdadero sabor criollo y el olor a carbón nos lleva hasta el campo. Ven a disfrutar de la más auténtica y sabrosa comida cubana, en un entorno hecho a tu medida donde el atrevimiento sabe bien. Lo esperamos Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "{% trans 'Información adicional'}",
+        "Accesible, Bar, Música grabada, Parqueo, Presentaciones en vivo, Área de fumadores",
+        "Calle Nueva, e/ Maceo y Goicuría, Morón"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": []
+}

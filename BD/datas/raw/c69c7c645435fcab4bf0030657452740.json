@@ -1,0 +1,36 @@
+{
+  "url": "https://www.alamesacuba.com/es/mayabeque/restaurant/tomy-club/#place-map",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Zona Bejucal Jaruco Melena del Sur Quivicán San José de las Lajas Santa Cruz del Norte",
+        "Tipo de Cocina Cubana Internacional Italiana Marinera",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP",
+        "Tipo de lugar Pizzería Restaurante",
+        "De Lunes a Viernes 10:00 - 16:00 hrs. De Sábado a Domingo 10:00 - 22:00 hrs",
+        "Lugar que antaño se caracterizó por sus eventos artísticos de máxima calidad y hoy mantiene el servicio de restauración gastronómica para el deleite de su clientela. Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "{% trans 'Información adicional'}",
+        "Buffet para eventos, Climatización, Comida para llevar, Desayuno, Entrega a Domicilio, Música grabada, Parqueo, Reservación de salón, Servicio en exteriores",
+        "Efectivo (CUP), Efectivo (EUR), Efectivo (USD)"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": [
+    "tomy71@nauta.cu"
+  ]
+}

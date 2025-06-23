@@ -1,0 +1,37 @@
+{
+  "url": "https://www.alamesacuba.com/es/las-tunas/restaurant/paladar-rio-chico/#place_info_plus",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Tipo de Cocina Asados Cubana Española Internacional Italiana Pastelería",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cremería Dulcería Pizzería Restaurante",
+        "Lunes, De Miércoles a Sábado 11:00 - 00:00 hrs",
+        "Este es el lugar por excelencia del criollismo tunero, de la cultura en todos los ámbitos y sobre todo de la unión en familia junto a la buena cocina, con la alegría de vivir, y en los últimos meses la magia de los buenos tragos y cócteles, haciendo una combinación perfecta para hacer de este su lugar el sitio de obligada visita, donde nuestra querida y mágica Mari los recibirá con su agradable sonrisa. \"Lo distinto nos hace... Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "{% trans 'Información adicional'}",
+        "Accesible, Bar, Comida para llevar, Música grabada, Presentaciones en vivo, Área de fumadores",
+        "Calle Maceo #2. % Joaquín Agüero y Nicolas Heredia. Rpto 1ro., Las Tunas",
+        "¨Comida de Parrilla ¨: asados de parrillas sazonados con una salsa hecha en casa con receta única del chef Pedro",
+        "¨Rabo encendido¨: Plato tradicional, consistente en un estofado de rabo de res picante, muy exquisito en el menú en las mesas de las familias cubanas, posee alto grado nutritivo y es muy sabroso. Sale acompañado por tamales de la mano del chef Rubio, cocinero empírico."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": [
+    "yact8116@gmail.com"
+  ]
+}

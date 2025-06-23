@@ -1,0 +1,33 @@
+{
+  "url": "https://www.alamesacuba.com/es/cienfuegos/restaurant/restaurante-florida-blanca-18/#place-map",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Tipo de Cocina Al Carbón Cubana Internacional Italiana Mediterránea",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP",
+        "Tipo de lugar Bar Cafetería Pizzería Restaurante",
+        "Lunes, De Miércoles a Domingo 12:00 - 23:30 hrs",
+        "Visitar Cienfuegos es como ir a un paraíso terrenal, eso lo sabemos todos los cienfuegueros, pero de visitarlo, no se retire sin degustar los platos más selectos de la cocina cubana e internacional en el Restaurante Florida Blanca 18. Muy cercano a la bahía cienfueguera, lleno de un ambiente acogedor y una atención de excelencia, personalizada y familiar usted se sentirá complacido disfrutando un momento inolvidable que indiscutiblemente lo hará regresar. Allí lo esperamos. Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "{% trans 'Información adicional'}",
+        "Accesible, Bar, Carta de vinos, Climatización, Comida para llevar, Espacio reservado, Música grabada, Parqueo, Reservación de salón, Servicio en exteriores",
+        "Ave 38 # 3720 e/ 37 y 39 , Cienfuegos"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": []
+}

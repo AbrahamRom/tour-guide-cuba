@@ -1,0 +1,37 @@
+{
+  "url": "https://www.alamesacuba.com/es/cienfuegos/restaurant/shalom/",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Tipo de Cocina Al Carbón Cubana Internacional Italiana Mediterránea",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP",
+        "Tipo de lugar Bar Cafetería Pizzería Restaurante",
+        "Cubana, Internacional, Italiana, Mediterránea",
+        "Todos los días 11:00 - 23:00 hrs",
+        "Ofrecemos variedad de platos de la cocina cubana e internacional, para siempre estar con usted, en cualquier momento del día. Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "{% trans 'Información adicional'}",
+        "Accesible, Bar, Climatización, Cobra % por el servicio, Comida para llevar, Código de vestir, Desayuno, Entrega a Domicilio, Espacio reservado, Música grabada, Parqueo, Reservación de salón, Área de fumadores",
+        "Efectivo (CUP), Efectivo (EUR), Efectivo (USD), Pagos Online",
+        "Calle 37, #4606, e/ 46 y 48, Cienfuegos, Cienfuegos"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": [
+    "jcpb250825@icloud.com"
+  ]
+}

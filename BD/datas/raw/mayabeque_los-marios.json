@@ -1,0 +1,36 @@
+{
+  "url": "https://www.alamesacuba.com/es/mayabeque/restaurant/los-marios/#place-map",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Zona Bejucal Jaruco Melena del Sur Quivicán San José de las Lajas Santa Cruz del Norte",
+        "Tipo de Cocina Cubana Internacional Italiana Marinera",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP",
+        "Tipo de lugar Pizzería Restaurante",
+        "Todos los días 11:00 - 00:00 hrs",
+        "La amabilidad y pasión por el buen servicio caracterizan a este negocio familiar situado en plena zona rural muy cerca de las playas del norte de Mayabeque. Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "{% trans 'Información adicional'}",
+        "Bar, Comida para llevar, Desayuno, Música grabada, Parqueo, Presentaciones en vivo, Reservación de salón, Servicio en exteriores, Área de fumadores",
+        "Efectivo (CUP), Efectivo (EUR), Efectivo (USD)",
+        "Finca La matilde, Carretera Arroyo Bermejo., Santa Cruz del Norte",
+        "¨Parrillada campesina¨: Cerdo, chorizo, pollo, morcilla, lomo ahumado encima de piedras con arroz a elección y mazorcas de maíz asadas al carbón"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": []
+}

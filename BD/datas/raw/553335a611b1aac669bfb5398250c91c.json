@@ -1,0 +1,38 @@
+{
+  "url": "https://www.alamesacuba.com/es/mayabeque/restaurant/los-amigos-mayabeque/",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Zona Bejucal Jaruco Melena del Sur Quivicán San José de las Lajas Santa Cruz del Norte",
+        "Tipo de Cocina Cubana Internacional Italiana Marinera",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP",
+        "Tipo de lugar Pizzería Restaurante",
+        "La profesionalidad y el rigor caracterizan a Los Amigos, sitio ideal para saborear la cocina criolla en su viaje hacia o desde La Habana o Varadero. Aceptamos pagos mediante tarjeta de crédito! Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "{% trans 'Información adicional'}",
+        "Accesible, Bar, Carta de vinos, Comida para llevar, Entrega a Domicilio, Parqueo, Presentaciones en vivo, Reservación de salón, Área de fumadores",
+        "Efectivo (CUP), Efectivo (EUR), Efectivo (USD), Tarjeta de crédito",
+        "49.5 Km Via Blanca, Santa Cruz del Norte",
+        "¨Grillada \"Los Amigos\"¨: Camarones, pescado, bistec de cerdo, lomo ahumado"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": [
+    "nayma.menendez@nauta.cu",
+    "jibacoareservation@gmail.com"
+  ]
+}

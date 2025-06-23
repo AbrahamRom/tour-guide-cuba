@@ -1,0 +1,34 @@
+{
+  "url": "https://www.alamesacuba.com/es/camaguey/restaurant/el-ovejito/#place_comments",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Tipo de Cocina Al Carbón Cubana Española Heladería Infusiones Internacional Italiana Ligera Pastelería Rápida Vegetariana",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP de $22.00 a $28.00 USD de €21.20 a €26.95 EUR de $2640.00 a $3360.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cafetería Dulcería Pizzería Restaurante",
+        "Todos los días 12:00 - 00:00 hrs",
+        "El Ovejito se especializa en comida a base de carne de carnero. Amueblado con mesas de madera y taburetes de cuero, sus paredes exhiben murales cerámicos confeccionados por el reconocido artista de la plástica Oscar Rodríguez Lasseria; decoran también el lugar diversos jarrones cerámicos hechos por otro prestigioso artista del patio, Nazario Salazar Jiménez. Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "{% trans 'Información adicional'}",
+        "Accesible, Bar, Carta de vinos, Música grabada, Presentaciones en vivo, Servicio en exteriores",
+        "Hermanos Agüero, e/ Honda y Carmen, Plaza del Carmen, Camagüey",
+        "¨Paleta de Cordero Rellena¨: Paletas de cordero deshuesadas, la carne obtenida se coloca una sobre otra, se mecha con zanahoria y tocino, se enrolla, se amarra y se adoba con un mojo. Luego de horneada, se pica en rodajas y es servida con una deliciosa salsa de tomate"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": []
+}

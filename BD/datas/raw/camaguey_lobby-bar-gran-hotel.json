@@ -1,0 +1,38 @@
+{
+  "url": "https://www.alamesacuba.com/es/camaguey/restaurant/lobby-bar-gran-hotel/",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Tipo de Cocina Al Carbón Cubana Española Heladería Infusiones Internacional Italiana Ligera Pastelería Rápida Vegetariana",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP de $22.00 a $28.00 USD de €21.20 a €26.95 EUR de $2640.00 a $3360.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cafetería Dulcería Pizzería Restaurante",
+        "Todos los días 15:00 - 23:00 hrs",
+        "Con el privilegio de contar con la barra más original e impresionante de la ciudad, el Lobby Bar del Gran Hotel abre sus puertas cada noche con una variada propuesta cultural y les brinda la posibilidad de degustar de una coctelería cubana e internacional de la mejor clase. Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "{% trans 'Información adicional'}",
+        "(+53) 3229 2093, (+53) 3229 2094",
+        "Accesible, Bar, Climatización, Código de vestir, Música grabada, Presentaciones en vivo, Área de fumadores",
+        "Calle Maceo No.67 e/ Ignacio Agramonte y General Gómez, Camagüey",
+        "¨Cóctel Gran Hotel Especial¨: Cóctel refrescante a base de jugo de naranja, miel, Havana Club 3 años, hielo y una ramita de menta macerada"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": [
+    "daylis@granhotel.cmg",
+    "aida@granhotel.cmg"
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "url": "https://www.alamesacuba.com/es/holguin/restaurant/blue-chacha/",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Tipo de Cocina Brasería Cocina creativa Cubana Cubana Dulcería Española Heladería Infusiones Internacional interNacional Italiana Italiana Japonesa Ligera Marinera Mediterránea Pastelería Regional Cubana",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP de $15.00 a $21.00 USD de €14.45 a €20.20 EUR de $1800.00 a $2520.00 CUP más de $29.00 USD más de €27.90 EUR más de $3480.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cafetería Centro Cultural Cremería Dulcería Pizzería Restaurante",
+        "Cubana, Española, Internacional, Italiana",
+        "Desayunos: Todos los días 07:00 - 10:00 hrs. Almuerzos: Todos los días 12:00 - 15:00 hrs. Comidas: Todos los días 19:00 - 21:30 hrs",
+        "Restaurante perteneciente a uno de los pequeños y acogedores hoteles que consolidan el renacimiento turístico de esta bella ciudad. Nos ofrece una carta menú con platos populares de la cocina cubana e... Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "Cóctel de Camarones con Mayonesa -",
+        "Cóctel de Camarones en Salsa de Tomate -",
+        "Filete de Pescado con Camarones (Filete de Pescado Relleno con Camarones) -",
+        "Filete Canciller (Filete de Pescado Fresco con Jamón y Queso Empanizado) -",
+        "Camarones Enchilados (Camarones Salteados en Salsa de Tomate con Ajo, Cebolla, Vino Seco y Vegetales) -",
+        "Langosta del Caribe (Deliciosa Langosta Horneada con Especies y Mantequilla de Vegetales Salteados) -",
+        "Filete Conquistador (Filete de Pescado Fresco con Camarones, Jamón y Queso -",
+        "Paella Gibareña (Exquisita Paella Elaborada con Pescado, Camarones, Jamón y Caldo de Mariscos) -",
+        "Café Aroma de Mujer (Café Expreso, Licor de Café, Canela en Polvo) -",
+        "Café Capuchino (Café Expreso, Leche, Canela o Chocolate) -",
+        "Café Cortadito (Café Expreso, Leche Caliente) -",
+        "Café Tornado (Café Expreso, Jgo de Limón, Ron Habana Club Añejo Especial, Hielo) -",
+        "Café Cortadito Habanero (Café Expreso y Leche Caliente en Iguales Proporciones) -",
+        "Café Mama Inés (Café Expreso, Ron Añejo, Miel de Abeja) -",
+        "Café Cacao Frapeado (Café Expreso, Licor Cacao, Hielo Frapeado) -",
+        "Café Blanco y Negro (Café Expreso Granizado y Crema de Leche) -",
+        "Té, Infusiones Frías y Calientes -",
+        "{% trans 'Información adicional'}",
+        "Bar, Climatización, Desayuno, Parqueo",
+        "Calle Independencia # 62 e/ J. Agüero y C. García, Gibara",
+        "¨Filete Conquistador¨: Filete de pescado con camarones, jamón y queso."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": []
+}
