@@ -1,0 +1,40 @@
+{
+  "url": "https://www.alamesacuba.com/es/santiago-de-cuba/search/#mfilters",
+  "titulo": "",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Tipo de Cocina Al Carbón Brasería China Cocina creativa Cubana Española Gourmet Internacional Italiana Ligera Rápida",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP de $15.00 a $21.00 USD de €14.45 a €20.20 EUR de $1800.00 a $2520.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cafetería Pizzería Restaurante",
+        "{% trans 'Navegación de la página'}",
+        "Empresa Municipal de Gastronomía Holguín",
+        "Empresa nac. para Protección de la Flora y Fauna",
+        "Federación de Asociaciones Culinarias",
+        "Instituto Cubano de Amistad con los Pueblos",
+        "Oficina del Historiador de Camagüey",
+        "Gallo, e/ Enramada y Aguilera, Santiago de Cuba",
+        "Cubana, Internacional, Italiana",
+        "Ave. Manduley, # 57 A e/ Calle 1ra y 3ra, Rpto. Vista Alegre...",
+        "Padre Pico # 360 altos, e/ San Basilio y Santa Lucia, Santiago...",
+        "Carretera Central, km. 2 y medio, Altos de Quintero...",
+        "Barnada, # 513, e/ Aguilera y Heredia, Santiago de Cuba",
+        "Calvario, # 910, e/ Santa Rosa y Princesa, Santiago de Cuba",
+        "San Carlos, # 262, e/ San Pedro y Santo Tomás...",
+        "1ra, # 11, e/ 6 y 7, Reparto Fomento, Santiago de Cuba",
+        "Enramadas # 563 e/ Barnada Y San Agustín, Santiago de Cuba",
+        "Calvario # 504 e/ Aguilera y Enramadas , Santiago de Cuba",
+        "Raul Perozo # 127 e/ 6 y 7, Reparto Agüero, Santiago de...",
+        "San Félix e/ Callejón del Carmen y San Gerónimo..."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": []
+}
