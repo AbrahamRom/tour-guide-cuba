@@ -1,28 +1,28 @@
 import streamlit as st
+from .simulation.rag.rag_sim_ui import render_rag_simulator
+from .simulation.chatbot.chatbot_sim_ui import render_chatbot_simulator
+from .simulation.searcher.searcher_sim_ui import render_search_simulator
+from .simulation.planner.planner_sim_ui import render_planner_simulator
+from .simulation.recommender.recommender_sim_ui import render_recommender_simulator
 
 def render(state):
-    st.header("🌀 Simulador de Escenarios")
-    st.markdown("Simula condiciones hipotéticas y observa los cambios en tu itinerario.")
+    st.title("🧠 Multi-Agent Tourism System Simulation")
 
-    clima = st.selectbox("Escenario climático", ["Soleado", "Lluvia", "Tormenta"])
-    evento = st.text_input("Evento especial (opcional):")
+    module = st.sidebar.radio("Select Subsystem to Simulate", [
+        "Chatbot",
+        "Recommender",
+        "Planner",
+        "Semantic Searcher",
+        "RAG Assistant"
+    ])
 
-    if st.button("Simular"):
-        # ... lógica de simulación ...
-        state["simulacion"] = {
-            "original": state.get("itinerario", []),
-            "ajustado": [{"dia": 1, "actividad": "Museo Nacional (bajo techo)", "costo": 30}]
-        }
-        st.toast("¡Itinerario ajustado por contingencia!", icon="⚠️")
-
-    if state.get("simulacion"):
-        st.subheader("Comparación de Itinerarios")
-        col1, col2 = st.columns(2)
-        with col1:
-            st.markdown("**Original**")
-            for item in state["simulacion"].get("original", []):
-                st.markdown(f"{item}")
-        with col2:
-            st.markdown("**Ajustado**")
-            for item in state["simulacion"].get("ajustado", []):
-                st.markdown(f"{item}")
+    if module == "Chatbot":
+        render_chatbot_simulator()
+    elif module == "Recommender":
+        render_recommender_simulator()
+    elif module == "Planner":
+        render_planner_simulator()
+    elif module == "Semantic Searcher":
+        render_search_simulator()
+    elif module == "RAG Assistant":
+        render_rag_simulator()

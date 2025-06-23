@@ -1,11 +1,11 @@
 import streamlit as st
-from simulator.rag_sim import simulate_rag_interaction
-from simulator.mock_queries import queries
+from .rag_sim import simulate_rag_interaction
+from .mock_queries import queries
 
 def render_rag_simulator():
     st.title("📚 RAG Chatbot Simulation")
 
-    selected_model = st.selectbox("Select model", ["mistral", "openhermes", "llama3"])
+    selected_model = st.selectbox("Select model", [ "openhermes", "gemma2"])
     use_rag = st.checkbox("Use RAG (Retrieve from KB)", value=True)
     show_details = st.checkbox("Show individual responses", value=True)
 

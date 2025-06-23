@@ -1,7 +1,7 @@
 # simulator/searcher_sim_ui.py
 import streamlit as st
-from simulator.searcher_sim import simulate_search_query
-from simulator.searcher_queries import search_queries
+from .searcher_sim import simulate_search_query
+from .searcher_queries import search_queries
 
 def render_search_simulator():
     st.title("🔍 Document Search Simulation")

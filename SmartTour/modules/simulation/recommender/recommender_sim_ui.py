@@ -1,7 +1,7 @@
 # simulator/recommender_sim_ui.py
 import streamlit as st
-from simulator.recommender_sim import simulate_recommendation
-from simulator.recommender_profiles import sample_profiles
+from .recommender_sim import simulate_recommendation
+from .recommender_profiles import sample_profiles
 
 
 def render_recommender_simulator():

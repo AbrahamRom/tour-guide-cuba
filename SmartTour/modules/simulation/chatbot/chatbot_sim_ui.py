@@ -1,8 +1,8 @@
 import streamlit as st
-from simulator.chatbot_sim import run_chatbot_simulation
-from simulator.mock_profiles import sample_profile
+from .chatbot_sim import run_chatbot_simulation
+from .mock_profiles import sample_profile
 
-def render_simulation_ui():
+def render_chatbot_simulator():
     st.title("🤖 Chatbot Simulation")
     if st.button("Run Simulation"):
         logs, data = run_chatbot_simulation(sample_profile)
