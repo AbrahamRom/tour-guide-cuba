@@ -30,14 +30,14 @@ FUZZY_MAP = {
 
 
 # --- Configuración de restricciones y preferencias del usuario ---
-def get_configuracion():
+def get_configuracion(tiempo, presupuesto):
     """
     Muestra los controles de configuración y preferencias difusas para el usuario.
     Devuelve los parámetros seleccionados y los pesos difusos para el planificador.
     """
     with st.expander("Configuración de restricciones"):
-        tiempo = st.slider("Tiempo máximo (días)", 1, 30, 7)
-        presupuesto = st.slider("Presupuesto máximo ($USD)", 50, 5000, 1000)
+        # Los sliders de tiempo y presupuesto han sido eliminados
+        st.info(f"Duración del viaje: {tiempo} días | Presupuesto: ${presupuesto}")
         destino = st.text_input("Destino", "La Habana")
         prioridad = st.selectbox(
             "Prioridad",
@@ -70,7 +70,7 @@ def get_configuracion():
         gamma = FUZZY_MAP[changes_choice]
         alpha = FUZZY_MAP[stars_choice]
         params = {"alpha": alpha, "beta": beta, "gamma": gamma}
-        return tiempo, presupuesto, destino, prioridad, metodo, params
+        return destino, prioridad, metodo, params
 
 
 # --- Planificación clásica ---
@@ -199,10 +199,12 @@ def itinerario_a_ubicaciones(itinerario):
         nombre_hotel = item["actividad"].split(":")[-1].strip()
         if not nombre_hotel.endswith("Cuba"):
             nombre_hotel = f"{nombre_hotel}, Cuba"
-        ubicaciones.append({
-            "name": nombre_hotel,
-            "popup": f"Día {item['dia']}: {item['actividad']} (${item['costo']})"
-        })
+        ubicaciones.append(
+            {
+                "name": nombre_hotel,
+                "popup": f"Día {item['dia']}: {item['actividad']} (${item['costo']})",
+            }
+        )
     return ubicaciones
 
 
@@ -215,7 +217,7 @@ def mostrar_itinerario(itinerario):
     for item in itinerario:
         st.markdown(f"**Día {item['dia']}**: {item['actividad']} (${item['costo']})")
     if itinerario:
-        col1, col2 = st.columns([3,1])
+        col1, col2 = st.columns([3, 1])
         with col2:
             if st.button("🗺️ Ver mapa", help="Visualiza el itinerario en el mapa"):
                 st.session_state["mostrar_mapa"] = True
@@ -232,7 +234,19 @@ def render(state):
     """
     st.header("🗺️ Planificador de Rutas")
     st.markdown("Visualiza y ajusta tu itinerario de viaje.")
-    tiempo, presupuesto, destino, prioridad, metodo, params = get_configuracion()
+    # --- Extraer budget y travel_duration desde state["collected_data"] o usar valores por defecto ---
+    collected = state.get("collected_data", {})
+    try:
+        presupuesto = float(collected.get("budget", 1000))
+    except Exception:
+        presupuesto = 1000
+    try:
+        tiempo = int(collected.get("travel_duration", 7))
+    except Exception:
+        tiempo = 7
+    # Obtener configuración de preferencias difusas y otros parámetros
+    destino, prioridad, metodo, params = get_configuracion(tiempo, presupuesto)
+    st.info(f"Duración del viaje: {tiempo} días | Presupuesto: ${presupuesto}")
 
     if st.button("Generar itinerario"):
         csv_path = os.path.abspath(
