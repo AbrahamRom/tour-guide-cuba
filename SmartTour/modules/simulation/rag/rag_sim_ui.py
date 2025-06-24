@@ -13,10 +13,19 @@ def render_rag_simulator():
     show_details = st.checkbox("Show individual responses", value=True)
 
     results = []
+    connection_error = False  # Track if any connection error occurs
     if st.button("▶️ Run Simulation"):
         for query in queries:
             result = simulate_rag_interaction(query, model=selected_model, use_rag=use_rag)
+            if result.get("source") == "ConnectionError":
+                connection_error = True
             results.append(result)
+
+        if connection_error:
+            st.error("❌ Connection error: Unable to reach HuggingFace or required model. Please check your internet connection or try again later.")
+            # Optionally, skip further processing if all queries failed
+            if all(r.get("source") == "ConnectionError" for r in results):
+                return
 
         st.success("Simulation complete!")
         avg_latency = sum(r["latency"] for r in results) / len(results)

@@ -15,6 +15,10 @@ def simulate_recommendation(profile_path, offers_dir="../DATA", top_k=5):
     recommender = Recommender(user_profile, offers)
     ranked = recommender.rank_offers(top_k=top_k)
 
+    avg_quality = 0.0
+    if ranked:
+        avg_quality = sum(score for score, _ in ranked) / len(ranked)
+
     return {
         "profile_name": os.path.basename(profile_path),
         "num_offers": len(offers),
@@ -25,5 +29,6 @@ def simulate_recommendation(profile_path, offers_dir="../DATA", top_k=5):
                 "details": o.raw
             }
             for score, o in ranked
-        ]
+        ],
+        "avg_quality": round(avg_quality, 3)
     }

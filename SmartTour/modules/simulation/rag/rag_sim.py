@@ -3,10 +3,25 @@ import json
 from modules.src.rag.app.rag_engine import RAGEngine
 from modules.src.rag.app.config import load_config
 
+import requests  # Add this import for catching connection errors
+
 config = load_config()
 
 def simulate_rag_interaction(query, model, use_rag=True, chat_history=None, action_tag=None):
-    engine = RAGEngine(config, use_rag)
+    try:
+        engine = RAGEngine(config, use_rag)
+    except (requests.exceptions.ConnectionError, OSError) as e:
+        # Return a result indicating connection error
+        return {
+            "query": query,
+            "response": f"Connection error: {str(e)}",
+            "latency": 0,
+            "source": "ConnectionError",
+            "length": 0,
+            "use_rag": use_rag,
+            "action_tag": action_tag
+        }
+
     prompt = engine.build_prompt(query, chat_history or [], action_tag)
 
     response = ""

@@ -62,9 +62,16 @@ def render_recommender_simulator():
             st.metric("Avg. Recommendation Score", f"{avg_score:.3f}")
             st.metric("Total Recommendations", f"{total_recommendations}")
 
+            # Vector de calidad promedio por perfil
+            avg_quality_vector = [r.get("avg_quality", 0) for r in all_results]
             # Convertir a tipos estándar antes de serializar
             safe_results = convert_to_builtin_type(all_results)
-            json_data = json.dumps(safe_results, indent=2, ensure_ascii=False)
+            safe_avg_quality = convert_to_builtin_type(avg_quality_vector)
+            output_json = {
+                "results": safe_results,
+                "avg_quality": safe_avg_quality
+            }
+            json_data = json.dumps(output_json, indent=2, ensure_ascii=False)
             st.download_button(
                 label="📥 Download All Results (JSON)",
                 data=json_data,
