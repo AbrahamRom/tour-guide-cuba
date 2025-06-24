@@ -1,6 +1,9 @@
 import streamlit as st
 from .rag_sim import simulate_rag_interaction
 from .mock_queries import queries
+import pandas as pd
+import io
+import json
 
 def render_rag_simulator():
     st.title("📚 RAG Chatbot Simulation")
@@ -24,6 +27,20 @@ def render_rag_simulator():
         sources = set(r["source"] for r in results)
         st.markdown(f"**Sources used:** {', '.join(sources)}")
 
+
+        # Prepare DataFrame for download
+        df = pd.DataFrame(results)
+        csv_buffer = io.StringIO()
+        df.to_csv(csv_buffer, index=False)
+        csv_data = csv_buffer.getvalue()
+
+        st.download_button(
+            label="⬇️ Download Results as CSV",
+            data=csv_data,
+            file_name="rag_simulation_results.csv",
+            mime="text/csv"
+        )
+
         if show_details:
             for r in results:
                 st.markdown(f"""
@@ -33,3 +50,12 @@ def render_rag_simulator():
                 **Source**: `{r["source"]}`  
                 **Latency**: `{r["latency"]} sec`  
                 """)
+
+        # Add JSON download button
+        json_data = json.dumps(results, ensure_ascii=False, indent=2)
+        st.download_button(
+            label="⬇️ Download Results as JSON",
+            data=json_data,
+            file_name="rag_simulation_results.json",
+            mime="application/json"
+        )

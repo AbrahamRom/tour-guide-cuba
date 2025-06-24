@@ -1,9 +1,9 @@
 # simulator/recommender_profiles.py
 
 sample_profiles = [
-    "data/profiles/profile1.json",
-    "data/profiles/profile2.json",
-    "data/profiles/profile3.json",
-    "data/profiles/profile4.json",
-    "data/profiles/profile5.json"
+    "../EXPERIMENTS/user_1.json",
+    "../EXPERIMENTS/user_2.json",
+    "../EXPERIMENTS/user_3.json",
+    "../EXPERIMENTS/user_4.json",
+    "../EXPERIMENTS/user_5.json"
 ]
