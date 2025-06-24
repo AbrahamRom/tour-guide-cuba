@@ -1,6 +1,9 @@
 from .ollama_interface import OllamaClient
 from .retriever import Retriever
 from .fallback_scraper import search_wikipedia
+from sentence_transformers import SentenceTransformer
+import faiss
+import numpy as np
 
 class RAGEngine:
     def __init__(self, config, use_rag=True):
@@ -8,9 +11,8 @@ class RAGEngine:
         self.retriever = Retriever(config)
         self.ollama = OllamaClient()
         self.config = config
+        self.embedder = SentenceTransformer(config["retriever"]["model"])  # Añadido para embeddings
 
-
-    
     def build_prompt(self, query, chat_history, action_tag=None):
         context = ""
         force_search = False
@@ -28,15 +30,35 @@ class RAGEngine:
                 if ecured_fallback:
                     context = ecured_fallback
 
+       
         history_text = ""
         if chat_history:
-            # Assuming chat_history is a list of dicts with 'role' and 'content'
-            formatted_history = []
-            for turn in chat_history:
-                role = turn.get("role", "user")
-                content = turn.get("content", "")
-                formatted_history.append(f"{role.capitalize()}: {content}")
-            history_text = "\n".join(formatted_history)
+            # Extraer solo el contenido de cada turno
+            contents = [turn.get("content", "") for turn in chat_history]
+            if contents:
+                # Calcular embeddings
+                query_emb = self.embedder.encode([query])
+                history_embs = self.embedder.encode(contents)
+
+                # Normalizar para similitud por coseno
+                query_emb = query_emb / np.linalg.norm(query_emb, axis=1, keepdims=True)
+                history_embs = history_embs / np.linalg.norm(history_embs, axis=1, keepdims=True)
+
+                # Crear índice FAISS para similitud por coseno (IndexFlatIP)
+                index = faiss.IndexFlatIP(history_embs.shape[1])
+                index.add(history_embs.astype(np.float32))
+                D, I = index.search(query_emb.astype(np.float32), min(10, len(contents)))
+                top_indices = I[0]
+
+                # Formatear solo los mensajes más similares
+                formatted_history = []
+                for idx in top_indices:
+                    turn = chat_history[idx]
+                    role = turn.get("role", "user")
+                    content = turn.get("content", "")
+                    formatted_history.append(f"{role.capitalize()}: {content}")
+                history_text = "\n".join(formatted_history)
+       
 
         important_note = ""
         if action_tag == "important":
