@@ -1,8 +1,9 @@
 # simulator/searcher_sim_ui.py
 import streamlit as st
-from .searcher_sim import simulate_search_query #, evaluate_searcher_with_dataset
+from .searcher_sim import simulate_search_query, evaluate_searcher_with_dataset
 from .searcher_queries import search_queries
 import json
+
 
 def render_search_simulator():
     st.title("🔍 Document Search Simulation")
@@ -12,7 +13,10 @@ def render_search_simulator():
     show_details = st.checkbox("Show individual result summaries", value=True)
 
     if st.button("▶️ Run Simulation"):
-        results = [simulate_search_query(q, correct=correct, top_k=top_k) for q in search_queries]
+        results = [
+            simulate_search_query(q, correct=correct, top_k=top_k)
+            for q in search_queries
+        ]
 
         st.success("Simulation complete!")
 
@@ -24,30 +28,34 @@ def render_search_simulator():
 
         if show_details:
             for r in results:
-                st.markdown(f"""
+                st.markdown(
+                    f"""
                 ---
                 **Query:** {r['query']}  
                 **Corrected:** {r['corrected_query']}  
                 **Latency:** `{r['latency']} s`  
                 **Top Titles:** {', '.join(r['titles'])}  
                 **Top Score:** `{r['top_score']:.2f}`
-                """)
+                """
+                )
 
-    # if st.button("Evaluate with Cranfield Dataset"):
-    #     with st.spinner("Evaluating searcher with Cranfield dataset..."):
-    #         metrics = evaluate_searcher_with_dataset(top_k=top_k, correct=correct, max_queries=30)
-    #     st.success("Evaluation complete!")
-    #     st.metric("Precision", f"{metrics['average_precision']:.3f}")
-    #     st.metric("Recall", f"{metrics['average_recall']:.3f}")
-    #     st.metric("F1", f"{metrics['average_f1']:.3f}")
-    #     st.metric("Avg. Latency", f"{metrics['average_latency']:.2f} s")
-    #     st.write("Details:", metrics["details"])
+    if st.button("Evaluate with Cranfield Dataset"):
+        with st.spinner("Evaluating searcher with Cranfield dataset..."):
+            metrics = evaluate_searcher_with_dataset(
+                top_k=top_k, correct=correct, max_queries=30
+            )
+        st.success("Evaluation complete!")
+        st.metric("Precision", f"{metrics['average_precision']:.3f}")
+        st.metric("Recall", f"{metrics['average_recall']:.3f}")
+        st.metric("F1", f"{metrics['average_f1']:.3f}")
+        st.metric("Avg. Latency", f"{metrics['average_latency']:.2f} s")
+        st.write("Details:", metrics["details"])
 
-    #     # Opción para descargar toda la información
-    #     info_str = json.dumps(metrics, indent=2, ensure_ascii=False)
-    #     st.download_button(
-    #         label="📥 Descargar resultados completos",
-    #         data=info_str,
-    #         file_name="evaluacion_searcher.json",
-    #         mime="application/json"
-    #     )
+        # Opción para descargar toda la información
+        info_str = json.dumps(metrics, indent=2, ensure_ascii=False)
+        st.download_button(
+            label="📥 Descargar resultados completos",
+            data=info_str,
+            file_name="evaluacion_searcher.json",
+            mime="application/json",
+        )
