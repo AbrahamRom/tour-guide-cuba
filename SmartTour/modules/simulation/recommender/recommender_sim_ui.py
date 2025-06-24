@@ -3,6 +3,22 @@ import streamlit as st
 from .recommender_sim import simulate_recommendation
 from .recommender_profiles import sample_profiles
 import json
+import numpy as np
+
+
+def convert_to_builtin_type(obj):
+    if isinstance(obj, dict):
+        return {k: convert_to_builtin_type(v) for k, v in obj.items()}
+    elif isinstance(obj, list):
+        return [convert_to_builtin_type(v) for v in obj]
+    elif isinstance(obj, (np.integer,)):
+        return int(obj)
+    elif isinstance(obj, (np.floating,)):
+        return float(obj)
+    elif isinstance(obj, (np.ndarray,)):
+        return obj.tolist()
+    else:
+        return obj
 
 
 def render_recommender_simulator():
@@ -46,7 +62,9 @@ def render_recommender_simulator():
             st.metric("Avg. Recommendation Score", f"{avg_score:.3f}")
             st.metric("Total Recommendations", f"{total_recommendations}")
 
-            json_data = json.dumps(all_results, indent=2, ensure_ascii=False)
+            # Convertir a tipos estándar antes de serializar
+            safe_results = convert_to_builtin_type(all_results)
+            json_data = json.dumps(safe_results, indent=2, ensure_ascii=False)
             st.download_button(
                 label="📥 Download All Results (JSON)",
                 data=json_data,

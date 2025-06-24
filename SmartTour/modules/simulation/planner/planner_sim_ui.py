@@ -59,7 +59,8 @@ def render_planner_simulator():
 
         if num_success > 0:
             avg_latency = total_latency / num_success
-            avg_stars = total_stars / num_success
+            # Ajuste: promedio de estrellas por día, entre 1 y 5
+            avg_stars = total_stars / (tiempo * num_success)
             avg_cost = total_cost / num_success
             avg_changes = total_changes / num_success
             avg_fitness = total_fitness / fitness_count if fitness_count else 0
