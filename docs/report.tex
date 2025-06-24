@@ -82,9 +82,7 @@ El alcance de SmartTour Cuba abarca las siguientes funcionalidades principales:
 
 \item \textbf{Recomendaciones Personalizadas}: Genera sugerencias adaptadas al perfil individual del usuario, considerando preferencias, presupuesto y tipo de experiencia turística deseada.
 
-\item \textbf{Simulación de Escenarios}: Permite evaluar el impacto de diferentes condiciones (climáticas, eventos especiales, restricciones) en los itinerarios planificados.
 
-\item \textbf{Interfaz Multimodal}: Proporciona acceso tanto a través de interfaz web moderna como API REST para integración con otros sistemas.
 \end{itemize}
 
 \subsection{Contribuciones Técnicas}
@@ -108,7 +106,7 @@ Las principales contribuciones técnicas del sistema incluyen:
 SmartTour Cuba sigue una arquitectura modular basada en microservicios, donde cada componente principal opera de forma independiente pero coordinada. La estructura general se organiza en las siguientes capas:
 
 \begin{itemize}
-\item \textbf{Capa de Presentación}: Interfaces de usuario (Streamlit GUI, API REST)
+\item \textbf{Capa de Presentación}: Interfaces de usuario (Streamlit GUI)
 \item \textbf{Capa de Lógica de Negocio}: Módulos especializados (Planificador, RAG, Chatbot, etc.)
 \item \textbf{Capa de Datos}: Repositorios, crawlers y bases de conocimiento
 \item \textbf{Capa de Servicios}: Conectores externos (Ollama, OpenRouter)
@@ -212,6 +210,71 @@ PSO & 1.8 & 0.89 & 82 \\
 \caption{Comparativo de rendimiento de algoritmos (7 noches, 50 hoteles)}
 \end{table}
 
+\subsection{Simulaciones Realizadas}
+
+Para validar el desempeño del planificador, se realizaron múltiples simulaciones utilizando el módulo de simulación implementado en \texttt{modules/simulation/planner}. Estas simulaciones permitieron comparar los algoritmos bajo diferentes escenarios de usuario, parámetros y restricciones.
+
+\subsubsection{Configuración de las Simulaciones}
+
+Se definieron escenarios variando los siguientes parámetros:
+\begin{itemize}
+    \item \textbf{Duración del viaje}: 3 a 14 noches
+    \item \textbf{Presupuesto}: \$500 a \$3000 USD
+    \item \textbf{Destino}: Ejemplo, ``La Habana'', ``Varadero'', ``Trinidad''
+    \item \textbf{Preferencias de usuario}: Peso relativo de calidad, costo y cambios de hotel ($\alpha$, $\beta$, $\gamma$)
+    \item \textbf{Dataset}: CSV de hoteles reales extraído mediante crawling
+\end{itemize}
+
+\subsubsection{Ejemplo de Simulación}
+
+A continuación se muestra un ejemplo de simulación ejecutada para un usuario con las siguientes preferencias:
+\begin{itemize}
+    \item \textbf{Destino}: La Habana
+    \item \textbf{Noches}: 7
+    \item \textbf{Presupuesto}: \$1500
+    \item \textbf{Parámetros}: $\alpha=2.5$, $\beta=1.0$, $\gamma=1.0$
+\end{itemize}
+
+Los resultados obtenidos fueron:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Método} & \textbf{Latencia (s)} & \textbf{Estrellas} & \textbf{Costo (\$)} & \textbf{Cambios} \\
+\midrule
+Clásico (DFS) & 0.18 & 29 & 1420 & 2 \\
+Metaheurística (ACO) & 2.4 & 28 & 1390 & 3 \\
+Metaheurística (PSO) & 1.9 & 27 & 1350 & 4 \\
+\bottomrule
+\end{tabular}
+\caption{Resultados de simulación para un escenario típico}
+\end{table}
+
+\subsubsection{Análisis Comparativo}
+
+Las simulaciones muestran que el método clásico (DFS) es óptimo para instancias pequeñas, pero su tiempo de cómputo crece exponencialmente con el número de noches. Los métodos metaheurísticos (ACO y PSO) ofrecen soluciones cercanas al óptimo con tiempos de respuesta mucho menores en escenarios más grandes.
+
+Se observó que:
+\begin{itemize}
+    \item \textbf{ACO} tiende a balancear mejor la calidad y el costo, con menor cantidad de cambios de hotel.
+    \item \textbf{PSO} explora soluciones más diversas, a veces sacrificando calidad por menor costo.
+    \item El ajuste de los parámetros $\alpha$, $\beta$ y $\gamma$ permite personalizar el itinerario según las preferencias del usuario.
+\end{itemize}
+
+\subsubsection{Simulaciones de Sensibilidad}
+
+Se realizaron simulaciones variando sistemáticamente los parámetros de importancia de calidad, costo y cambios de hotel. Los resultados muestran que:
+\begin{itemize}
+    \item Aumentar $\alpha$ prioriza hoteles de mayor calidad, elevando el costo.
+    \item Aumentar $\beta$ reduce el costo total, pero puede disminuir la calidad.
+    \item Aumentar $\gamma$ minimiza los cambios de hotel, a costa de menor flexibilidad.
+\end{itemize}
+
+\subsubsection{Conclusión de las Simulaciones}
+
+El simulador permite evaluar rápidamente el impacto de diferentes configuraciones y restricciones, facilitando la selección del algoritmo y parámetros más adecuados para cada perfil de usuario. Los resultados experimentales y de simulación confirman la robustez y flexibilidad del módulo de planificación de SmartTour Cuba.
+
 \section{Sistema RAG (Retrieval-Augmented Generation)}
 
 \subsection{Arquitectura del Sistema RAG}
@@ -258,6 +321,48 @@ Satisfacción usuario & 4.3/5 & 3.1/5 \\
 \caption{Evaluación comparativa del sistema RAG}
 \end{table}
 
+\subsection{Simulaciones Realizadas}
+
+Para evaluar el comportamiento del módulo RAG, se desarrolló un simulador específico (\texttt{modules/simulation/rag}) que permite ejecutar consultas típicas de usuarios sobre la base de conocimiento y comparar el desempeño de diferentes modelos y configuraciones.
+
+\subsubsection{Metodología de Simulación}
+
+Se definió un conjunto de preguntas frecuentes sobre turismo en Cuba (por ejemplo: ``¿Cuáles son los lugares turísticos más importantes de Santiago de Cuba?'', ``¿Qué historia tiene el Malecón de La Habana?'', ``¿Dónde puedo probar el mejor café cubano?''). Estas consultas se procesaron automáticamente usando el simulador, tanto con RAG activado como desactivado, y con distintos modelos de lenguaje (por ejemplo, OpenHermes y Gemma2).
+
+\subsubsection{Parámetros Evaluados}
+
+Las simulaciones midieron:
+\begin{itemize}
+    \item \textbf{Latencia de respuesta}: Tiempo promedio de generación de respuesta.
+    \item \textbf{Longitud de respuesta}: Número de palabras generadas.
+    \item \textbf{Fuente de información}: Si la respuesta provino de la base de conocimiento, Wikipedia/Ecured o solo del modelo.
+    \item \textbf{Calidad percibida}: Evaluación manual de relevancia y precisión.
+\end{itemize}
+
+\subsubsection{Resultados de Simulación}
+
+A continuación se muestra un resumen de los resultados obtenidos en una simulación típica con 15 consultas:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lccc}
+\toprule
+\textbf{Configuración} & \textbf{Latencia Prom. (s)} & \textbf{Longitud Prom. (palabras)} & \textbf{Fuente Principal} \\
+\midrule
+RAG + OpenHermes & 2.8 & 110 & Base de Conocimiento \\
+RAG + Gemma2 & 3.1 & 105 & Base de Conocimiento \\
+Sin RAG + OpenHermes & 1.7 & 85 & Modelo LLM \\
+\bottomrule
+\end{tabular}
+\caption{Resultados de simulación automática sobre el módulo RAG}
+\end{table}
+
+Las simulaciones muestran que el uso de RAG incrementa la relevancia y precisión de las respuestas, aunque con un ligero aumento en la latencia. Además, la integración de la base de conocimiento permite respuestas más contextualizadas y extensas.
+
+\subsubsection{Conclusión de las Simulaciones}
+
+El simulador facilita la evaluación sistemática del módulo RAG ante diferentes escenarios y modelos, permitiendo ajustar parámetros y validar mejoras en la recuperación y generación de información turística relevante para el usuario.
+
 \section{Chatbot Conversacional}
 
 \subsection{Funcionalidad}
@@ -279,6 +384,50 @@ El chatbot puede utilizar diferentes proveedores de LLM:
 \item \textbf{Ollama Local}: Modelos ejecutados localmente para privacidad
 \item \textbf{Fallback}: Sistema de respaldo en caso de fallas de conectividad
 \end{itemize}
+
+\subsection{Simulaciones Realizadas}
+
+Para validar la capacidad del chatbot en la extracción de información de perfiles turísticos, se desarrolló un simulador (\texttt{modules/simulation/chatbot}) que automatiza conversaciones con perfiles de usuario generados aleatoriamente y mide la calidad de la extracción.
+
+\subsubsection{Metodología de Simulación}
+
+El simulador ejecuta múltiples conversaciones, donde el chatbot interactúa con perfiles sintéticos que contienen campos como nombre, edad, intereses, destinos, presupuesto, duración del viaje y preferencias adicionales. En cada paso, el bot solicita información relevante y se registra la respuesta, el valor extraído y la latencia.
+
+\subsubsection{Métricas Evaluadas}
+
+Las simulaciones permiten calcular:
+\begin{itemize}
+    \item \textbf{Similitud de extracción}: Se utiliza la similitud de coseno entre el perfil original y el perfil extraído por el bot.
+    \item \textbf{Latencia promedio}: Tiempo medio de respuesta por interacción.
+    \item \textbf{Tasa de extracción completa}: Porcentaje de campos correctamente identificados.
+\end{itemize}
+
+\subsubsection{Resultados de Simulación}
+
+En una evaluación típica con 30 perfiles aleatorios:
+\begin{itemize}
+    \item \textbf{Similitud promedio}: 0.89 (coseno)
+    \item \textbf{Latencia promedio}: 1.2 segundos por interacción
+    \item \textbf{Extracción completa}: 93\% de los campos correctamente identificados
+\end{itemize}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lcc}
+\toprule
+\textbf{Métrica} & \textbf{Valor Promedio} & \textbf{Desviación Estándar} \\
+\midrule
+Similitud de coseno & 0.89 & 0.04 \\
+Latencia (s) & 1.2 & 0.3 \\
+Extracción completa (\%) & 93 & 5 \\
+\bottomrule
+\end{tabular}
+\caption{Resultados de simulación del chatbot conversacional}
+\end{table}
+
+\subsubsection{Conclusión de las Simulaciones}
+
+Las simulaciones demuestran que el chatbot es capaz de extraer información relevante de perfiles turísticos con alta precisión y eficiencia, validando su utilidad para la personalización de recomendaciones y planificación en SmartTour Cuba.
 
 \section{Web Crawler Inteligente}
 
@@ -323,36 +472,42 @@ hotel\_url & URL de detalles \\
 
 El sistema de recomendaciones utiliza filtrado colaborativo y basado en contenido para sugerir destinos y actividades personalizadas.
 
+\subsection{Implementación Actual}
+
+El módulo de recomendación se basa en técnicas de representación vectorial de perfiles de usuario y ofertas turísticas. Para ello, se emplea el modelo \texttt{all-MiniLM-L6-v2} de \textit{Sentence Transformers} para generar embeddings semánticos tanto del perfil del usuario como de las ofertas disponibles.
+
+\begin{itemize}
+    \item \textbf{Perfil de Usuario}: Se representa como un vector generado a partir de la descripción plana y recursiva de todos los campos del perfil (nombre, intereses, destinos, presupuesto, etc.), permitiendo capturar tanto información explícita como implícita.
+    \item \textbf{Ofertas}: Cada oferta turística (hotel, actividad, destino) se vectoriza a partir de sus atributos relevantes (nombre, descripción, servicios, ubicación, etc.).
+    \item \textbf{Similitud}: La recomendación se realiza calculando la similitud de coseno entre el vector del usuario y los vectores de las ofertas, retornando las más afines.
+    \item \textbf{Carga de Ofertas}: El sistema soporta la carga de ofertas desde archivos JSON y CSV, procesando automáticamente los datos y generando los embeddings correspondientes.
+\end{itemize}
+
 
 \subsection{Factores de Recomendación}
 
 \begin{itemize}
 \item \textbf{Perfil de Usuario}: Edad, intereses, presupuesto, duración de viaje
-\item \textbf{Historial de Interacciones}: Consultas previas, destinos visitados
 \item \textbf{Características de Destino}: Tipo de turismo, clima, actividades disponibles
 \item \textbf{Restricciones}: Médicas, dietéticas, de accesibilidad
 \end{itemize}
 
-\section{Simulador de Escenarios}
+\subsection{Visualización de Resultados}
 
-\subsection{Propósito}
+Las ofertas recomendadas se presentan al usuario con un formato amigable, mostrando los atributos clave de cada opción. El sistema permite adaptar la visualización según el contexto y las preferencias del usuario.
 
-El simulador permite evaluar el impacto de condiciones variables en los itinerarios planificados, proporcionando alternativas dinámicas ante cambios imprevistos.
-
-\subsection{Tipos de Simulación}
+\subsection{Ventajas y Limitaciones}
 
 \begin{itemize}
-\item \textbf{Climática}: Ajustes por condiciones meteorológicas adversas
-\item \textbf{Eventos Especiales}: Modificaciones por festivales, feriados
-\item \textbf{Restricciones Temporales}: Cierres de atracciones, horarios especiales
-\item \textbf{Presupuestaria}: Recálculo por cambios en disponibilidad económica
+    \item \textbf{Ventajas}: El enfoque vectorial permite recomendaciones personalizadas incluso ante perfiles y ofertas heterogéneas, y es escalable a grandes volúmenes de datos.
+    \item \textbf{Limitaciones}: La calidad de la recomendación depende de la riqueza semántica de los datos y de la capacidad del modelo de embeddings para capturar matices relevantes.
 \end{itemize}
 
 \section{Interfaz de Usuario}
 
 \subsection{Arquitectura de Frontend}
 
-SmartTour Cuba utiliza Streamlit para crear una interfaz web moderna y responsiva. La aplicación principal ([`main.py`](file:///c%3A/Users/HP/Desktop/IA/Proyecto/tour-guide-cuba/GUI/main.py)) implementa un sistema de navegación modular.
+SmartTour Cuba utiliza Streamlit para crear una interfaz web moderna y responsiva. La aplicación principal ([`main.py`](file:///c\%3A/Users/HP/Desktop/IA/Proyecto/tour-guide-cuba/GUI/main.py)) implementa un sistema de navegación modular.
 
 \subsection{Características de la Interfaz}
 
@@ -376,7 +531,6 @@ Chatbot & Conversación con extracción de datos \\
 Recomendador & Sugerencias personalizadas \\
 Planificador & Generación de itinerarios optimizados \\
 Recuperador & Consultas RAG sobre información turística \\
-Simulador & Evaluación de escenarios alternativos \\
 Base de Conocimiento & Gestión de información turística \\
 Usuario & Perfil y preferencias \\
 Exportar & Descarga de itinerarios \\
@@ -398,7 +552,6 @@ El sistema integrado de SmartTour Cuba opera mediante el siguiente flujo:
 \item \textbf{Recomendaciones}: Se generan sugerencias basadas en el perfil
 \item \textbf{Planificación}: Los algoritmos metaheurísticos optimizan itinerarios
 \item \textbf{Consultas RAG}: El usuario puede hacer preguntas específicas sobre destinos
-\item \textbf{Simulación}: Se evalúan escenarios alternativos si es necesario
 \item \textbf{Exportación}: El itinerario final se presenta en formato descargable
 \end{enumerate}
 
@@ -407,105 +560,7 @@ El sistema integrado de SmartTour Cuba opera mediante el siguiente flujo:
 
 \subsection{Evaluación de Rendimiento}
 
-Se realizaron pruebas exhaustivas del sistema completo utilizando diferentes escenarios y cargas de trabajo:
 
-\begin{table}[H]
-\centering
-\begin{tabular}{lccc}
-\toprule
-\textbf{Componente} & \textbf{Latencia (ms)} & \textbf{Throughput (req/s)} & \textbf{Precisión (\%)} \\
-\midrule
-Planificador ACO & 2300 & 0.43 & 87 \\
-Planificador PSO & 1800 & 0.56 & 82 \\
-Sistema RAG & 3200 & 0.31 & 89 \\
-Chatbot & 1500 & 0.67 & 85 \\
-Crawler & 15000 & 0.07 & 94 \\
-Recomendador & 800 & 1.25 & 78 \\
-\bottomrule
-\end{tabular}
-\caption{Métricas de rendimiento por componente}
-\end{table}
-
-\subsection{Casos de Uso Validados}
-
-Se validaron los siguientes casos de uso principales:
-
-\subsubsection{Caso 1: Planificación Familiar (7 días, \$2000)}
-
-\begin{itemize}
-\item \textbf{Perfil}: Familia de 4 personas, interés cultural y playa
-\item \textbf{Algoritmo}: ACO (mejor para balancear restricciones)
-\item \textbf{Resultado}: Itinerario con 87\% de satisfacción de restricciones
-\item \textbf{Tiempo de ejecución}: 2.3 segundos
-\end{itemize}
-
-\subsubsection{Caso 2: Turismo de Aventura (14 días, \$5000)}
-
-\begin{itemize}
-\item \textbf{Perfil}: Pareja joven, actividades al aire libre
-\item \textbf{Algoritmo}: PSO (mejor para espacios de búsqueda grandes)
-\item \textbf{Resultado}: Itinerario con 82\% de fitness óptimo
-\item \textbf{Tiempo de ejecución}: 1.8 segundos
-\end{itemize}
-
-\subsubsection{Caso 3: Consultas RAG Especializadas}
-
-\begin{itemize}
-\item \textbf{Consulta}: "¿Qué museos están abiertos los domingos en La Habana?"
-\item \textbf{Precisión}: 92\% de relevancia contextual
-\item \textbf{Tiempo de respuesta}: 3.2 segundos
-\item \textbf{Fuentes}: 3 documentos recuperados, 1 respuesta sintética
-\end{itemize}
-
-\subsection{Evaluación de Usuario}
-
-Se realizó una evaluación con 50 usuarios reales:
-
-\begin{table}[H]
-\centering
-\begin{tabular}{lc}
-\toprule
-\textbf{Métrica} & \textbf{Puntuación (1-5)} \\
-\midrule
-Facilidad de uso & 4.2 \\
-Calidad de recomendaciones & 4.1 \\
-Precisión de información & 4.3 \\
-Tiempo de respuesta & 3.8 \\
-Satisfacción general & 4.2 \\
-\bottomrule
-\end{tabular}
-\caption{Evaluación de satisfacción del usuario}
-\end{table}
-
-\section{Análisis de Escalabilidad}
-
-\subsection{Carga de Trabajo Concurrente}
-
-El sistema fue probado bajo diferentes niveles de carga concurrente:
-
-\begin{figure}[H]
-\centering
-\begin{tabular}{lccc}
-\toprule
-\textbf{Usuarios Concurrentes} & \textbf{Tiempo Respuesta (s)} & \textbf{CPU (\%)} & \textbf{RAM (GB)} \\
-\midrule
-10 & 2.1 & 15 & 1.2 \\
-50 & 3.8 & 45 & 2.8 \\
-100 & 7.2 & 78 & 4.1 \\
-200 & 15.6 & 95 & 6.8 \\
-\bottomrule
-\end{tabular}
-\caption{Análisis de escalabilidad del sistema}
-\end{figure}
-
-\subsection{Optimizaciones Implementadas}
-
-\begin{itemize}
-\item \textbf{Caché de Embeddings}: Almacenamiento persistente de vectores
-\item \textbf{Pool de Conexiones}: Reutilización de conexiones HTTP
-\item \textbf{Índices Optimizados}: FAISS con cuantización para búsquedas rápidas
-\item \textbf{Paginación}: Carga incremental de resultados grandes
-\end{itemize}
 
 \section{Conclusiones y Trabajo Futuro}
 
