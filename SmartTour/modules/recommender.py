@@ -25,17 +25,16 @@ def render(state):
 
     st.markdown('<div class="main-title">🌴 SmartTour Cuba - Recommender</div>', unsafe_allow_html=True)
     st.markdown('<div class="subtitle">Descubre las mejores experiencias personalizadas en Cuba</div>', unsafe_allow_html=True)
-    st.sidebar.header("👤 Subir Perfil de Usuario")
 
-    uploaded_file = st.sidebar.file_uploader(
-        "Sube un archivo JSON con el perfil del usuario",
-        type="json",
-        help="El archivo debe contener las preferencias y datos del usuario."
-    )
-
-    st.sidebar.markdown("---")
-    st.sidebar.markdown("¿No tienes un perfil? Usa este ejemplo:")
-    st.sidebar.code('{"name": "Ana", "interests": ["playa", "historia"], "budget": "medio"}', language="json")
+    # Show current user profile in sidebar
+    st.sidebar.header("👤 Perfil de Usuario Actual")
+    if "collected_data" in state and state["collected_data"]:
+        st.sidebar.success("✅ Perfil cargado correctamente")
+        with st.sidebar.expander("Ver datos del perfil"):
+            st.sidebar.json(state["collected_data"])
+    else:
+        st.sidebar.warning("⚠️ No hay perfil de usuario disponible")
+        st.sidebar.info("Complete la información en otras secciones de la aplicación.")
 
     # LLM model and language selection in sidebar
     st.sidebar.markdown("---")
@@ -74,9 +73,10 @@ def render(state):
         )
     }
 
-    if uploaded_file is not None:
+    # Check if user profile data exists in state
+    if "collected_data" in state and state["collected_data"]:
         try:
-            profile_json = json.load(uploaded_file)
+            profile_json = state["collected_data"]
             user_profile = UserProfile(profile_json)
             offers = load_offers_from_directory("../DATA")
             recommender = Recommender(user_profile, offers)
@@ -120,17 +120,32 @@ def render(state):
                                     # Intenta decodificar como JSON, si falla, es texto plano
                                     data = json.loads(chunk)
                                     text = data.get("response", "")
-                                    if not text:
-                                        text = chunk
+                                    # Solo procesar si hay texto y no está marcado como terminado
+                                    if text and not data.get("done", False):
+                                        explanation += text
+                                        explanation_placeholder.markdown(explanation)
+                                    # Si está marcado como terminado, salir del bucle
+                                    elif data.get("done", False):
+                                        break
                                 except Exception:
+                                    # Si no es JSON válido, es texto plano
                                     text = chunk
+                                    explanation += text
+                                    explanation_placeholder.markdown(explanation)
                             else:
                                 # Si es dict, busca el campo 'response'
-                                text = chunk.get("response", str(chunk))
+                                text = chunk.get("response", "")
+                                if text and not chunk.get("done", False):
+                                    explanation += text
+                                    explanation_placeholder.markdown(explanation)
+                                elif chunk.get("done", False):
+                                    break
                         except Exception:
-                            text = str(chunk)
-                        explanation += text
-                        explanation_placeholder.markdown(explanation)
+                            # Como último recurso, usar el chunk como string si no está vacío
+                            text = str(chunk).strip()
+                            if text and not text.startswith('{"model"'):
+                                explanation += text
+                                explanation_placeholder.markdown(explanation)
                 # Si no se imprimió nada, muestra un mensaje de error
                 if not explanation.strip():
                     explanation_placeholder.error("No se recibió explicación del modelo. Verifica que el modelo esté funcionando correctamente o revisa la conexión.")
@@ -148,7 +163,7 @@ def render(state):
                 state["selected_recommendations"] = selected
 
         except Exception as e:
-            st.error(f"Error leyendo o procesando el archivo subido: {e}")
+            st.error(f"Error procesando el perfil del usuario: {e}")
     else:
-        st.info("Por favor, sube un archivo JSON con el perfil del usuario para comenzar.")
+        st.info("No se ha recopilado información del usuario. Por favor, completa tu perfil en las otras secciones de la aplicación para obtener recomendaciones personalizadas.")
 

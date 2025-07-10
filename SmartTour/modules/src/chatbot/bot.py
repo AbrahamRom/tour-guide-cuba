@@ -81,12 +81,18 @@ def extract_field(field, user_input, language, model):
     prompt = (
         f"The user wrote: '{user_input}'. "
         f"Extract only the value for the field '{field}'. Respond ONLY with the field's value. "
-        f"If you cannot extract it, return an empty string. Respond in {language}."
+        f"If you cannot extract it, or if the context is irrelevant or unprocessable for this field, return exactly: 'No pude encontrar nada'. "
+        f"Respond in {language}."
     )
     response = ask_ollama([
         {"role": "system", "content": prompt},
         {"role": "user", "content": ""}
     ], model)
+    
+    # Check if the response indicates nothing was found
+    if response.strip() == "No pude encontrar nada":
+        return None
+    
     schema = data_schema["properties"][field]
     value = response.strip()
 

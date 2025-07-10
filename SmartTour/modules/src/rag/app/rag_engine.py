@@ -1,6 +1,6 @@
 from .ollama_interface import OllamaClient
 from .retriever import Retriever
-from .fallback_scraper import search_wikipedia
+from .fallback_scraper import search_dynamic
 from sentence_transformers import SentenceTransformer
 import faiss
 import numpy as np
@@ -26,7 +26,7 @@ class RAGEngine:
             if docs and not force_search:
                 context = "\n".join(docs)
             else:
-                ecured_fallback = search_wikipedia(query)
+                ecured_fallback = search_dynamic(query)
                 if ecured_fallback:
                     context = ecured_fallback
 
