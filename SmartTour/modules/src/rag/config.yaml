@@ -10,3 +10,6 @@ llm:
 
 ui:
   title: "SmartTour RAG Assistant"
+
+ontology:
+  owl_path: modules/src/rag/data/tourism.owl

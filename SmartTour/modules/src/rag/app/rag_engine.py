@@ -1,6 +1,4 @@
-
 from .ollama_interface import OllamaClient
-from .retriever import Retriever
 from .ontology.retriever_ontology import OntologyRetriever
 from .fallback_scraper import search_dynamic
 from sentence_transformers import SentenceTransformer
@@ -10,8 +8,9 @@ import numpy as np
 class RAGEngine:
     def __init__(self, config, use_rag=True):
         self.use_rag = use_rag
-        self.retriever = Retriever(config)
-        self.ontology_retriever = OntologyRetriever(config)
+        # Comprobación de la clave 'ontology'
+        ontology_path = config.get("ontology", {}).get("owl_path", "modules/src/rag/data/tourism.owl")
+        self.ontology_retriever = OntologyRetriever({"ontology": {"owl_path": ontology_path}})
         self.ollama = OllamaClient()
         self.config = config
         self.embedder = SentenceTransformer(config["retriever"]["model"])  # Añadido para embeddings
@@ -26,18 +25,14 @@ class RAGEngine:
             summarize = True
             
         if self.use_rag or force_search:
-            # Combinar búsquedas: documentos tradicionales + ontología
-            docs = []
+            # Solo búsqueda en ontología
             ontology_results = []
             
-            if not force_search:
-                # Búsqueda en documentos tradicionales
-                docs = self.retriever.retrieve(query)
-                # Búsqueda en ontología
-                ontology_results = self.ontology_retriever.retrieve(query)
+            # Siempre buscar en ontología, no en documentos tradicionales
+            ontology_results = self.ontology_retriever.retrieve(query)
             
-            # Combinar resultados
-            all_results = docs + ontology_results
+            # Resultados
+            all_results = ontology_results
             
             if all_results:
                 context = "\n".join(all_results)
@@ -102,6 +97,13 @@ Answer:"""
         return prompt
 
     def stream_answer(self, query, model_name, chat_history=None, action_tag=None):
+        prompt = self.build_prompt(query, chat_history, action_tag=action_tag)
+        return self.ollama.stream_generate(
+            model=model_name,
+            prompt=prompt,
+            temperature=self.config["llm"]["temperature"],
+            max_tokens=self.config["llm"]["max_tokens"],
+        )
         prompt = self.build_prompt(query, chat_history, action_tag=action_tag)
         return self.ollama.stream_generate(
             model=model_name,

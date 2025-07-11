@@ -117,7 +117,12 @@ class OntologyRetriever:
             }
         else:
             # Fallback usando NLTK
-            tokens = word_tokenize(query, language='spanish')
+            try:
+                # Usar inglés para evitar el error de punkt_tab español
+                tokens = word_tokenize(query, language='english')
+            except LookupError:
+                # Si falla, usar un split simple
+                tokens = query.split()
             filtered_tokens = []
             
             for token in tokens:
