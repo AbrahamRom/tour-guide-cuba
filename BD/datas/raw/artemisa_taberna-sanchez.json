@@ -1,0 +1,36 @@
+{
+  "url": "https://www.alamesacuba.com/es/artemisa/restaurant/taberna-sanchez/",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Zona Artemisa Bauta Caimito Candelaria Mariel San Antonio de los Baños",
+        "Tipo de Cocina Cubana Heladería Internacional Italiana Marinera Vegetariana",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP de $22.00 a $28.00 USD de €21.20 a €26.95 EUR de $2640.00 a $3360.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cafetería Cremería Pizzería Restaurante",
+        "Cubana, Internacional, Italiana",
+        "Todos los días 12:00 - 23:00 hrs",
+        "Nuestro lema: \"Barriga llena, corazón contento\". Nuestra premisa: brindarle cada día un mejor servicio. Visítenos! Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "{% trans 'Información adicional'}",
+        "Accesible, Bar, Climatización, Comida para llevar, Entrega a Domicilio, Música grabada, Reservación de salón, Servicio en exteriores, Área de fumadores",
+        "Efectivo (CUP), Efectivo (EUR), Efectivo (USD)",
+        "¨Taberna Sánchez¨: Filete de pescado grillé con camarones enchilados y queso gouda gratinado."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": []
+}

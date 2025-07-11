@@ -1,0 +1,34 @@
+{
+  "url": "https://www.alamesacuba.com/es/granma/restaurant/el-pedrito/",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Zona Bartolomé Masó Bayamo Campechuela Jiguaní Manzanillo",
+        "Tipo de Cocina China Cubana Heladería Internacional Italiana Ligera ligera Marinera Pastelería Regional Bayamesa Regional cubana Tapas",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP de $15.00 a $21.00 USD de €14.45 a €20.20 EUR de $1800.00 a $2520.00 CUP más de $29.00 USD más de €27.90 EUR más de $3480.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cafetería Cremería Dulcería Pizzería Restaurante",
+        "Todos los días 10:00 - 22:00 hrs",
+        "Popular y muy bien ubicado restaurante del centro histórico de San Salvador de Bayamo, El Pedrito ofrece deliciosas pizzas y spaghettis. En la parte baja funciona un pequeño, pero acogedor y bien surtido bar, donde se pueden disfrutar de varias bebidas del agrado de todos. Precios muy económicos. Definitivamente un lugar al que hay que ir. Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "{% trans 'Información adicional'}",
+        "Bar, Climatización, Código de vestir, Música grabada",
+        "Calle Maceo /Mármol y General García, Bayamo"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": []
+}

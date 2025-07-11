@@ -1,0 +1,37 @@
+{
+  "url": "https://www.alamesacuba.com/es/ayuda/",
+  "titulo": "Ayuda",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Zona Arroyo Naranjo Boyeros Centro Habana Cerro Cotorro Diez de Octubre Guanabacoa Habana del Este Habana Vieja La Lisa Marianao Playa Plaza de la Revolución Regla",
+        "Tipo de Cocina Al Carbón Árabe Asados Asiática Brasería Brasileña Caribeña Charcutería China Cocina Creativa Cocina creativa Contemporánea Crêpes Criolla Cubana Cubana Cubana estilizada Cubana Estilizada Dulcería Escandinava Española Francesa Fusión Fusión asiática Gourmet Griega Heladería Infusiones Internacional interNacional interNacional Iraní Italiana Italiana Japonesa Libanesa ligera Ligera Marinera Mediterránea Mexicana Mixta Nikkei Norteamericana Panadería Pastelería Peruana Portuguesa Productos naturales Productos Naturales Productos Naturales Rápida Regional italiana Rusa Tapas Turca Vegana Vegetariana Vinoteca",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP de $15.00 a $21.00 USD de €14.45 a €20.20 EUR de $1800.00 a $2520.00 CUP de $22.00 a $28.00 USD de €21.20 a €26.95 EUR de $2640.00 a $3360.00 CUP más de $29.00 USD más de €27.90 EUR más de $3480.00 CUP",
+        "Tipo de lugar A Domicilio Bar Bodeguita Café Cafetería Centro Cultural Cremería Crêperie Dulcería Pizzería Restaurante Tienda de productos naturales",
+        "AlaMesa es un proyecto de promoción de la gastronomía cubana y gestión de los servicios asociados a través de la red. Consiste en lo fundamental en un directorio de restaurantes y entidades gastronómicas afines con el que es posible interactuar a través de un buscador y una serie de enlaces propuestos bajo diversas categorías. Dicho directorio contiene información precisa sobre cada una de las entidades registradas en la base de datos, lo cual ofrece al usuario final los elementos básicos necesarios para decidir adonde ir a comer. Paralelo a la disponibilidad libre de costo de la información completa en el directorio, AlaMesa ofrece a los restaurantes interesados un catálogo de servicios compensados que permiten fortalecer su actividad promocional.",
+        "¿Qué diferencia a AlaMesa de proyectos semejantes?",
+        "AlaMesa es una herramienta que sistematiza la información sobre restaurantes y provee de mecanismos de búsqueda avanzada. Pretende incluir en igualdad de condiciones a todos los restaurantes y no exclusivamente a los de una determinada categoría administrativa, dígase paladares o restaurantes de cadenas estatales. Es el fruto del trabajo de cubanos residentes en Cuba, con todas las ventajas de quien está en el terreno. El Equipo de Desarrollo del sitio contacta periódicamente con los restaurantes y obtiene de ellos la información de la que se nutre. De esta manera, los restaurantes son responsables de lo dispuesto, y se garantiza su permanente actualización.",
+        "¿Cómo puede un restaurante formar parte de este directorio?",
+        "Mediante el llenado preciso y completo del formulario correspondiente provisto por personal de AlaMesa y la entrega de la información suplementaria demandada en soporte digital que le sean solicitadas. Igualmente se requiere la firma del acta de conformidad que autoriza a AlaMesa a emplear estos datos. El registro y actualización de la información del restaurant en el directorio, su permanencia y la disponibilidad de la información en los resultados de las búsquedas, son totalmente gratuitos.",
+        "¿Un usuario puede registrar un restaurante?",
+        "El registro en AlaMesa solo puede realizarse con el pleno consentimiento del restaurante, manifestado a través de la firma del Acta de Conformidad para con el uso de la información. Es por ello que un usuario que tenga conocimiento de la existencia de un restaurante que no se encuentra incluido en nuestra base de datos no puede efectuar el registro. Sin embargo, agradeceremos que cualquiera que posea información sobre restaurantes que cumplan los requerimientos definidos para ser incluidos en AlaMesa nos la haga llegar mediante nuestro página de contacto.",
+        "¿Qué beneficios ofrece para el restaurante?",
+        "Una actividad promocional llevada a cabo entre una cantidad potencialmente alta de usuarios, y que está concebida y estructurada para acomodarse a las circunstancias de los mismos; todo ello a un costo muy atractivo (gratis en su forma básica). Catálogo de servicios compensados con ventajas de posicionamiento dentro del mercado.",
+        "¿Qué servicios oferta AlaMesa al restaurante?",
+        "AlaMesa brinda a sus clientes la posibilidad de utilizar diversos espacios, recursos y formatos para promocionarse entre una cantidad creciente de usuarios registrados.",
+        "¿Cómo actualizar manualmente los datos en Android?",
+        "Descompacte el fichero .zip descargado y copie el contenido a la tarjeta de su teléfono. En la aplicación vaya a la vista \"Configuración\" y seleccione \"Fichero de datos\" para localizar el fichero copiado anteriormente, espere a que la aplicación verifique y cargue los datos, este proceso puede durar unos minutos.",
+        "¿Cómo actualizar manualmente los datos en iOS?",
+        "Renombre el fichero descargado a alamesa.db y copielo a la carpeta Document de la aplicación. Reinicie la aplicación para cargar los nuevos datos."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": []
+}

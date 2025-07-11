@@ -1,0 +1,39 @@
+{
+  "url": "https://www.alamesacuba.com/es/santiago-de-cuba/search/?page=2&st=places",
+  "titulo": "",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Tipo de Cocina Al Carbón Brasería China Cocina creativa Cubana Española Gourmet Internacional Italiana Ligera Rápida",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP de $15.00 a $21.00 USD de €14.45 a €20.20 EUR de $1800.00 a $2520.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cafetería Pizzería Restaurante",
+        "{% trans 'Navegación de la página'}",
+        "Empresa Municipal de Gastronomía Holguín",
+        "Empresa nac. para Protección de la Flora y Fauna",
+        "Federación de Asociaciones Culinarias",
+        "Instituto Cubano de Amistad con los Pueblos",
+        "Oficina del Historiador de Camagüey",
+        "Calle Trinidad # 662 e/ Calvario y Moncada, Santiago...",
+        "Santo Tomás # 307 e/ Trinidad y Habana, Santiago de Cuba",
+        "Calle Anacaona # 119, e/ 12 y Taíno, Reparto Terrazas de...",
+        "Avenida de Céspedes N# 303 altos, e/ E y F, Reparto Sueño...",
+        "Calle 3 # 152, e/ Avenida de Manduley y Calle 8, Reparto...",
+        "Calle G # 265 esq 6, Reparto Sueño, Santiago de Cuba",
+        "Calle Fernández Marcané # 51, esq. 9, Reparto Santa Bárbara...",
+        "Calle 6 # 207, e/ 7 y 9, Reparto Vista Alegre, Santiago de Cuba",
+        "Calle 10 # 315, e/ Mendieta y Alfredo Zayas, Reparto Santa...",
+        "Calle 5 # 305, e/ Avenida Raúl Pujols y Calle 12, Reparto Vista...",
+        "Calle K # 215, e/ Calle 5ta y 4ta, Reparto Sueño, Santiago...",
+        "Avenida de Manduley # 159, esq. 7, Reparto Vista Alegre..."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": []
+}

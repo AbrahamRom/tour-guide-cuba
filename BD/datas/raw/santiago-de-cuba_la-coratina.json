@@ -1,0 +1,34 @@
+{
+  "url": "https://www.alamesacuba.com/es/santiago-de-cuba/restaurant/la-coratina/",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Tipo de Cocina Al Carbón Brasería China Cocina creativa Cubana Española Gourmet Internacional Italiana Ligera Rápida",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP de $15.00 a $21.00 USD de €14.45 a €20.20 EUR de $1800.00 a $2520.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cafetería Pizzería Restaurante",
+        "Todos los días 11:00 - 23:00 hrs",
+        "La Coratina debe su nombre al olivo que se cultiva en una región especifica de la península Italiana y se destaca en la elaboración del aceite de oliva que es base de nuestros platos. Es el sitio ideal para satisfacer sus exigencias del buen gusto, un lugar acogedor que le brindará un servicio esmerado y de calidad a la altura de sus gustos. Elegirnos será la más sabia y acertada elección ¡Le esperamos! Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "{% trans 'Información adicional'}",
+        "Accesible, Buffet para eventos, Climatización, Comida para llevar, Espacio reservado, Música grabada, Reservación de salón, Servicio en exteriores",
+        "Avenida de Céspedes N# 303 altos, e/ E y F, Reparto Sueño, Santiago de Cuba",
+        "¨Pizza Coratina¨: Pizza de Queso, jamón, chorizo, atún, vegetales, piña y aceitunas."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": []
+}

@@ -1,0 +1,37 @@
+{
+  "url": "https://www.alamesacuba.com/es/artemisa/restaurant/casa-rivero/",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Zona Artemisa Bauta Caimito Candelaria Mariel San Antonio de los Baños",
+        "Tipo de Cocina Cubana Heladería Internacional Italiana Marinera Vegetariana",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP de $22.00 a $28.00 USD de €21.20 a €26.95 EUR de $2640.00 a $3360.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cafetería Cremería Pizzería Restaurante",
+        "Cubana, Internacional, Italiana",
+        "Cafetería: Todos los días 12:00 - 00:00 hrs. Restaurante y Parrillada: Todos los días 12:00 - 23:00 hrs",
+        "Inaugurado el 13 de febrero del 2019, este lugar cuenta con varias opciones: cafetería, restaurante, parrillada. El personal de servicio es altamente calificado para el trato con el público y el trabajo gastronómico, algunos de ellos galardonados en reconocidos eventos culinarios. El Restaurante posee un salón y un local reservado climatizados, que propician un ambiente tranquilo, discreto y acogedor. Con capacidad hasta 80 personas, el Ranchón dispone espacio para la realización de eventos laborales y familiares. Además, está acondicionado para el desarrollo de peñas deportivas de fútbol como principal deporte. ¡Les esperamos! Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "{% trans 'Información adicional'}",
+        "Accesible, Bar, Climatización, Comida para llevar, Entrega a Domicilio, Espacio reservado, Música grabada, Parqueo, Reservación de salón, Área de fumadores",
+        "¨La Espada Rivero¨: Brocheta que contiene una libra de carne completamente de cerdo."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": [
+    "cabreram@nauta.cu"
+  ]
+}

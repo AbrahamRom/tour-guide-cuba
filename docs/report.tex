@@ -63,8 +63,6 @@ SmartTour Cuba es un sistema integral de planificación turística que combina t
 
 \section{Introducción}
 
-\subsection{Contexto y Motivación}
-
 El turismo en Cuba representa uno de los sectores económicos más importantes del país, recibiendo millones de visitantes anuales que requieren servicios de planificación eficientes y personalizados. La complejidad de coordinar alojamiento, transporte, actividades culturales y restricciones presupuestarias presenta desafíos significativos tanto para turistas como para operadores turísticos.
 
 SmartTour Cuba surge como respuesta a esta necesidad, integrando tecnologías de vanguardia en inteligencia artificial para ofrecer un sistema completo de planificación turística. El sistema combina múltiples enfoques computacionales: optimización metaheurística para la planificación de itinerarios, procesamiento de lenguaje natural para interacciones conversacionales, y técnicas de recuperación de información para proporcionar datos actualizados y relevantes.
@@ -101,8 +99,6 @@ Las principales contribuciones técnicas del sistema incluyen:
 
 \section{Arquitectura del Sistema}
 
-\subsection{Diseño General}
-
 SmartTour Cuba sigue una arquitectura modular basada en microservicios, donde cada componente principal opera de forma independiente pero coordinada. La estructura general se organiza en las siguientes capas:
 
 \begin{itemize}
@@ -137,7 +133,6 @@ Vectorización & MiniLM, OpenAI Embeddings \\
 
 \section{Módulo de Planificación de Itinerarios}
 
-\subsection{Funcionalidad}
 
 El módulo de planificación constituye el núcleo del sistema, utilizando algoritmos metaheurísticos para generar itinerarios hoteleros óptimos. El sistema considera múltiples variables: presupuesto disponible, número de noches, destino seleccionado, preferencias de calidad y minimización de cambios de hotel.
 
@@ -194,21 +189,58 @@ Donde:
 \text{changes\_norm} &= \frac{\text{cambios\_hotel}}{\text{noches} - 1}
 \end{align}
 
+\subsection{Resultados de la optimización de hiperparámetros}
+
+Con el objetivo de ajustar los parámetros de los algoritmos de optimización PSO (Particle Swarm Optimization) y ACO (Ant Colony Optimization) en el contexto de la planificación de viajes turísticos en Cuba, se ejecutaron múltiples simulaciones aleatorias utilizando el framework \texttt{Optuna}. En cada experimento se generaron combinaciones aleatorias de destino, número de noches y presupuesto, y se optimizaron los hiperparámetros correspondientes a cada algoritmo para maximizar el valor de aptitud (\textit{fitness}) de las soluciones generadas.
+
+Tras analizar los resultados de 1000 experimentos guardados en el archivo \texttt{experiment\_results.csv}, se aplicaron técnicas estadísticas para identificar los valores más representativos de los parámetros ajustados. Las modas encontradas fueron:
+
+\begin{itemize}
+    \item \textbf{Número de hormigas (ACO)}: 48.
+    \item \textbf{Coeficiente de evaporación de feromonas (ACO)}: 0.12.
+    \item \textbf{Número de partículas (PSO)}: 42.
+\end{itemize}
+
+Estos valores representan los hiperparámetros más frecuentemente seleccionados como óptimos por el proceso de optimización. Específicamente, el número de hormigas y partículas se interpreta como la cantidad ideal de agentes exploradores en los respectivos algoritmos, mientras que el coeficiente de evaporación controla la rapidez con que se disipa la memoria del sistema ACO, afectando directamente el equilibrio entre exploración y explotación.
+
+Los resultados sugieren que ambos algoritmos tienden a favorecer una configuración con un número relativamente alto de agentes, lo cual puede asociarse a una mejor capacidad de exploración del espacio de soluciones, mientras que un coeficiente de evaporación bajo (0.12) sugiere una estrategia de retención de información más conservadora en el algoritmo ACO.
+
+Estas configuraciones serán empleadas como valores por defecto en las futuras simulaciones y evaluaciones del sistema de recomendación turística.
+
+
 \subsection{Resultados Experimentales}
 
-\begin{table}[H]
-\centering
-\begin{tabular}{lccc}
-\toprule
-\textbf{Algoritmo} & \textbf{Tiempo (s)} & \textbf{Fitness Promedio} & \textbf{Óptimo (\%)} \\
-\midrule
-DFS & 0.15 & 0.95 & 100 \\
-ACO & 2.3 & 0.92 & 87 \\
-PSO & 1.8 & 0.89 & 82 \\
-\bottomrule
-\end{tabular}
-\caption{Comparativo de rendimiento de algoritmos (7 noches, 50 hoteles)}
-\end{table}
+En esta sección se presentan los resultados visuales obtenidos del proceso de optimización de hiperparámetros mediante \texttt{Optuna}, tal como fue descrito anteriormente. Las Figuras \ref{fig:aco_evaporation_dist} y \ref{fig:aco_num_ants_dist} muestran la distribución de frecuencias de los valores seleccionados para el número de hormigas y el coeficiente de evaporación en el algoritmo ACO. Se observa que los valores más recurrentes son 48 hormigas y un coeficiente de evaporación de 0.12, lo cual valida las modas reportadas en la sección anterior y refuerza la elección de estos hiperparámetros como configuración base del modelo.
+
+La Figura \ref{fig:pso_num_particles_dist} ilustra la distribución de valores para el número de partículas en PSO, con una clara preferencia por el valor 42, también coincidente con los resultados estadísticos del análisis. Estas distribuciones reflejan la estabilidad de las selecciones hechas por el proceso de optimización.
+
+Finalmente, la Figura \ref{fig:optimization_flow} resume visualmente el flujo completo de optimización, desde la generación aleatoria de instancias hasta la evaluación de soluciones y selección de los mejores hiperparámetros. Esta representación permite comprender de forma clara el pipeline utilizado en los experimentos y su integración en el sistema de recomendación turística.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.48\textwidth]{aco_evaporation_dist.png}
+    \hfill
+    \includegraphics[width=0.48\textwidth]{aco_num_ants_dist.png}
+    \caption{Distribución de hiperparámetros para ACO: (izquierda) coeficiente de evaporación, (derecha) número de hormigas.}
+    \label{fig:aco_evaporation_dist}
+    \label{fig:aco_num_ants_dist}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.48\textwidth]{pso_num_particles_dist.png}
+    \caption{Distribución del número de partículas en PSO.}
+    \label{fig:pso_num_particles_dist}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{optimization_flow.png}
+    \caption{Esquema del flujo de optimización de hiperparámetros utilizado en los experimentos.}
+    \label{fig:optimization_flow}
+\end{figure}
+
+
 
 \subsection{Simulaciones Realizadas}
 
@@ -277,7 +309,6 @@ El simulador permite evaluar rápidamente el impacto de diferentes configuracion
 
 \section{Sistema RAG (Retrieval-Augmented Generation)}
 
-\subsection{Arquitectura del Sistema RAG}
 
 El sistema RAG de SmartTour Cuba combina recuperación de información basada en similitud semántica con generación de texto mediante modelos de lenguaje. La arquitectura incluye:
 
@@ -299,27 +330,117 @@ La base de conocimiento se estructura en categorías temáticas:
 \item \textbf{Gastronomía}: Platos típicos, restaurantes recomendados, especialidades regionales
 \end{itemize}
 
-\subsection{Procesamiento de Archivos ZIM}
+\subsection{Simulaciones Realizadas}
 
-Para enriquecer la base de conocimiento, el sistema incluye procesamiento de archivos ZIM de Ecured:
+Para evaluar el comportamiento del módulo RAG, se desarrolló un simulador específico (\texttt{modules/simulation/rag}) que permite ejecutar consultas típicas de usuarios sobre la base de conocimiento y comparar el desempeño de diferentes modelos y configuraciones.
 
+\subsubsection{Metodología de Simulación}
 
-\subsection{Resultados de Evaluación}
+Se definió un conjunto de preguntas frecuentes sobre turismo en Cuba (por ejemplo: ``¿Cuáles son los lugares turísticos más importantes de Santiago de Cuba?'', ``¿Qué historia tiene el Malecón de La Habana?'', ``¿Dónde puedo probar el mejor café cubano?''). Estas consultas se procesaron automáticamente usando el simulador, tanto con RAG activado como desactivado, y con distintos modelos de lenguaje (por ejemplo, OpenHermes y Gemma2).
 
-\begin{table}[H]
-\centering
-\begin{tabular}{lcc}
-\toprule
-\textbf{Métrica} & \textbf{Con RAG} & \textbf{Sin RAG} \\
-\midrule
-Precisión de respuestas & 89\% & 67\% \\
-Relevancia contextual & 92\% & 45\% \\
-Tiempo de respuesta (s) & 3.2 & 1.8 \\
-Satisfacción usuario & 4.3/5 & 3.1/5 \\
-\bottomrule
-\end{tabular}
-\caption{Evaluación comparativa del sistema RAG}
-\end{table}
+\subsubsection{Parámetros Evaluados}
+
+Las simulaciones midieron:
+\begin{itemize}
+    \item \textbf{Latencia de respuesta}: Tiempo promedio de generación de respuesta.
+    \item \textbf{Longitud de respuesta}: Número de palabras generadas.
+
+\end{itemize}
+
+\subsection{Resultados de la Simulación}
+
+Para evaluar cuantitativamente el desempeño del sistema RAG, se ejecutaron múltiples simulaciones utilizando una colección de preguntas frecuentes del ámbito turístico cubano. A partir de estas ejecuciones se aplicó la técnica de \textit{bootstrap} para estimar la distribución de los indicadores clave: latencia y largo de la respuesta.
+
+\subsubsection{Análisis Estadístico}
+
+Los resultados agregados del análisis \textit{bootstrap} fueron los siguientes:
+
+\begin{itemize}
+    \item \textbf{Latencia (en segundos)}:
+    \begin{itemize}
+        \item Media: 44.997
+        \item Varianza: 25.888
+    \end{itemize}
+    
+    \item \textbf{Largo de respuesta (en número de palabras)}:
+    \begin{itemize}
+        \item Media: 92.485
+        \item Varianza: 195.037
+    \end{itemize}
+\end{itemize}
+
+Se realizó también una prueba de Kolmogorov-Smirnov (nivel de confianza del 95\%) para evaluar la normalidad de las distribuciones obtenidas. En ambos casos se rechazó la hipótesis nula de normalidad:
+\begin{itemize}
+    \item Latencia: $p = 0.0429$ $\Rightarrow$ No se ajusta a una distribución normal.
+    \item Largo de respuesta: $p = 0.0009$ $\Rightarrow$ No se ajusta a una distribución normal.
+\end{itemize}
+
+\subsubsection{Visualización de Distribuciones}
+
+En la Figura~\ref{fig:bootstrap_distribuciones} se presentan los histogramas de las distribuciones \textit{bootstrap} de latencia y largo de respuesta. Ambas curvas muestran una forma aproximadamente simétrica, aunque ligeramente sesgada, lo que podría explicar el rechazo a la normalidad pese a su aspecto visualmente cercano a la gaussiana.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{bootstrap_rag_distribuciones.png}
+    \caption{Distribuciones \textit{bootstrap} de la latencia (izquierda) y del largo de la respuesta (derecha) del sistema RAG.}
+    \label{fig:bootstrap_distribuciones}
+\end{figure}
+
+\subsubsection{Boxplots Comparativos}
+
+La Figura~\ref{fig:bootstrap_boxplots} muestra los diagramas de caja correspondientes. En ambos casos se observa una distribución central relativamente estable, sin presencia de valores atípicos extremos. El rango intercuartílico es moderado, indicando que la mayoría de las respuestas generadas por el sistema presentan un comportamiento homogéneo tanto en tiempo como en contenido.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{bootstrap_rag_boxplots.png}
+    \caption{Diagramas de caja de la media de latencia (izquierda) y del largo de respuesta (derecha) obtenidos por \textit{bootstrap}.}
+    \label{fig:bootstrap_boxplots}
+\end{figure}
+
+\subsubsection{Interpretación General}
+
+El análisis sugiere que el sistema RAG de SmartTour Cuba tiene un comportamiento relativamente consistente en términos de latencia (aproximadamente 45 segundos) y generación de contenido (alrededor de 92 palabras por respuesta). Si bien las distribuciones no son estrictamente normales, presentan una forma razonablemente simétrica, lo cual valida la estabilidad general del sistema en condiciones simuladas.
+
+\subsubsection{Recuperador}
+
+Para evaluar el desempeño de \texttt{all-MiniLM-L6-v2} en tareas de recuperación semántica mediante similitud coseno, se utilizaron métricas estándar de recuperación de información, aplicadas a benchmarks como MTEB o datasets específicos (e‑commerce, legal, preguntas–respuestas).
+
+\paragraph{Métricas empleadas}
+\begin{itemize}
+  \item \textbf{nDCG@10}, \textbf{Recall@10}, \textbf{MRR@10}: utilizadas para medir el ranking de documentos pertinentes al consultar.
+  \item \textbf{Hit Rate@k}: por ejemplo, \texttt{Hit Rate@5} y \texttt{Hit Rate@10} en evaluaciones tipo tripleta.
+  \item \textbf{Accuracy / F1}: en tareas de clasificación como detección de duplicados en Quora.
+\end{itemize}
+
+\paragraph{Resultados representativos}
+
+\begin{itemize}
+  \item En un benchmark de e‑commerce (“Shopping Queries”), se reportan valores de \textbf{nDCG@10}, \textbf{Recall@10} y \textbf{MRR@10} competitivos frente a otros modelos (multi‑mpnet, paraphrase‑MiniLM) :contentReference[oaicite:1]{index=1}.
+  \item En tareas legales especializadas, una variante legal de \texttt{all‑MiniLM‑L6‑v2} alcanza:
+  \begin{itemize}
+    \item \texttt{cosine\_accuracy@1} = 0.6463  
+    \item \texttt{cosine\_accuracy@3} = 0.8137  
+    \item \texttt{cosine\_ndcg@10} = 0.7721  
+    \item \texttt{cosine\_mrr@10} = 0.7346  
+  :contentReference[oaicite:2]{index=2}.
+  \end{itemize}
+  \item Según la documentación oficial, \texttt{all‑MiniLM‑L6‑v2} equilibra eficiencia y precisión, ofreciendo velocidad ~5× superior a modelos más grandes, manteniendo una buena calidad en tareas de búsqueda semántica :contentReference[oaicite:3]{index=3}.
+  \item En pruebas de hit rate sobre datasets de pregunta–contexto (ej. GooQA), se observan aumentos del orden de +10 pp tras fine‑tuning sobre all‑MiniLM‑L6‑v2 :contentReference[oaicite:4]{index=4}.
+\end{itemize}
+
+\paragraph{Interpretación}
+
+El modelo \texttt{all‑MiniLM‑L6‑v2} demuestra ser una opción eficaz para recuperación semántica basada en similitud coseno, al ofrecer:
+\begin{itemize}
+  \item \textbf{Precisión competitiva}: métricas como \texttt{nDCG@10}≈0.77 y \texttt{MRR@10}≈0.73 en dominios especializados.
+  \item \textbf{Alta velocidad de inferencia}: proceso ~5 veces más rápido que modelos más densos, ideal para sistemas en tiempo real.
+  \item \textbf{Mejoras tras ajuste fino}: hit rates incrementan significativamente (+10 ppt) cuando se afina sobre dominios específicos.
+\end{itemize}
+
+\paragraph{Conclusión}
+
+\texttt{all‑MiniLM‑L6‑v2} proporciona un balance atractivo entre rendimiento de recuperación y eficiencia computacional. Sus métricas evidencian un buen comportamiento en ranking de documentos y precisión semántica, siendo especialmente recomendable en aplicaciones donde la latencia es crítica. Por consiguiente, es una elección sólida para la arquitectura de recomendación y recuperación semántica basada en embeddings con similitud coseno.
+
 
 \subsection{Simulaciones Realizadas}
 
@@ -365,7 +486,6 @@ El simulador facilita la evaluación sistemática del módulo RAG ante diferente
 
 \section{Chatbot Conversacional}
 
-\subsection{Funcionalidad}
 
 El chatbot de SmartTour Cuba utiliza modelos de lenguaje avanzados para mantener conversaciones naturales con usuarios, extrayendo información de perfiles turísticos y proporcionando recomendaciones personalizadas.
 
@@ -399,35 +519,61 @@ Las simulaciones permiten calcular:
 \begin{itemize}
     \item \textbf{Similitud de extracción}: Se utiliza la similitud de coseno entre el perfil original y el perfil extraído por el bot.
     \item \textbf{Latencia promedio}: Tiempo medio de respuesta por interacción.
-    \item \textbf{Tasa de extracción completa}: Porcentaje de campos correctamente identificados.
+
 \end{itemize}
 
-\subsubsection{Resultados de Simulación}
+\subsubsection{Resultados de la Simulación}
 
-En una evaluación típica con 30 perfiles aleatorios:
+Los resultados del proceso de simulación se resumen a través de análisis bootstrap sobre dos métricas clave: la calidad de la extracción de información y la latencia de respuesta (tiempo). Se presentan en las Figuras~\ref{fig:boxplots-bootstrap} y~\ref{fig:distribuciones-bootstrap} los boxplots y las distribuciones correspondientes.
+
 \begin{itemize}
-    \item \textbf{Similitud promedio}: 0.89 (coseno)
-    \item \textbf{Latencia promedio}: 1.2 segundos por interacción
-    \item \textbf{Extracción completa}: 93\% de los campos correctamente identificados
+    \item \textbf{Calidad}: La media obtenida en el bootstrap fue de \textbf{0.8304}, con una varianza de \textbf{0.000449}. El boxplot correspondiente muestra una distribución levemente sesgada a la izquierda, mientras que el histograma revela una forma asimétrica con una ligera cola hacia la izquierda. Esto se refleja también en el test de Kolmogorov-Smirnov (K-S), donde se \textbf{rechaza la hipótesis de normalidad} con un valor $p = 0.0053$.
+    
+    \item \textbf{Tiempo}: El tiempo medio de respuesta fue de \textbf{157.3000} segundos, con una varianza de \textbf{0.479808}. El boxplot muestra una distribución más simétrica y centrada, lo que también se confirma en el histograma. Según el test K-S, \textbf{no se rechaza la hipótesis de normalidad} ($p = 0.7432$), lo cual sugiere que la latencia del sistema sigue una distribución aproximadamente normal.
 \end{itemize}
 
-\begin{table}[H]
-\centering
-\begin{tabular}{lcc}
-\toprule
-\textbf{Métrica} & \textbf{Valor Promedio} & \textbf{Desviación Estándar} \\
-\midrule
-Similitud de coseno & 0.89 & 0.04 \\
-Latencia (s) & 1.2 & 0.3 \\
-Extracción completa (\%) & 93 & 5 \\
-\bottomrule
-\end{tabular}
-\caption{Resultados de simulación del chatbot conversacional}
-\end{table}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{bootstrap_boxplots.png}
+    \caption{Boxplots de las medias obtenidas por bootstrap para calidad (izquierda) y tiempo (derecha).}
+    \label{fig:boxplots-bootstrap}
+\end{figure}
 
-\subsubsection{Conclusión de las Simulaciones}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{bootstrap_distribuciones.png}
+    \caption{Distribuciones de las medias obtenidas por bootstrap para calidad (izquierda) y tiempo (derecha).}
+    \label{fig:distribuciones-bootstrap}
+\end{figure}
 
-Las simulaciones demuestran que el chatbot es capaz de extraer información relevante de perfiles turísticos con alta precisión y eficiencia, validando su utilidad para la personalización de recomendaciones y planificación en SmartTour Cuba.
+En conjunto, los resultados muestran que el chatbot es capaz de mantener una buena precisión en la extracción de información (calidad cercana al 0.83), aunque con una distribución no perfectamente normal, posiblemente debido a casos extremos o a la naturaleza del contenido extraído. En contraste, los tiempos de respuesta presentan una variabilidad baja y comportamiento estable, ajustándose bien a una distribución normal.
+
+\end{itemize}
+
+\vspace{0.5em}
+\noindent Las siguientes figuras ilustran las distribuciones obtenidas para cada métrica evaluada:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{bootstrap_distribuciones.png}
+    \caption{Distribución bootstrap de la calidad de extracción (izquierda) y del tiempo de respuesta (derecha).}
+    \label{fig:bootstrap_qual_time}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{bootstrap_calidad_recom.png}
+    \caption{Distribución y boxplot de la calidad de las recomendaciones generadas por el chatbot.}
+    \label{fig:bootstrap_recom}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{bootstrap_boxplots.png}
+    \caption{Boxplots generales de calidad de extracción (izquierda) y latencia (derecha).}
+    \label{fig:boxplots_resumen}
+\end{figure}
+
 
 \section{Web Crawler Inteligente}
 
@@ -468,7 +614,6 @@ hotel\_url & URL de detalles \\
 
 \section{Sistema de Recomendaciones}
 
-\subsection{Algoritmo de Recomendación}
 
 El sistema de recomendaciones utiliza filtrado colaborativo y basado en contenido para sugerir destinos y actividades personalizadas.
 
@@ -498,25 +643,50 @@ Las ofertas recomendadas se presentan al usuario con un formato amigable, mostra
 
 \subsection{Ventajas y Limitaciones}
 
+
 \begin{itemize}
     \item \textbf{Ventajas}: El enfoque vectorial permite recomendaciones personalizadas incluso ante perfiles y ofertas heterogéneas, y es escalable a grandes volúmenes de datos.
     \item \textbf{Limitaciones}: La calidad de la recomendación depende de la riqueza semántica de los datos y de la capacidad del modelo de embeddings para capturar matices relevantes.
 \end{itemize}
 
+\subsubsection{Resultados de la Simulación}
+
+Con el objetivo de evaluar el desempeño del sistema de recomendaciones, se aplicó un procedimiento de validación mediante bootstrap sobre la calidad de las recomendaciones generadas. Esta métrica evalúa la similitud entre las recomendaciones ofrecidas por el sistema y las preferencias reales del perfil de usuario simulado.
+
+\begin{itemize}
+    \item \textbf{Media de Calidad}: La media de calidad obtenida en las simulaciones fue de \textbf{0.3324}, con una varianza de \textbf{0.000254}. Esto sugiere una consistencia aceptable en los resultados del sistema, aunque se encuentra por debajo de la media obtenida en la extracción de perfiles, lo que refleja una mayor dificultad en el problema de recomendación.
+    
+    \item \textbf{Distribución}: El histograma muestra una distribución sesgada hacia la derecha, con una ligera cola izquierda, lo cual indica que en algunos casos la calidad de la recomendación puede ser sustancialmente menor. Este patrón se refleja también en el boxplot, que exhibe una asimetría leve en la dispersión de los valores.
+    
+    \item \textbf{Normalidad}: El test de Kolmogorov-Smirnov aplicado a la muestra bootstrap indica que \textbf{se rechaza la hipótesis de normalidad} con un valor $p = 0.0076$. Esto sugiere que los resultados no siguen una distribución normal, posiblemente debido a la presencia de valores extremos o a la naturaleza no lineal del espacio de similitud semántica.
+
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{bootstrap_calidad_recom.png}
+    \caption{Distribución e interpretación gráfica de la calidad de recomendaciones obtenida mediante bootstrap.}
+    \label{fig:bootstrap-recomendaciones}
+\end{figure}
+
+En conjunto, estos resultados muestran que, aunque el sistema de recomendaciones logra un desempeño estable en promedio, existe una mayor variabilidad en la calidad comparado con la extracción de perfiles. Esta variabilidad puede deberse tanto a la diversidad de perfiles simulados como a la dependencia del contenido semántico de las ofertas disponibles.
+
+
 \section{Interfaz de Usuario}
 
-\subsection{Arquitectura de Frontend}
 
-SmartTour Cuba utiliza Streamlit para crear una interfaz web moderna y responsiva. La aplicación principal ([`main.py`](file:///c\%3A/Users/HP/Desktop/IA/Proyecto/tour-guide-cuba/GUI/main.py)) implementa un sistema de navegación modular.
+SmartTour Cuba utiliza Streamlit para crear una interfaz web moderna y responsiva además la aplicación principal implementa un sistema de navegación modular.
 
 \subsection{Características de la Interfaz}
 
+La interfaz del sistema fue diseñada con el objetivo de ofrecer una experiencia de usuario fluida, accesible y visualmente atractiva. A continuación, se describen sus principales características:
+
 \begin{itemize}
-\item \textbf{Diseño Responsivo}: Adaptable a diferentes tamaños de pantalla
-\item \textbf{Navegación Intuitiva}: Menú principal con iconografía clara
-\item \textbf{Chat Interactivo}: Interfaz tipo WhatsApp para conversaciones
-\item \textbf{Visualizaciones Dinámicas}: Gráficos y mapas interactivos
-\item \textbf{Controles Modernos}: Elementos UI con estilo contemporáneo
+\item \textbf{Diseño Responsivo}: Adaptable a diferentes tamaños de pantalla.
+\item \textbf{Navegación Intuitiva}: Menú principal con iconografía clara.
+\item \textbf{Chat Interactivo}: Interfaz tipo WhatsApp para conversaciones.
+\item \textbf{Visualizaciones Dinámicas}: Gráficos y mapas interactivos.
+\item \textbf{Controles Modernos}: Elementos UI con estilo contemporáneo.
 \end{itemize}
 
 \subsection{Módulos de Interfaz}
@@ -541,7 +711,6 @@ Exportar & Descarga de itinerarios \\
 
 \section{Integración del Sistema}
 
-\subsection{Flujo de Trabajo Completo}
 
 El sistema integrado de SmartTour Cuba opera mediante el siguiente flujo:
 
@@ -556,15 +725,8 @@ El sistema integrado de SmartTour Cuba opera mediante el siguiente flujo:
 \end{enumerate}
 
 
-\section{Resultados Experimentales}
-
-\subsection{Evaluación de Rendimiento}
-
-
-
 \section{Conclusiones y Trabajo Futuro}
 
-\subsection{Logros Principales}
 
 SmartTour Cuba representa una solución integral para la planificación turística inteligente, demostrando la viabilidad de combinar múltiples técnicas de IA en un sistema cohesivo. Los principales logros incluyen:
 
@@ -597,6 +759,6 @@ Las siguientes mejoras están planificadas para versiones futuras:
 
 \section{Agradecimientos}
 
-Este trabajo fue desarrollado como parte de un proyecto de investigación en inteligencia artificial aplicada al sector turístico. Agradecemos a las instituciones y organizaciones que proporcionaron datos y apoyo para el desarrollo de este sistema.
+Este estudio fue realizado en el contexto de un proyecto de investigación centrado en la aplicación de inteligencia artificial al sector turístico. Se reconoce el apoyo brindado por las instituciones y organizaciones que facilitaron datos y recursos fundamentales para su implementación.
 
 \end{document}

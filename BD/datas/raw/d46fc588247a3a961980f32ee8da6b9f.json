@@ -1,0 +1,44 @@
+{
+  "url": "https://www.alamesacuba.com/es/las-tunas/restaurant/el-asturiano/#place_info_plus",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Tipo de Cocina Asados Cubana Española Internacional Italiana Pastelería",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cremería Dulcería Pizzería Restaurante",
+        "De Lunes a Sábado 08:00 - 15:00 hrs. De Lunes a Sábado 18:30 - 22:00 hrs",
+        "De estilo colonial, con la elegancia tapizada por la sencillez y el maravilloso trato de sus trabajadores El Asturiano es famoso por lo criollo de sus platos y de la originalidad de estos, destacando uno que tiene valor sentimental para la casa: La ensalada Sonia (hecha con vegetales, macarrones y mayonesa) Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "Sándwich de jamón y mantequilla -",
+        "Sándwich de jamón y queso gratinado -",
+        "Huevos con Bacon, tomate y queso -",
+        "Croquetas de carne con salsas -",
+        "Hígado de cerdo salteado con salsa africana -",
+        "Almejas guisadas a la Gallega -",
+        "Escalopes de cerdo a la asturiana -",
+        "Fileticos de pescado empanados -",
+        "Ensaladas de habichuelas verdes -",
+        "{% trans 'Información adicional'}",
+        "(+53) 3151 6939, (+53) 5362 6652",
+        "Accesible, Buffet para eventos, Comida para llevar, Desayuno, Música grabada, Reservación de salón",
+        "Jesús Menéndez, #56, e/ 24 de Febrero y Francisco Vicente Aguilera, Puerto Padre",
+        "¨La Fabada¨: Elaborada con frijoles blancos, bacon, jamón, chorizo y morcilla"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": []
+}

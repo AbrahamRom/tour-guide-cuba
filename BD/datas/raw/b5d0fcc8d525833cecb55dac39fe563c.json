@@ -1,0 +1,43 @@
+{
+  "url": "https://www.alamesacuba.com/es/las-tunas/restaurant/bella-vita-tunas/#place_info_plus",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Tipo de Cocina Asados Cubana Española Internacional Italiana Pastelería",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cremería Dulcería Pizzería Restaurante",
+        "Asados, Cubana, Internacional, Italiana",
+        "De Lunes a Jueves 14:00 - 02:00 hrs. De Viernes a Domingo 11:00 - 02:00 hrs",
+        "Mágnifico lugar en el corazón de la ciudad donde pasar una noche con amigos y familiares. Un ambiente cálido, un gran patio con techo móvil, 2 zonas VIP. El bar propone variedad de deliciosos cócteles, cervezas, vinos y otras bebidas. La cocina propone especialidades italianas, platos típicos cubanos y preparaciones a la parrilla. Cada detalle cuenta, nuestro equipo asegura la satisfacción y comodidad del cliente Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "Fajitas de Cerdo con Vegetales -",
+        "Aglio Olio e Peperoncino (Picante) -",
+        "Bistec de Cerdo Grillado con Cebolla -",
+        "Filete de Pescado con Salsa al Limón -",
+        "{% trans 'Información adicional'}",
+        "(+53) 3137 9799, (+53) 5444 3537",
+        "A la carta, A pedido, Lounge-Bar",
+        "Accesible, Bar, Carta de vinos, Comida para llevar, Desayuno, Espacio reservado, Karaoke, Música grabada, Presentaciones en vivo, Reservación de salón, Área de fumadores",
+        "Francisco Varona # 324 e/ Lucas Ortís y Vicente García, Las Tunas",
+        "¨Lasagna Bella Vita¨: Como base,tradición italiana en pastas preparadas a mano, unida a carne de cerdo y vacuno de primera calidad, para el relleno, ademas de cebolla, pimienta negra, ajo, puré de tomate y no puede faltar el aceite de oliva para crear un sofrito espectacular, para cerrar tan tradicional preparación se le agrega salsa bechamel y queso rayado. Lasagna y pastas frescas hechas en casa y en sus mejores salsas"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": [
+    "bellavitatunas@gmail.com"
+  ]
+}

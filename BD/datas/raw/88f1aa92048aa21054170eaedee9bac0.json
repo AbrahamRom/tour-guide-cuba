@@ -1,0 +1,36 @@
+{
+  "url": "https://www.alamesacuba.com/es/granma/restaurant/luanda/",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Zona Bartolomé Masó Bayamo Campechuela Jiguaní Manzanillo",
+        "Tipo de Cocina China Cubana Heladería Internacional Italiana Ligera ligera Marinera Pastelería Regional Bayamesa Regional cubana Tapas",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP de $15.00 a $21.00 USD de €14.45 a €20.20 EUR de $1800.00 a $2520.00 CUP más de $29.00 USD más de €27.90 EUR más de $3480.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cafetería Cremería Dulcería Pizzería Restaurante",
+        "Todos los días 12:00 - 23:00 hrs",
+        "Un restaurante nacido en 1976, que estuvo luego varios años cerrado, renace ahora con más fuerza y glamour que nunca, se trata del Luanda, ubicado en el parque de ferias Granma. Perteneciente a la Empresa para la protección de la Flora y la Fauna, con servicio de navegación en internet, vinos de importación, y oferta de carnes exóticas, como aveztruz, cocodrilo, y su especialidad: el búfalo. También se caracteriza por la calidad y presentación de los platos, y por afrecer actividades complementarias como camping, paseos a caballo, en coche y otros. Sin dudas, el Luanda reabrió por todo lo alto, y está llamado a ser un referente de la gastronomía de la segunda villa cubana. Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "{% trans 'Información adicional'}",
+        "Accesible, Bar, Carta de vinos, Climatización, Comida para llevar, Código de vestir, Música grabada, Parqueo, Presentaciones en vivo, Reservación de salón, Servicio en exteriores",
+        "Parque de ferias Granma, Bayamo"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": [
+    "luandarestaurant@gmail.com"
+  ]
+}

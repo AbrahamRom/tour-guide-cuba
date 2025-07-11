@@ -1,0 +1,37 @@
+{
+  "url": "https://www.alamesacuba.com/es/cienfuegos/restaurant/ay-que-rico/#place_info_plus",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Tipo de Cocina Al Carbón Cubana Internacional Italiana Mediterránea",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP",
+        "Tipo de lugar Bar Cafetería Pizzería Restaurante",
+        "Todos los días 12:00 - 20:30 hrs",
+        "Un sitio relativamente distante de la agitada ciudad donde podrá disfrutar de exquisitos platos, su ambiente natural y cómodos precios. Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "{% trans 'Información adicional'}",
+        "(+53) 5268 8760, (+53) 5852 6744",
+        "Accesible, Bar, Buffet para eventos, Carta de vinos, Música grabada, Parqueo, Reservación de salón, Servicio en exteriores, Área de fumadores",
+        "Efectivo (CUP), Efectivo (EUR), Efectivo (USD)",
+        "Calle Baez # 106 e/ 1ra y 2da. Rpto. Caonao., Cienfuegos"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": [
+    "ayquerico@nauta.cu"
+  ]
+}

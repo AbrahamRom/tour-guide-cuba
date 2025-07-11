@@ -1,0 +1,48 @@
+{
+  "url": "https://www.alamesacuba.com/es/ciego-de-avila/restaurant/black-white/",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Zona Chambas Ciego de Ávila Majagua Morón",
+        "Tipo de Cocina Al Carbón Caribeña Cocina Creativa Cubana Española Infusiones Internacional interNacional Italiana Ligera ligera Marinera Mexicana",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cafetería Pizzería Restaurante",
+        "Todos los días 08:00 - 23:00 hrs",
+        "Ofrecemos desayuno para todos los gustos, unas exquisitas hamburguesas y un servicio de excelencia. Un lugar para pasar un rato agradable. Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "Hamburguesa Natural (Pan, Hamburguesa, Ketchup, Mostaza, Mayonesa, Decoración) -",
+        "Hamburguesa con Jamón y Queso (Pan, Hamburguesa, Jamón, Queso, Ketchup, Mostaza, Mayonesa, Ensalada, Decoración) -",
+        "Hamburguesa Doble (Pan, 2 Hamburguesa, 2 Jamón, 2 Queso, Ketchup, Mostaza, Mayonesa, Ensalada, Decoración) -",
+        "Pan Hamburguesa con Jamón y Queso -",
+        "Bocadito de Jamón y Queso (Pan de Molde, Ketchup, Mostaza, Mayonesa, Decoración) -",
+        "Perro Caliente (Pan, Perro Caliente, Ketchup, Mostaza, Mayonesa, Ensalada, Decoración) -",
+        "Pan con Tortilla Natural (Pan de Molde, Tortilla, Mantequilla, Decoración) -",
+        "Pan con Tortilla y Agregos (Pan de Molde, Tortilla con Jamón, Queso, Mantequilla, Decoración, Cebolla) -",
+        "Papas Fritas (Ketchup, Mostaza) -",
+        "Croquetas al Plato (Ketchup, Mostaza) -",
+        "Café Cortado (Café, Leche, Confitura) -",
+        "Café Capuccino (Café, Leche, Confitura, Canela) -",
+        "Café Bombón (Café, Leche, Confitura, Leche Condensada) -",
+        "{% trans 'Información adicional'}",
+        "Climatización, Desayuno, Música grabada",
+        "Efectivo (CUP), Efectivo (EUR), Efectivo (USD)",
+        "Martí No.325 e/ Carlos Manuel de Céspedes y Enrique Jose Varona , Morón"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": []
+}

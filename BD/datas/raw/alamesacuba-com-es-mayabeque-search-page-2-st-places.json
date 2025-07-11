@@ -1,0 +1,34 @@
+{
+  "url": "https://www.alamesacuba.com/es/mayabeque/search/?page=2&st=places",
+  "titulo": "",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Zona Bejucal Jaruco Melena del Sur Quivicán San José de las Lajas Santa Cruz del Norte",
+        "Tipo de Cocina Cubana Internacional Italiana Marinera",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP",
+        "Tipo de lugar Pizzería Restaurante",
+        "{% trans 'Navegación de la página'}",
+        "Empresa Municipal de Gastronomía Holguín",
+        "Empresa nac. para Protección de la Flora y Fauna",
+        "Federación de Asociaciones Culinarias",
+        "Instituto Cubano de Amistad con los Pueblos",
+        "Oficina del Historiador de Camagüey",
+        "Vía Blanca # 418, Santa Cruz del Norte",
+        "Ave. 3ra # 1815 e/18 y Final, Santa Cruz del Norte",
+        "Cubana, Internacional, Italiana, Marinera",
+        "Ave. 25, #2403 (altos), e/ 24 y 26., Jaruco",
+        "Calle 2 No. 907 e/ 9na y final, El comino, Santa Cruz del Norte",
+        "Finca La matilde, Carretera Arroyo Bermejo., Santa Cruz..."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": []
+}

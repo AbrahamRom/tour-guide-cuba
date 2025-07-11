@@ -1,0 +1,36 @@
+{
+  "url": "https://www.alamesacuba.com/es/las-tunas/restaurant/dulceria-los-angeles/#place_comments",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Tipo de Cocina Asados Cubana Española Internacional Italiana Pastelería",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cremería Dulcería Pizzería Restaurante",
+        "Cubana, Internacional, Pastelería",
+        "Todos los días 09:00 - 23:00 hrs",
+        "La ya conocida dulcería Los Ángeles, abre sus puertas a un nuevo restaurante familiar de comidas italianas y parrilla, de la mano de un maestro culinario que disfruta sacándole a las carnes y pastas un sabor único, así lo evidencian sus más de 20 años detrás de la cocina, haciendo magia. Te brindamos el sabor del cielo en una mordida Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "{% trans 'Información adicional'}",
+        "Cobra % por el servicio, Comida para llevar, Desayuno, Entrega a Domicilio",
+        "¨Carnes de Parrilla ¨: Deliciosas carnes preparadas por los chef con salsas especiales, condimentadas con especies variadas"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": [
+    "yact8116@gmail.com"
+  ]
+}

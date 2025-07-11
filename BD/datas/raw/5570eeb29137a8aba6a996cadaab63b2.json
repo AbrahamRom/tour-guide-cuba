@@ -1,0 +1,46 @@
+{
+  "url": "https://www.alamesacuba.com/es/camaguey/restaurant/cine-cafe/",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Tipo de Cocina Al Carbón Cubana Española Heladería Infusiones Internacional Italiana Ligera Pastelería Rápida Vegetariana",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP de $22.00 a $28.00 USD de €21.20 a €26.95 EUR de $2640.00 a $3360.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cafetería Dulcería Pizzería Restaurante",
+        "Todos los días 10:00 - 22:00 hrs",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "Agua natural Ciego Montero (500ml) -",
+        "Agua gaseada Ciego Montero (330ml) -",
+        "Jugo natural La Estancia (200ml) -",
+        "Jugo de Tomate y Almeja 200 ml -",
+        "Refresco Ciego Montero lata (355ml) -",
+        "Refresco Ciego Montero 330 ml -",
+        "Refresco Ciego Montero 1500 ml -",
+        "Havana Club Añejo 3 años por trago -",
+        "Havana Club Añejo Ritual por trago -",
+        "Havana Club Añejo Especial por trago -",
+        "Havana Club Añejo Reserva por trago -",
+        "Havana Club Añejo 7 años por trago -",
+        "Havana Club Selección de Maestros por trago -",
+        "Havana Club Gran Reserva por trago -",
+        "{% trans 'Información adicional'}",
+        "Accesible, Bar, Música grabada, Servicio en exteriores, Área de fumadores",
+        "Callejón de los Milagros, en Ignacio Agramonte, / República y Lope Recio , Camagüey"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": []
+}

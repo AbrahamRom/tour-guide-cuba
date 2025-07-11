@@ -1,0 +1,36 @@
+{
+  "url": "https://www.alamesacuba.com/es/ciego-de-avila/restaurant/el-navio-delfinario-de-cayo-coco/",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Zona Chambas Ciego de Ávila Majagua Morón",
+        "Tipo de Cocina Al Carbón Caribeña Cocina Creativa Cubana Española Infusiones Internacional interNacional Italiana Ligera ligera Marinera Mexicana",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cafetería Pizzería Restaurante",
+        "Cubana, Internacional, Marinera, interNacional",
+        "Todos los días 12:00 - 16:00 hrs",
+        "Ubicado dentro la moderna instalación del Delfinario de Cayo Coco, el Restaurante-Buffet El Navío ofrece a los visitantes de este lugar, el placer de disfrutar de una deliciosa comida en un día lleno de emociones e interacciones con los animales marinos. Ofrece servicio de buffet y además tables dirigidos asociados a paquetes de ofertas del delfinario que van desde una típica comida criolla hasta un menú marinero con la langosta más fresca del litoral. Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "{% trans 'Información adicional'}",
+        "(+53) 3330 1230, (+53) 3330 7211",
+        "Accesible, Bar, Carta de vinos, Climatización, Música grabada, Parqueo, Servicio en exteriores",
+        "Delfinario, Ensenada Bautista, Aguas tranquilas, Cayo Coco, Morón"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": []
+}
