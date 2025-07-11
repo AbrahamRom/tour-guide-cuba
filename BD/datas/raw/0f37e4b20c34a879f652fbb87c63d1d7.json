@@ -1,0 +1,39 @@
+{
+  "url": "https://www.alamesacuba.com/es/cienfuegos/restaurant/paladar-ache/#place-map",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Tipo de Cocina Al Carbón Cubana Internacional Italiana Mediterránea",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP",
+        "Tipo de lugar Bar Cafetería Pizzería Restaurante",
+        "De Lunes a Sábado 12:00 - 22:00 hrs",
+        "Nuestro Restaurante es un negocio familiar fundado en 1996 . Somos fieles defensores de las costumbres locales y por ello nuestra cocina se distingue por los aromas a condimentos naturales, adquiridos directamente de los productores cercanos. Elegimos exigentemente los ingredientes de nuestro menú para brindar siempre un plato fresco y de excelente factura, con un sello de cubanía y el sabor de nuestras cocinas hogareñas , que mima al más exigente de los gustos. . Garantizamos un servicio de calidad en medio de la ciudad pero alejados del bullicio, nuestro patio es un paraiso a pocas calles del malecón cienfueguero. Nuestro empeño de décadas ha sido laureado en reiteradas ocasiones por el sitio de viajeros Tripadvisor, merecedor de los certificados de excelencia 2014, 2016, 2017, 2018 y 2019 y Top Choice 2020. Puede encontrarnos también en varias guías internacionales y... Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "{% trans 'Información adicional'}",
+        "(+53) 4355 0286, (+53) 5849 2620, (+53) 5295 0428",
+        "Accesible, Bar, Carta de vinos, Comida para llevar, Música grabada, Parqueo, Servicio en exteriores, Área de fumadores",
+        "Efectivo (CUP), Efectivo (EUR), Efectivo (USD)",
+        "Avenida 38 # 4106 e/ 41 y 43, Cienfuegos",
+        "¨Camarón Aché¨: Camarón grillado al carbón con mantequilla, ajo y chile habanero al gusto"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": [
+    "franlif74@gmail.com",
+    "yaslenyortega@gmail.com"
+  ]
+}

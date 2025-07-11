@@ -1,0 +1,35 @@
+{
+  "url": "https://www.alamesacuba.com/es/cienfuegos/restaurant/restaurante-bahia/#place_info_plus",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Tipo de Cocina Al Carbón Cubana Internacional Italiana Mediterránea",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP",
+        "Tipo de lugar Bar Cafetería Pizzería Restaurante",
+        "Todos los días 12:00 - 23:30 hrs",
+        "Inspirado en las paradisíacas aguas de la bahía cienfueguera y cercano a ella, nace este restaurante, con más de 8 años de tradición. Especializado en las delicias del mar, este espacio íntimo, climatizado, con excelente diseño y la maestría de un experimentado chef, el Restaurante Bahía se descubre ante el cliente como un lugar de ensueño, donde el buen gusto y la buena comida se dan la mano Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "{% trans 'Información adicional'}",
+        "(+53) 5312 6000, (+53) 4351 6971, (+53) 5 328 4987",
+        "Bar, Carta de vinos, Climatización, Comida para llevar, Entrega a Domicilio, Música grabada, Presentaciones en vivo, Área de fumadores",
+        "Ave. 40, # 3713, e/ 37 y 39, Cienfuegos",
+        "¨Filete de pescado Cienfueguero¨: Filete de pescado grillado a la plancha, con un salteado de camarones con queso y una salsa marinera de base."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": []
+}

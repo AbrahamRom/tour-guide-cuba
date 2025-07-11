@@ -1,0 +1,44 @@
+{
+  "url": "https://www.alamesacuba.com/es/camaguey/restaurant/el-rincon-de-candita/",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Tipo de Cocina Al Carbón Cubana Española Heladería Infusiones Internacional Italiana Ligera Pastelería Rápida Vegetariana",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP de $22.00 a $28.00 USD de €21.20 a €26.95 EUR de $2640.00 a $3360.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cafetería Dulcería Pizzería Restaurante",
+        "Todos los días 11:00 - 01:00 hrs",
+        "Un rincón de Camagüey para homenajear, a través de la gastronomía, a la gran vedette negra de Cuba: Candita Batista. No pierda la oportunidad de degustar los platos preferidos por la diva y de dejarle en las paredes un mensaje de cariño y agradecimiento. Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "Filete de cerdo Paraíso (dos filetes de cerdo grillé, rellenos con jamón, queso y aceituna) -",
+        "Pan de la casa con mantequilla -",
+        "Tostones rellenos con jamón y queso -",
+        "Tostones rellenos con camarón y queso -",
+        "Filete especial (filete grillé, chorizo, jamón y queso) -",
+        "Arroz mixto especial (Tocineta, camarón, cerdo y jamón) -",
+        "{% trans 'Información adicional'}",
+        "(+53) 3229 3948, (+53) 5300 2575, (+53) 5300 8920",
+        "Accesible, Carta de vinos, Comida para llevar, Entrega a Domicilio, Música grabada, Reservación de salón, Área de fumadores",
+        "Efectivo (CAD), Efectivo (CUP), Efectivo (EUR), Efectivo (USD)",
+        "Calle Cristo # 2, e/ Cisneros y Lugareño, Camagüey",
+        "¨Bistec Candita¨: Un bistec de cerdo y uno de pollo, ambos con chorizo, queso gratinado y cebolla en anillo, con un golpe de salsa de fruta"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": [
+    "robertlarrinaga93@gmail.com"
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "url": "https://www.alamesacuba.com/es/artemisa/restaurant/mis-abuelos/#place_info_plus",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Zona Artemisa Bauta Caimito Candelaria Mariel San Antonio de los Baños",
+        "Tipo de Cocina Cubana Heladería Internacional Italiana Marinera Vegetariana",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP de $22.00 a $28.00 USD de €21.20 a €26.95 EUR de $2640.00 a $3360.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cafetería Cremería Pizzería Restaurante",
+        "Todos los días 11:00 - 23:00 hrs",
+        "Es una mezcla de lo moderno con lo clásico, basado en el recuerdo de la época en que vivieron nuestros abuelos. Como nuestro restaurante defiende los valores aprehendidos de épocas pasadas queremos llevar a nuestros clientes las más diversas formas de elegancia y glamour de las que nos dotaron nuestros abuelos. Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "Bistec de cerdo, arroz moro y vianda frita -",
+        "Steak de jamón, arroz blanco, frijoles y vianda frita -",
+        "Pollo deshuesado, arroz blanco, vianda frita y frijoles o sopa -",
+        "Croqueticas con salsa kétchup -",
+        "Frituras de malanga al aroma del ajo -",
+        "Frituras de malanga aderezadas con miel -",
+        "Tostones rellenos de jamón y queso -",
+        "Fritura de maíz dulce o saladita -",
+        "Filete de pescado con salsa de ajo o salsa limón -",
+        "Filetillos de pescado a la catalana -",
+        "Filete de pescado gratinado con jamón y queso -",
+        "Langosta salteada con mantequilla, ajo, cebolla y limón -",
+        "Bistec de cerdo con mojo criollo -",
+        "Bistec “San Jacobo” gratinado con jamón y queso -",
+        "Julianas de cerdo agridulce salteadas con cebolla y pimiento al vino tinto -",
+        "Chuleta ahumada con mojo criollo -",
+        "Chuleta ahumada con salsa agridulce y mostaza -",
+        "Gordenblue cerdo (bistec uruguayo) -",
+        "Deshuesado de pollo gratinado con queso -",
+        "Deshuesado de pollo gratinado con jamón y queso -",
+        "Eperlan de Pollo salteado con ajo y limón -",
+        "Dados de pollo “Reina de Caribe” salteados con piña, cebolla, pimiento perfumado con vino blanco -",
+        "Pechuga de pollo grille con mojo criollo -",
+        "Pechuga gratinada con jamón y queso -",
+        "Tirillas de pechuga fritas a las tres salsas -",
+        "Pechuga de pollo a la gordenblue -",
+        "Aporreado de ternera a la criolla -",
+        "Vaca frita saboreada con limón -",
+        "Lonjas de res asadas en su jugo -",
+        "Filetillos de pechuga salteados con vegetales, cebolla, pimientos guarnecidos con vianda frita -",
+        "Tres bistecs de cerdo intercalados con jamón, gratinados con queso y guarnecidos con arroz moro -",
+        "Enchilados de camarón y langostas guarnecidas con arroz blanco -",
+        "Pescado grille napado con camarones enchilados, gratinados con queso y guarnecidos con vianda frita -",
+        "Mermelada de frutas con queso -",
+        "{% trans 'Información adicional'}",
+        "(+53) 4736 3549, (+53) 5268 3332",
+        "Accesible, Buffet para eventos, Comida para llevar, Espacio reservado, Música grabada, Parqueo, Reservación de salón, Servicio en exteriores, Área de fumadores",
+        "Calle 17, #3809, e/ 38 y 40, Artemisa",
+        "¨Especial del Mar ¨: Pescado Grille Napado en camarones enchilados, gratinado con queso y guarnecido con vianda frita"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": [
+    "misabuelos@nauta.cu"
+  ]
+}

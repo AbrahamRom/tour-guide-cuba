@@ -1,0 +1,48 @@
+{
+  "url": "https://www.alamesacuba.com/es/holguin/restaurant/isla-cristal/",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Tipo de Cocina Brasería Cocina creativa Cubana Cubana Dulcería Española Heladería Infusiones Internacional interNacional Italiana Italiana Japonesa Ligera Marinera Mediterránea Pastelería Regional Cubana",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP de $15.00 a $21.00 USD de €14.45 a €20.20 EUR de $1800.00 a $2520.00 CUP más de $29.00 USD más de €27.90 EUR más de $3480.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cafetería Centro Cultural Cremería Dulcería Pizzería Restaurante",
+        "Todos los días 12:00 - 22:00 hrs",
+        "Este restaurante y su bar totalmente climatizados están situados sobre el área más concurrida del bulevar peatonal justo entre los dos parques más conocidos de la ciudad y sólo pocos metros de numerosas tiendas, teatros, librerías, la casa de cambio de divisas CADECA, entre otras populares referencias citadinas. Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "Picadas de Jamón, Queso y Aceitunas -",
+        "Lonjas de Jamón Serrano y Vegetales -",
+        "Rollitos de Jamón Serrano y Queso -",
+        "Pinchos de Camarones con Vegetales -",
+        "Escalope de Cerdo a la Plancha -",
+        "Lonjas de Cerdo Asado al Jugo -",
+        "Filete de Pescado con Camarones -",
+        "Filete de Pescado a la Plancha -",
+        "Vegetales Salteados con Jamón -",
+        "Chatinos o Tostones de Plátano -",
+        "Arroz con Pollo a la Chorrera -",
+        "Helado con Frutas y Sirope o Miel -",
+        "{% trans 'Información adicional'}",
+        "Accesible, Buffet para eventos, Climatización, Música grabada, Reservación de salón",
+        "Calle Libertad esquina a Martí, 4to. piso, Holguín",
+        "¨Suprema de pollo Cristal¨: Suprema de pollo napado en salsa roja junto con lonjas de jamón y queso gratinado."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": [
+    "comercial@hol.palmares"
+  ]
+}

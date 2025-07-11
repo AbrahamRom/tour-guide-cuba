@@ -1,0 +1,53 @@
+{
+  "url": "https://www.alamesacuba.com/es/holguin/restaurant/dtapas-y-barras/",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Tipo de Cocina Brasería Cocina creativa Cubana Cubana Dulcería Española Heladería Infusiones Internacional interNacional Italiana Italiana Japonesa Ligera Marinera Mediterránea Pastelería Regional Cubana",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP de $15.00 a $21.00 USD de €14.45 a €20.20 EUR de $1800.00 a $2520.00 CUP más de $29.00 USD más de €27.90 EUR más de $3480.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cafetería Centro Cultural Cremería Dulcería Pizzería Restaurante",
+        "Cubana, Internacional, Italiana",
+        "Todos los días 12:00 - 23:00 hrs",
+        "A pocos metros del céntrico Parque San José este grande e impresionante bar restaurante totalmente climatizado y situado en los altos de la icónica pizzería Roma nos sorprende muy gratamente con su excelente y bien surtida cava. Nos invita a degustar variados platos de sugerentes nombres acompañados de una especial selección de quesos y vinos. Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "Canapés de Ahumados y Queso con Rollitos de Jamón (277gr) -",
+        "Tostones con Jamón, Queso y Vegetales (319gr) -",
+        "Escabeche de Tres Quesos a la Menta con Panecillo (319gr) -",
+        "Dados de Queso Mozarella con Mayonesa, Vegetales (Vegetales Salteados y Galleticas o Pan Tostado) (416gr) -",
+        "Dados de Queso, Salame con Mayonesa (Vegetales Salteados y Galleticas o Pan Tostado) (416gr) -",
+        "Dados de Queso Frescal con Mayonesa (Vegetales Salteados y Galleticas o Pan Tostado) (416gr) -",
+        "Dados de Queso Toponuevo con Mayonesa (Vegetales Salteados y Galleticas o Pan Tostado) (416gr) -",
+        "Dados de Queso Scarmoza con Mayonesa (Vegetales Salteados y Galleticas o Pan Tostado) (416gr) -",
+        "Sandwich de Jamón y Queso (361gr) -",
+        "Pizza Cuatro Estaciones (560gr) (Bacón, Queso Mozarella, Vegetales, Chorizo, Jamón, Queso Gratina, Salsa Napolitana) -",
+        "Pizza Hawaiana (505gr) (Salsa Napolitana, Queso Mozarella, Piña, Jamón) -",
+        "Pizza con Vegetales (405gr) (Salsa Napolitana, Queso Mozarella, Vegetales) -",
+        "Romance Holguinero (Especialidad de la Casa) (1200gr) (Tabla de Quesos BANI (Frescal, Mozarella, Gratina), con Ahumados TRADISA (Jamón Pierna, Chorizo, Sobrasada), Galletas o Panecillos, Vegetales Salteados y Salsa de la Casa -",
+        "Pasión Afrodita (Queso Favorito, Queso Mozarella, Galletas o Pan, Vegetales Salteados, Chorizo y Jamón Pierna) (666gr) -",
+        "Amor Eterno (Queso Gratina, Queso Mozarella, Chorizo, Galletas o Pan Tostado, Salsa Brava, Vegetales Salteados) (666gr) -",
+        "{% trans 'Información adicional'}",
+        "+(53) 2447 1119, (+53) 244 2340, (+53) 5994 0191",
+        "Accesible, Bar, Buffet para eventos, Carta de vinos, Climatización, Comida para llevar, Código de vestir, Espacio reservado, Música grabada, Presentaciones en vivo, Reservación de salón",
+        "Calle Agramonte esquina a Maceo, Holguín",
+        "¨Romance holguinero¨: Tabla de quesos BANI diversos acompañados de ahumados TRADISA, galletas o panecillos con vegetales salteados."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": [
+    "jesus.mayedo@geco.co"
+  ]
+}

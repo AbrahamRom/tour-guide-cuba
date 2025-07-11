@@ -1,0 +1,69 @@
+{
+  "url": "https://www.alamesacuba.com/es/holguin/restaurant/bayado/",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Tipo de Cocina Brasería Cocina creativa Cubana Cubana Dulcería Española Heladería Infusiones Internacional interNacional Italiana Italiana Japonesa Ligera Marinera Mediterránea Pastelería Regional Cubana",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP de $15.00 a $21.00 USD de €14.45 a €20.20 EUR de $1800.00 a $2520.00 CUP más de $29.00 USD más de €27.90 EUR más de $3480.00 CUP",
+        "Tipo de lugar A Domicilio Bar Cafetería Centro Cultural Cremería Dulcería Pizzería Restaurante",
+        "Todos los días 12:00 - 22:30 hrs",
+        "Una pequeña pero confortable instalación gastronómica climatizada situada en una de las muy transitadas esquinas del popular “Parque Infantil” de la ciudad que nos ofrece degustar la cocina tradicional cubana sin otras grandes pretensiones. Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "Lonjas de Jamón Vicking (58g) -",
+        "Cerdo Frito a la Criolla (261g) -",
+        "Bistec de Pollo Grille (268g) -",
+        "Pollo Guisado a la Criolla (350g) -",
+        "Steak de Jamón Vicking (290g) -",
+        "Arroz Amarillo con Cerdo (406g) -",
+        "Refrescos Embotellados (250ml) -",
+        "Cerveza Presidente (Botella-350ml) -",
+        "Cerveza Cristal (Botella-350ml) -",
+        "Cerveza Bucanero (Lata-355ml) -",
+        "Agua Natural Ciego Montero 5000 ml -",
+        "Agua Natural Ciego Montero 1500 ml -",
+        "Agua Natural Ciego Montero 500 ml -",
+        "Piña Colada Virgen (Sin Alcohol) (280ml) -",
+        "Clan Campbell Botella (750ml) -",
+        "Ron Perla Añejo (Botella 700ml) -",
+        "Ron Perla Carta Blanca (Trago) -",
+        "Ron Perla Carta Dorada (Trago) -",
+        "Ron Mulata Palma Superior (Trago) -",
+        "Ron Santero Aguardiente (Trago) -",
+        "Ron Santero Palma Superior (Trago) -",
+        "Ron Santero Añejo Blanco (500ml) (Trago) -",
+        "Ron Santero Añejo Blanco (700ml) (Trago) -",
+        "Ron Santero Añejo Blanco (1000ml) (Trago) -",
+        "Ron Santiago Añejo (355ml) (Caneca) -",
+        "Ron Santiago Añejo (355ml) (Trago) -",
+        "Aguardiente Coronilla (Trago) -",
+        "Ron Cubay Carta Dorada (Trago) -",
+        "Ron Cubay Carta Blanca (Trago) -",
+        "Ron Cubay Añejo Suave (Trago) -",
+        "Ron Cubay Añejo Suave (355ml) (Caneca) -",
+        "Ron Santiago Carta Blanca (1000ml) (Trago) -",
+        "Ron Santiago Añejo Superior 11 Años (Trago) -",
+        "Ron Santiago Carta Blanca (355ml) (Caneca) -",
+        "Ron Santiago Carta Blanca (355ml) (Trago) -",
+        "Minidosis Selección Santero (6 Botellas) -",
+        "{% trans 'Información adicional'}",
+        "Accesible, Climatización, Música grabada, Parqueo",
+        "Calle Maceo esq. Ave. Cajigal, Holguín"
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": []
+}

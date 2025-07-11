@@ -1,0 +1,35 @@
+{
+  "url": "https://www.alamesacuba.com/es/cienfuegos/restaurant/la-casa-de-chango/",
+  "titulo": "Perfil",
+  "secciones": [
+    {
+      "fragmentos": [
+        "Tipo de Cocina Al Carbón Cubana Internacional Italiana Mediterránea",
+        "Rango de precios hasta $7.00 USD hasta €6.75 EUR hasta $840.00 CUP de $8.00 a $14.00 USD de €7.70 a €13.50 EUR de $960.00 a $1680.00 CUP",
+        "Tipo de lugar Bar Cafetería Pizzería Restaurante",
+        "Todos los días 12:00 - 22:30 hrs",
+        "Sugerente sitio decorado al estilo afrocubano. Un agradable bar-restaurante se abre paso: La escultura de Changó les da la bienvenida a sus visitantes y promete una alegre y placentera mezcla de detallados platos y presentaciones en vivo. Leer Más",
+        "{% trans 'Barra de acceso rápido a la información del sitio'}",
+        "{% trans 'Información adicional'}",
+        "(+53) 4355 0865, (+53) 5416 6921, (+53) 5328 2591",
+        "Accesible, Bar, Buffet para eventos, Carta de vinos, Comida para llevar, Desayuno, Entrega a Domicilio, Parqueo, Presentaciones en vivo, Reservación de salón, Servicio en exteriores, Área de fumadores",
+        "Calle 38 e/ 41 y 43. Cienfuegos, Cienfuegos",
+        "¨Langosta al ajillo¨: Langosta grillada con ajo y vino blanco."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Suscríbete para recibir las mejores ofertas",
+        "Sólo recibirás ofertas 1 vez por semana."
+      ]
+    },
+    {
+      "fragmentos": [
+        "Por favor ingresa la dirección de correo que usaste al registrar tu cuenta de AlaMesa. Te enviaremos un correo que te permitirá restablecer tu contraseña.",
+        "Se ha enviado un mensaje con las instrucciones para restablecer la contraseña a tu dirección de correo electrónico, si existe en nuestro sistema."
+      ]
+    }
+  ],
+  "telefonos": [],
+  "emails": []
+}
