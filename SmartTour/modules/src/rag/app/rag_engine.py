@@ -1,5 +1,7 @@
+
 from .ollama_interface import OllamaClient
 from .retriever import Retriever
+from .ontology.retriever_ontology import OntologyRetriever
 from .fallback_scraper import search_dynamic
 from sentence_transformers import SentenceTransformer
 import faiss
@@ -9,6 +11,7 @@ class RAGEngine:
     def __init__(self, config, use_rag=True):
         self.use_rag = use_rag
         self.retriever = Retriever(config)
+        self.ontology_retriever = OntologyRetriever(config)
         self.ollama = OllamaClient()
         self.config = config
         self.embedder = SentenceTransformer(config["retriever"]["model"])  # Añadido para embeddings
@@ -21,14 +24,36 @@ class RAGEngine:
             force_search = True
         if action_tag == "summarize":
             summarize = True
+            
         if self.use_rag or force_search:
-            docs = self.retriever.retrieve(query) if not force_search else []
-            if docs and not force_search:
-                context = "\n".join(docs)
+            # Combinar búsquedas: documentos tradicionales + ontología
+            docs = []
+            ontology_results = []
+            
+            if not force_search:
+                # Búsqueda en documentos tradicionales
+                docs = self.retriever.retrieve(query)
+                # Búsqueda en ontología
+                ontology_results = self.ontology_retriever.retrieve(query)
+            
+            # Combinar resultados
+            all_results = docs + ontology_results
+            
+            if all_results:
+                context = "\n".join(all_results)
             else:
+                # Fallback a scraping dinámico
                 ecured_fallback = search_dynamic(query)
                 if ecured_fallback:
                     context = ecured_fallback
+                    # Insertar conocimiento en ontología para futuras consultas
+                    from .ontology.ontology_manager import OntologyManager
+                    ontology_manager = OntologyManager(self.config["ontology"]["owl_path"])
+                    ontology_manager.insert_fallback_knowledge(
+                        name=query, 
+                        province="Unknown", 
+                        description=context
+                    )
 
        
         history_text = ""
