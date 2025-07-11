@@ -5,7 +5,7 @@ import streamlit as st
 
 from .src.chatbot.bot import (
     initialize_conversation,
-    chatbot_conversation
+    chatbot_conversation  # ya importado
 )
 
 import json
@@ -179,30 +179,26 @@ def render(state):
             conversation_history = state.get("conversation", [])
             if not conversation_history:
                 conversation_history = initialize_conversation(state["language"], state["ollama_model"])
-            conversation_history.append({"role": "user", "content": user_input})
-            ollama_history = [msg for msg in conversation_history if msg["role"] in ("user", "assistant")]
-            prompt = user_input
-
-            # Streaming real
-            from .src.chatbot.bot import ollama_client  # Import directo para usar el stream
-            for chunk in ollama_client.stream_generate(state["ollama_model"], prompt, chat_history=ollama_history[:-1]):
-                try:
-                    data = json.loads(chunk)
-                    if isinstance(data, dict) and "response" in data:
-                        streamed_text += data["response"]
-                except Exception:
-                    continue
-                # Actualiza el mensaje del asistente en tiempo real
-                assistant_placeholder.markdown(
-                    f"""
-                    <div class="chat-row chat-row-assistant">
-                        <div style="flex:1"></div>
-                        <div class="chat-bubble-assistant">{streamed_text}</div>
-                        <div class="chat-avatar">🤖</div>
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
+            # Llama al método chatbot_conversation en vez de usar ollama_client directamente
+            response = chatbot_conversation(
+                user_input,
+                conversation_history,
+                state["collected_data"],
+                state["language"],
+                state["ollama_model"]
+            )
+            streamed_text = response
+            # Actualiza el mensaje del asistente en tiempo real (no hay streaming, solo respuesta final)
+            assistant_placeholder.markdown(
+                f"""
+                <div class="chat-row chat-row-assistant">
+                    <div style="flex:1"></div>
+                    <div class="chat-bubble-assistant">{streamed_text}</div>
+                    <div class="chat-avatar">🤖</div>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
         # Actualiza el historial con la respuesta final
         state["chat_history"][-1] = (user_input, streamed_text)
         # Actualiza la conversación para el próximo turno

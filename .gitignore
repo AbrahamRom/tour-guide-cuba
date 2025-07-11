@@ -7,7 +7,7 @@ __pycache__/
 *myenvpython*
 # C extensions
 *.so
-
+myenvpython/
 # Distribution / packaging
 .Python
 build/
@@ -183,3 +183,4 @@ cython_debug/
 
 SmartTour/modules/src/searcher/data/documents/
 DATA
+EXPERIMENTS

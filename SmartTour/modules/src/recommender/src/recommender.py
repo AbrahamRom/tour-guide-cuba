@@ -7,7 +7,7 @@ class Recommender:
         # Filtrar solo ofertas con vector válido
         self.offers = [o for o in offers if o.vector is not None]
 
-    def rank_offers(self, top_k=5):
+    def rank_offers(self, top_k=10):
         if not self.offers:
             return []
 

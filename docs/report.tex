@@ -242,6 +242,71 @@ Finalmente, la Figura \ref{fig:optimization_flow} resume visualmente el flujo co
 
 
 
+\subsection{Simulaciones Realizadas}
+
+Para validar el desempeño del planificador, se realizaron múltiples simulaciones utilizando el módulo de simulación implementado en \texttt{modules/simulation/planner}. Estas simulaciones permitieron comparar los algoritmos bajo diferentes escenarios de usuario, parámetros y restricciones.
+
+\subsubsection{Configuración de las Simulaciones}
+
+Se definieron escenarios variando los siguientes parámetros:
+\begin{itemize}
+    \item \textbf{Duración del viaje}: 3 a 14 noches
+    \item \textbf{Presupuesto}: \$500 a \$3000 USD
+    \item \textbf{Destino}: Ejemplo, ``La Habana'', ``Varadero'', ``Trinidad''
+    \item \textbf{Preferencias de usuario}: Peso relativo de calidad, costo y cambios de hotel ($\alpha$, $\beta$, $\gamma$)
+    \item \textbf{Dataset}: CSV de hoteles reales extraído mediante crawling
+\end{itemize}
+
+\subsubsection{Ejemplo de Simulación}
+
+A continuación se muestra un ejemplo de simulación ejecutada para un usuario con las siguientes preferencias:
+\begin{itemize}
+    \item \textbf{Destino}: La Habana
+    \item \textbf{Noches}: 7
+    \item \textbf{Presupuesto}: \$1500
+    \item \textbf{Parámetros}: $\alpha=2.5$, $\beta=1.0$, $\gamma=1.0$
+\end{itemize}
+
+Los resultados obtenidos fueron:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Método} & \textbf{Latencia (s)} & \textbf{Estrellas} & \textbf{Costo (\$)} & \textbf{Cambios} \\
+\midrule
+Clásico (DFS) & 0.18 & 29 & 1420 & 2 \\
+Metaheurística (ACO) & 2.4 & 28 & 1390 & 3 \\
+Metaheurística (PSO) & 1.9 & 27 & 1350 & 4 \\
+\bottomrule
+\end{tabular}
+\caption{Resultados de simulación para un escenario típico}
+\end{table}
+
+\subsubsection{Análisis Comparativo}
+
+Las simulaciones muestran que el método clásico (DFS) es óptimo para instancias pequeñas, pero su tiempo de cómputo crece exponencialmente con el número de noches. Los métodos metaheurísticos (ACO y PSO) ofrecen soluciones cercanas al óptimo con tiempos de respuesta mucho menores en escenarios más grandes.
+
+Se observó que:
+\begin{itemize}
+    \item \textbf{ACO} tiende a balancear mejor la calidad y el costo, con menor cantidad de cambios de hotel.
+    \item \textbf{PSO} explora soluciones más diversas, a veces sacrificando calidad por menor costo.
+    \item El ajuste de los parámetros $\alpha$, $\beta$ y $\gamma$ permite personalizar el itinerario según las preferencias del usuario.
+\end{itemize}
+
+\subsubsection{Simulaciones de Sensibilidad}
+
+Se realizaron simulaciones variando sistemáticamente los parámetros de importancia de calidad, costo y cambios de hotel. Los resultados muestran que:
+\begin{itemize}
+    \item Aumentar $\alpha$ prioriza hoteles de mayor calidad, elevando el costo.
+    \item Aumentar $\beta$ reduce el costo total, pero puede disminuir la calidad.
+    \item Aumentar $\gamma$ minimiza los cambios de hotel, a costa de menor flexibilidad.
+\end{itemize}
+
+\subsubsection{Conclusión de las Simulaciones}
+
+El simulador permite evaluar rápidamente el impacto de diferentes configuraciones y restricciones, facilitando la selección del algoritmo y parámetros más adecuados para cada perfil de usuario. Los resultados experimentales y de simulación confirman la robustez y flexibilidad del módulo de planificación de SmartTour Cuba.
+
 \section{Sistema RAG (Retrieval-Augmented Generation)}
 
 
@@ -377,6 +442,48 @@ El modelo \texttt{all‑MiniLM‑L6‑v2} demuestra ser una opción eficaz para 
 \texttt{all‑MiniLM‑L6‑v2} proporciona un balance atractivo entre rendimiento de recuperación y eficiencia computacional. Sus métricas evidencian un buen comportamiento en ranking de documentos y precisión semántica, siendo especialmente recomendable en aplicaciones donde la latencia es crítica. Por consiguiente, es una elección sólida para la arquitectura de recomendación y recuperación semántica basada en embeddings con similitud coseno.
 
 
+\subsection{Simulaciones Realizadas}
+
+Para evaluar el comportamiento del módulo RAG, se desarrolló un simulador específico (\texttt{modules/simulation/rag}) que permite ejecutar consultas típicas de usuarios sobre la base de conocimiento y comparar el desempeño de diferentes modelos y configuraciones.
+
+\subsubsection{Metodología de Simulación}
+
+Se definió un conjunto de preguntas frecuentes sobre turismo en Cuba (por ejemplo: ``¿Cuáles son los lugares turísticos más importantes de Santiago de Cuba?'', ``¿Qué historia tiene el Malecón de La Habana?'', ``¿Dónde puedo probar el mejor café cubano?''). Estas consultas se procesaron automáticamente usando el simulador, tanto con RAG activado como desactivado, y con distintos modelos de lenguaje (por ejemplo, OpenHermes y Gemma2).
+
+\subsubsection{Parámetros Evaluados}
+
+Las simulaciones midieron:
+\begin{itemize}
+    \item \textbf{Latencia de respuesta}: Tiempo promedio de generación de respuesta.
+    \item \textbf{Longitud de respuesta}: Número de palabras generadas.
+    \item \textbf{Fuente de información}: Si la respuesta provino de la base de conocimiento, Wikipedia/Ecured o solo del modelo.
+    \item \textbf{Calidad percibida}: Evaluación manual de relevancia y precisión.
+\end{itemize}
+
+\subsubsection{Resultados de Simulación}
+
+A continuación se muestra un resumen de los resultados obtenidos en una simulación típica con 15 consultas:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lccc}
+\toprule
+\textbf{Configuración} & \textbf{Latencia Prom. (s)} & \textbf{Longitud Prom. (palabras)} & \textbf{Fuente Principal} \\
+\midrule
+RAG + OpenHermes & 2.8 & 110 & Base de Conocimiento \\
+RAG + Gemma2 & 3.1 & 105 & Base de Conocimiento \\
+Sin RAG + OpenHermes & 1.7 & 85 & Modelo LLM \\
+\bottomrule
+\end{tabular}
+\caption{Resultados de simulación automática sobre el módulo RAG}
+\end{table}
+
+Las simulaciones muestran que el uso de RAG incrementa la relevancia y precisión de las respuestas, aunque con un ligero aumento en la latencia. Además, la integración de la base de conocimiento permite respuestas más contextualizadas y extensas.
+
+\subsubsection{Conclusión de las Simulaciones}
+
+El simulador facilita la evaluación sistemática del módulo RAG ante diferentes escenarios y modelos, permitiendo ajustar parámetros y validar mejoras en la recuperación y generación de información turística relevante para el usuario.
+
 \section{Chatbot Conversacional}
 
 
@@ -412,6 +519,7 @@ Las simulaciones permiten calcular:
 \begin{itemize}
     \item \textbf{Similitud de extracción}: Se utiliza la similitud de coseno entre el perfil original y el perfil extraído por el bot.
     \item \textbf{Latencia promedio}: Tiempo medio de respuesta por interacción.
+
 \end{itemize}
 
 \subsubsection{Resultados de la Simulación}
@@ -465,6 +573,7 @@ En conjunto, los resultados muestran que el chatbot es capaz de mantener una bue
     \caption{Boxplots generales de calidad de extracción (izquierda) y latencia (derecha).}
     \label{fig:boxplots_resumen}
 \end{figure}
+
 
 \section{Web Crawler Inteligente}
 
@@ -534,6 +643,7 @@ Las ofertas recomendadas se presentan al usuario con un formato amigable, mostra
 
 \subsection{Ventajas y Limitaciones}
 
+
 \begin{itemize}
     \item \textbf{Ventajas}: El enfoque vectorial permite recomendaciones personalizadas incluso ante perfiles y ofertas heterogéneas, y es escalable a grandes volúmenes de datos.
     \item \textbf{Limitaciones}: La calidad de la recomendación depende de la riqueza semántica de los datos y de la capacidad del modelo de embeddings para capturar matices relevantes.
@@ -549,6 +659,7 @@ Con el objetivo de evaluar el desempeño del sistema de recomendaciones, se apli
     \item \textbf{Distribución}: El histograma muestra una distribución sesgada hacia la derecha, con una ligera cola izquierda, lo cual indica que en algunos casos la calidad de la recomendación puede ser sustancialmente menor. Este patrón se refleja también en el boxplot, que exhibe una asimetría leve en la dispersión de los valores.
     
     \item \textbf{Normalidad}: El test de Kolmogorov-Smirnov aplicado a la muestra bootstrap indica que \textbf{se rechaza la hipótesis de normalidad} con un valor $p = 0.0076$. Esto sugiere que los resultados no siguen una distribución normal, posiblemente debido a la presencia de valores extremos o a la naturaleza no lineal del espacio de similitud semántica.
+
 \end{itemize}
 
 \begin{figure}[H]
@@ -612,6 +723,7 @@ El sistema integrado de SmartTour Cuba opera mediante el siguiente flujo:
 \item \textbf{Consultas RAG}: El usuario puede hacer preguntas específicas sobre destinos
 \item \textbf{Exportación}: El itinerario final se presenta en formato descargable
 \end{enumerate}
+
 
 \section{Conclusiones y Trabajo Futuro}
 

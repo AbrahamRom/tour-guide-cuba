@@ -1,16 +1,21 @@
+
 from .ollama_interface import OllamaClient
 from .retriever import Retriever
-from .fallback_scraper import search_wikipedia
+from .ontology.retriever_ontology import OntologyRetriever
+from .fallback_scraper import search_dynamic
+from sentence_transformers import SentenceTransformer
+import faiss
+import numpy as np
 
 class RAGEngine:
     def __init__(self, config, use_rag=True):
         self.use_rag = use_rag
         self.retriever = Retriever(config)
+        self.ontology_retriever = OntologyRetriever(config)
         self.ollama = OllamaClient()
         self.config = config
+        self.embedder = SentenceTransformer(config["retriever"]["model"])  # Añadido para embeddings
 
-
-    
     def build_prompt(self, query, chat_history, action_tag=None):
         context = ""
         force_search = False
@@ -19,24 +24,66 @@ class RAGEngine:
             force_search = True
         if action_tag == "summarize":
             summarize = True
+            
         if self.use_rag or force_search:
-            docs = self.retriever.retrieve(query) if not force_search else []
-            if docs and not force_search:
-                context = "\n".join(docs)
+            # Combinar búsquedas: documentos tradicionales + ontología
+            docs = []
+            ontology_results = []
+            
+            if not force_search:
+                # Búsqueda en documentos tradicionales
+                docs = self.retriever.retrieve(query)
+                # Búsqueda en ontología
+                ontology_results = self.ontology_retriever.retrieve(query)
+            
+            # Combinar resultados
+            all_results = docs + ontology_results
+            
+            if all_results:
+                context = "\n".join(all_results)
             else:
-                ecured_fallback = search_wikipedia(query)
+                # Fallback a scraping dinámico
+                ecured_fallback = search_dynamic(query)
                 if ecured_fallback:
                     context = ecured_fallback
+                    # Insertar conocimiento en ontología para futuras consultas
+                    from .ontology.ontology_manager import OntologyManager
+                    ontology_manager = OntologyManager(self.config["ontology"]["owl_path"])
+                    ontology_manager.insert_fallback_knowledge(
+                        name=query, 
+                        province="Unknown", 
+                        description=context
+                    )
 
+       
         history_text = ""
         if chat_history:
-            # Assuming chat_history is a list of dicts with 'role' and 'content'
-            formatted_history = []
-            for turn in chat_history:
-                role = turn.get("role", "user")
-                content = turn.get("content", "")
-                formatted_history.append(f"{role.capitalize()}: {content}")
-            history_text = "\n".join(formatted_history)
+            # Extraer solo el contenido de cada turno
+            contents = [turn.get("content", "") for turn in chat_history]
+            if contents:
+                # Calcular embeddings
+                query_emb = self.embedder.encode([query])
+                history_embs = self.embedder.encode(contents)
+
+                # Normalizar para similitud por coseno
+                query_emb = query_emb / np.linalg.norm(query_emb, axis=1, keepdims=True)
+                history_embs = history_embs / np.linalg.norm(history_embs, axis=1, keepdims=True)
+
+                # Crear índice FAISS para similitud por coseno (IndexFlatIP)
+                index = faiss.IndexFlatIP(history_embs.shape[1])
+                index.add(history_embs.astype(np.float32))
+                D, I = index.search(query_emb.astype(np.float32), min(10, len(contents)))
+                top_indices = I[0]
+
+                # Formatear solo los mensajes más similares
+                formatted_history = []
+                for idx in top_indices:
+                    turn = chat_history[idx]
+                    role = turn.get("role", "user")
+                    content = turn.get("content", "")
+                    formatted_history.append(f"{role.capitalize()}: {content}")
+                history_text = "\n".join(formatted_history)
+       
 
         important_note = ""
         if action_tag == "important":
