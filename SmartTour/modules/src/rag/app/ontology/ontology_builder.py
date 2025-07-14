@@ -1,19 +1,20 @@
-from rdflib import Graph, Namespace, URIRef, Literal, RDF, RDFS, OWL
-from rdflib.namespace import XSD
-import os
-import json
-import re
-import unicodedata
+from rdflib import Graph, Literal, RDF, RDFS, Namespace, URIRef
+from rdflib.namespace import OWL, XSD
+import os, json
 from uuid import uuid4
+import unicodedata
+import re
 
 EX = Namespace("http://smarttour.org/tourism#")
 
-def normalize_text(text):
-    text = str(text or "")
-    text = unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('ascii')
-    text = re.sub(r'[^\w\s-]', '', text)
-    text = text.replace(" ", "_").replace("__", "_")
-    return text.strip("_").lower()
+def clean_uri(value):
+    # Elimina tildes, convierte a ascii, elimina comillas, paréntesis, puntos, comas, etc.
+    value = str(value or "")
+    value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore').decode('ascii')
+    value = re.sub(r'[^\w\s-]', '', value)
+    value = value.replace(" ", "_").replace("__", "_")
+    value = value.strip("_").lower()
+    return value if value else None
 
 class OntologyBuilder:
     def __init__(self):
@@ -21,87 +22,37 @@ class OntologyBuilder:
         self.graph.bind("ex", EX)
         self.graph.bind("owl", OWL)
         self.graph.bind("rdfs", RDFS)
-        self.province_map = {
-            "la habana": ["habana", "havana", "capital", "vedado", "miramar", "centro habana"],
-            "matanzas": ["matanzas", "varadero", "cardenas", "jovellanos"],
-            "villa clara": ["villa clara", "santa clara", "remedios", "caibarien", "sagua"],
-            "santiago de cuba": ["santiago", "santiago de cuba", "oriente"],
-            "holguin": ["holguin", "holguín", "guardalavaca", "banes", "gibara"],
-            "guantanamo": ["guantanamo", "guantánamo", "baracoa"],
-            "cienfuegos": ["cienfuegos", "jagua"],
-            "sancti spiritus": ["sancti spiritus", "trinidad", "topes"],
-            "ciego de avila": ["ciego", "ciego de avila", "moron"],
-            "camaguey": ["camaguey", "camagüey"],
-            "granma": ["granma", "bayamo", "manzanillo"],
-            "las tunas": ["las tunas", "tunas"],
-            "pinar del rio": ["pinar", "pinar del rio", "viñales", "vinales"],
-            "artemisa": ["artemisa", "san antonio"],
-            "mayabeque": ["mayabeque", "san jose"]
-        }
-        self.place_types = {
-            "restaurante": ["restaurante", "paladar", "comedor", "cafeteria", "pizzeria", "bar"],
-            "hotel": ["hotel", "casa particular", "hospedaje", "alojamiento", "hostal", "resort"],
-            "museo": ["museo", "galeria", "exposicion", "centro cultural", "monumento"],
-            "playa": ["playa", "balneario", "costa", "beach"],
-            "teatro": ["teatro", "cine", "auditorio"],
-            "parque": ["parque", "reserva", "jardin", "bosque", "natural"],
-            "mercado": ["mercado", "tienda", "shopping", "comercio", "bazar", "artesania"]
-        }
-        self.cuisine_types = {
-            "cubana": ["cubana", "criolla", "tradicional cubana"],
-            "internacional": ["internacional", "variada", "fusion"],
-            "italiana": ["italiana", "pizza", "pasta"],
-            "china": ["china", "chino", "oriental"],
-            "española": ["española", "ibérica"],
-            "francesa": ["francesa", "gourmet"],
-            "mexicana": ["mexicana", "tacos"],
-            "vegetariana": ["vegetariana", "vegana", "vegetarian"],
-            "mariscos": ["mariscos", "pescado", "seafood"],
-            "parrilla": ["parrilla", "asados", "barbacoa", "grill"]
-        }
-        self.activity_types = [
-            "buceo", "snorkel", "pesca", "natación", "windsurf", "kayak",
-            "senderismo", "trekking", "escalada", "ciclismo",
-            "baile", "salsa", "música", "espectáculo",
-            "tour", "excursión", "visita guiada",
-            "golf", "tenis", "voleibol",
-            "spa", "masajes", "relajación",
-            "compras", "shopping",
-            "fotografía", "avistamiento"
-        ]
+        self.provinces = set()
+        self.cuisine_types = set()
+        self.place_types = set()
+        self.price_ranges = set()
+        self.activities = set()
+        self.contacts = set()
         self._define_schema()
-        self._cache = {
-            "province": {},
-            "place_type": {},
-            "cuisine": {},
-            "activity": {},
-            "price_range": {},
-            "contact": {}
-        }
 
     def _define_schema(self):
         # Clases
         self.graph.add((EX.TouristPlace, RDF.type, OWL.Class))
         self.graph.add((EX.Province, RDF.type, OWL.Class))
-        self.graph.add((EX.PlaceType, RDF.type, OWL.Class))
         self.graph.add((EX.CuisineType, RDF.type, OWL.Class))
-        self.graph.add((EX.Activity, RDF.type, OWL.Class))
+        self.graph.add((EX.PlaceType, RDF.type, OWL.Class))
         self.graph.add((EX.PriceRange, RDF.type, OWL.Class))
         self.graph.add((EX.Contact, RDF.type, OWL.Class))
+        self.graph.add((EX.Activity, RDF.type, OWL.Class))
         # Object properties
         self.graph.add((EX.locatedInProvince, RDF.type, OWL.ObjectProperty))
-        self.graph.add((EX.hasPlaceType, RDF.type, OWL.ObjectProperty))
         self.graph.add((EX.hasCuisineType, RDF.type, OWL.ObjectProperty))
-        self.graph.add((EX.hasActivity, RDF.type, OWL.ObjectProperty))
+        self.graph.add((EX.hasPlaceType, RDF.type, OWL.ObjectProperty))
         self.graph.add((EX.hasPriceRange, RDF.type, OWL.ObjectProperty))
         self.graph.add((EX.hasContact, RDF.type, OWL.ObjectProperty))
+        self.graph.add((EX.hasActivity, RDF.type, OWL.ObjectProperty))
         # Data properties
         self.graph.add((EX.hasName, RDF.type, OWL.DatatypeProperty))
         self.graph.add((EX.hasDescription, RDF.type, OWL.DatatypeProperty))
         self.graph.add((EX.hasAddress, RDF.type, OWL.DatatypeProperty))
-        self.graph.add((EX.hasUrl, RDF.type, OWL.DatatypeProperty))
         self.graph.add((EX.hasPhone, RDF.type, OWL.DatatypeProperty))
         self.graph.add((EX.hasEmail, RDF.type, OWL.DatatypeProperty))
+        self.graph.add((EX.hasUrl, RDF.type, OWL.DatatypeProperty))
         # Ranges/domains (opcional, pero recomendable)
         self.graph.add((EX.locatedInProvince, RDFS.domain, EX.TouristPlace))
         self.graph.add((EX.locatedInProvince, RDFS.range, EX.Province))
@@ -128,80 +79,35 @@ class OntologyBuilder:
         self.graph.add((EX.hasUrl, RDFS.domain, EX.TouristPlace))
         self.graph.add((EX.hasUrl, RDFS.range, XSD.string))
 
-    def _get_or_create(self, label, cls, cache_key):
-        label_norm = normalize_text(label)
-        if not label_norm:
+    def _get_or_create(self, name, cls, cache_set):
+        safe_name = clean_uri(name)
+        if not safe_name:
+            # No crear recursos para valores vacíos o nulos
             return None
-        if label_norm in self._cache[cache_key]:
-            return self._cache[cache_key][label_norm]
-        uri = EX[f"{cache_key}_{label_norm}"]
-        self.graph.add((uri, RDF.type, getattr(EX, cls)))
-        self.graph.add((uri, RDFS.label, Literal(label)))
-        self._cache[cache_key][label_norm] = uri
+        uri = EX[f"{cls.__name__.lower()}_{safe_name}"]
+        if name not in cache_set:
+            self.graph.add((uri, RDF.type, getattr(EX, cls.__name__)))
+            self.graph.add((uri, RDFS.label, Literal(name)))
+            cache_set.add(name)
         return uri
 
-    def _extract_province(self, text):
-        text = text.lower()
-        for prov, synonyms in self.province_map.items():
-            if prov in text:
-                return prov.title()
-            for syn in synonyms:
-                if syn in text:
-                    return prov.title()
-        return "Cuba"
+    def _get_or_create_province(self, province_name):
+        return self._get_or_create(province_name, Province, self.provinces)
 
-    def _extract_place_types(self, text):
-        found = set()
-        text = text.lower()
-        for pt, synonyms in self.place_types.items():
-            if pt in text:
-                found.add(pt)
-            for syn in synonyms:
-                if syn in text:
-                    found.add(pt)
-        return list(found)
+    def _get_or_create_cuisine(self, cuisine_name):
+        return self._get_or_create(cuisine_name, CuisineType, self.cuisine_types)
 
-    def _extract_cuisine_types(self, text):
-        found = set()
-        text = text.lower()
-        for ct, synonyms in self.cuisine_types.items():
-            if ct in text:
-                found.add(ct)
-            for syn in synonyms:
-                if syn in text:
-                    found.add(ct)
-        return list(found)
+    def _get_or_create_place_type(self, place_type_name):
+        return self._get_or_create(place_type_name, PlaceType, self.place_types)
 
-    def _extract_activities(self, text):
-        found = set()
-        text = text.lower()
-        for act in self.activity_types:
-            if act in text:
-                found.add(act)
-        return list(found)
+    def _get_or_create_price_range(self, price_range):
+        return self._get_or_create(price_range, PriceRange, self.price_ranges)
 
-    def _extract_price_range(self, text):
-        match = re.search(r'(precio|tarifa|costo|rango de precios)[^\d]*(\d+[\d\s\.,$€]*)', text.lower())
-        if match:
-            return match.group(2)
-        return None
-
-    def _extract_address(self, text):
-        match = re.search(r'(dirección|direccion|ubicado en|situada en)[^\w]*(.*)', text.lower())
-        if match:
-            return match.group(2).strip()
-        return None
-
-    def _extract_phones(self, text):
-        return re.findall(r'(\+?\d[\d\s\-]{7,})', text)
-
-    def _extract_emails(self, text):
-        return re.findall(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', text)
+    def _get_or_create_activity(self, activity_name):
+        return self._get_or_create(activity_name, Activity, self.activities)
 
     def _create_contact(self, phones, emails):
-        if not phones and not emails:
-            return None
-        contact_uri = EX[f"contact_{uuid4()}"]
+        contact_uri = EX["contact_" + str(uuid4())]
         self.graph.add((contact_uri, RDF.type, EX.Contact))
         for phone in phones:
             self.graph.add((contact_uri, EX.hasPhone, Literal(phone)))
@@ -209,42 +115,39 @@ class OntologyBuilder:
             self.graph.add((contact_uri, EX.hasEmail, Literal(email)))
         return contact_uri
 
-    def add_place(self, data):
-        name = data.get("name")
-        if not name:
-            return
-        place_uri = EX[f"place_{uuid4()}"]
+    def add_place(self, name, province, cuisine_types, description, price_range=None, place_types=None, address=None, url=None, phones=None, emails=None, activities=None):
+        place_uri = EX[str(uuid4())]
         self.graph.add((place_uri, RDF.type, EX.TouristPlace))
         self.graph.add((place_uri, EX.hasName, Literal(name)))
-        desc = data.get("description")
-        if desc:
-            self.graph.add((place_uri, EX.hasDescription, Literal(desc)))
-        address = data.get("address")
+        self.graph.add((place_uri, EX.hasDescription, Literal(description)))
         if address:
             self.graph.add((place_uri, EX.hasAddress, Literal(address)))
-        url = data.get("url")
         if url:
             self.graph.add((place_uri, EX.hasUrl, Literal(url)))
-        province = data.get("province")
         if province:
-            prov_uri = self._get_or_create(province, "Province", "province")
-            self.graph.add((place_uri, EX.locatedInProvince, prov_uri))
-        for pt in data.get("place_types", []):
-            pt_uri = self._get_or_create(pt, "PlaceType", "place_type")
-            self.graph.add((place_uri, EX.hasPlaceType, pt_uri))
-        for ct in data.get("cuisine_types", []):
-            ct_uri = self._get_or_create(ct, "CuisineType", "cuisine")
-            self.graph.add((place_uri, EX.hasCuisineType, ct_uri))
-        for act in data.get("activities", []):
-            act_uri = self._get_or_create(act, "Activity", "activity")
-            self.graph.add((place_uri, EX.hasActivity, act_uri))
-        price = data.get("price_range")
-        if price:
-            pr_uri = self._get_or_create(price, "PriceRange", "price_range")
-            self.graph.add((place_uri, EX.hasPriceRange, pr_uri))
-        contact_uri = self._create_contact(data.get("phones", []), data.get("emails", []))
-        if contact_uri:
+            prov_uri = self._get_or_create_province(province)
+            if prov_uri:
+                self.graph.add((place_uri, EX.locatedInProvince, prov_uri))
+        # Filtrar valores vacíos o nulos antes de crear recursos
+        for cuisine in filter(None, cuisine_types or []):
+            cuisine_uri = self._get_or_create_cuisine(cuisine)
+            if cuisine_uri:
+                self.graph.add((place_uri, EX.hasCuisineType, cuisine_uri))
+        for pt in filter(None, place_types or []):
+            pt_uri = self._get_or_create_place_type(pt)
+            if pt_uri:
+                self.graph.add((place_uri, EX.hasPlaceType, pt_uri))
+        if price_range:
+            pr_uri = self._get_or_create_price_range(price_range)
+            if pr_uri:
+                self.graph.add((place_uri, EX.hasPriceRange, pr_uri))
+        if (phones or emails):
+            contact_uri = self._create_contact(phones or [], emails or [])
             self.graph.add((place_uri, EX.hasContact, contact_uri))
+        for act in filter(None, activities or []):
+            act_uri = self._get_or_create_activity(act)
+            if act_uri:
+                self.graph.add((place_uri, EX.hasActivity, act_uri))
 
     def parse_json_folder(self, folder_path):
         for root, _, files in os.walk(folder_path):
@@ -256,55 +159,163 @@ class OntologyBuilder:
         try:
             with open(path, "r", encoding="utf-8") as f:
                 data = json.load(f)
-            # Nombre
-            name = data.get("titulo", "").strip()
-            if not name:
-                print(f"Saltando {path}: sin nombre")
-                return
-            # Unir todos los fragmentos y secciones en un solo texto
-            secciones = data.get("secciones", [])
-            all_text = name + " "
-            for sec in secciones:
-                if isinstance(sec, dict):
-                    all_text += " ".join([str(x) for x in sec.get("fragmentos", []) if isinstance(x, str)]) + " "
-            all_text += " " + str(data.get("descripcion", ""))
-            # Extracción avanzada
-            province = self._extract_province(all_text)
-            place_types = self._extract_place_types(all_text)
-            cuisine_types = self._extract_cuisine_types(all_text)
-            activities = self._extract_activities(all_text)
-            price_range = self._extract_price_range(all_text)
-            address = self._extract_address(all_text)
-            phones = self._extract_phones(all_text)
-            emails = self._extract_emails(all_text)
-            url = data.get("url")
-            # Descripción útil
-            description = None
-            for sec in secciones:
-                if isinstance(sec, dict) and "descripcion" in sec.get("titulo", "").lower():
-                    description = " ".join([str(x) for x in sec.get("fragmentos", []) if isinstance(x, str)])
-            if not description or len(description) < 30:
-                description = f"{name} es un lugar turístico en {province}."
-            # Agregar al grafo
-            self.add_place({
-                "name": name,
-                "description": description,
-                "province": province,
-                "place_types": place_types,
-                "cuisine_types": cuisine_types,
-                "activities": activities,
-                "price_range": price_range,
-                "address": address,
-                "phones": phones,
-                "emails": emails,
-                "url": url
-            })
-            print(f"Procesado: {name} ({province})")
-        except Exception as e:
-            print(f"Error procesando {path}: {e}")
+                
+                # Verificar que data no sea None y sea un diccionario
+                if not isinstance(data, dict):
+                    print(f"Archivo {path} no contiene un diccionario válido, saltando...")
+                    return
 
-    def save(self, filepath="data/tourism.ttl"):
-        self.graph.serialize(destination=filepath, format="turtle")
+                secciones = data.get("secciones", [])
+                if not isinstance(secciones, list):
+                    secciones = []
+
+                all_fragments = []
+                structured_content = {}
+
+                # --------- CORREGIDO: OBTENER EL NOMBRE DEL LUGAR SOLO DEL CAMPO 'titulo' ---------
+                nombre = ""
+                if "titulo" in data and isinstance(data["titulo"], str):
+                    nombre = data["titulo"].strip()
+                # Si no hay nombre, no procesar el lugar
+                if not nombre:
+                    print(f"Archivo {path} no tiene campo 'titulo' válido, saltando...")
+                    return
+                # ---------------------------------------------------------------
+
+                # Extraer contenido de secciones de manera más inteligente
+                secciones = data.get("secciones", [])
+                if not isinstance(secciones, list):
+                    secciones = []
+                
+                all_fragments = []
+                structured_content = {}
+                
+                for seccion in secciones:
+                    if not isinstance(seccion, dict):
+                        continue
+                    titulo_seccion = seccion.get("titulo", "") or ""
+                    titulo_seccion = titulo_seccion.lower()
+                    fragmentos = seccion.get("fragmentos", [])
+                    if not isinstance(fragmentos, list):
+                        fragmentos = []
+                    fragmentos = [f for f in fragmentos if isinstance(f, str)]
+                    # Organizar fragmentos por tipo de sección
+                    if any(keyword in titulo_seccion for keyword in ["descripcion", "sobre", "acerca", "historia", "caracteristicas"]):
+                        structured_content["description"] = " ".join(fragmentos)
+                    elif any(keyword in titulo_seccion for keyword in ["ubicacion", "direccion", "donde", "localizado"]):
+                        structured_content["location"] = " ".join(fragmentos)
+                    elif any(keyword in titulo_seccion for keyword in ["servicios", "facilidades", "ofertas", "actividades"]):
+                        structured_content["services"] = fragmentos
+                    elif any(keyword in titulo_seccion for keyword in ["horario", "horarios", "cuando", "abierto"]):
+                        structured_content["schedule"] = " ".join(fragmentos)
+                    elif any(keyword in titulo_seccion for keyword in ["contacto", "telefono", "email", "comunicacion"]):
+                        structured_content["contact"] = " ".join(fragmentos)
+                    all_fragments.extend(fragmentos)
+                
+                # Solo procesar si tenemos información mínima
+                if not nombre or not all_fragments:
+                    print(f"Archivo {path} no contiene información suficiente, saltando...")
+                    return
+                
+                provincia = self._extract_province(all_fragments, structured_content.get("location", ""))
+                cocina = self._extract_cuisine_types(all_fragments)
+                place_types = self._extract_place_types(all_fragments, nombre)
+                activities = self._extract_activities(all_fragments, structured_content.get("services", []))
+                descripcion = self._create_useful_description(
+                    nombre, 
+                    structured_content.get("description", ""),
+                    all_fragments,
+                    provincia,
+                    place_types
+                )
+                phones = self._extract_phones(all_fragments)
+                emails = self._extract_emails(all_fragments)
+                address = self._extract_address(all_fragments, structured_content.get("location", ""))
+                precio = self._extract_price_range(all_fragments)
+                url = data.get("url")
+
+                # Solo agregar si tenemos información útil y nombre válido
+                if provincia and descripcion and len(descripcion) > 50 and nombre:
+                    self.add_place(
+                        nombre, provincia, cocina, descripcion, precio,
+                        place_types=place_types if place_types else None, address=address, url=url,
+                        phones=phones, emails=emails, activities=activities
+                    )
+                else:
+                    print(f"Lugar '{nombre}' no tiene información suficiente para ser agregado")
+        except json.JSONDecodeError as e:
+            print(f"Error al parsear JSON en {path}: {e}")
+        except Exception as e:
+            print(f"Error procesando archivo {path}: {e}")
+
+    def _extract_province(self, fragments, location_text):
+        """Extrae la provincia de manera más precisa"""
+        provinces_mapping = {
+            "villa clara": ["villa clara", "santa clara", "remedios", "caibarien", "sagua"],
+            "la habana": ["habana", "havana", "capital", "vedado", "miramar", "centro habana"],
+            "matanzas": ["matanzas", "varadero", "cardenas", "jovellanos"],
+            "santiago de cuba": ["santiago", "santiago de cuba"],
+            "holguin": ["holguin", "holguín", "guardalavaca", "banes"],
+            "guantanamo": ["guantanamo", "guantánamo", "baracoa"],
+            "cienfuegos": ["cienfuegos", "jagua"],
+            "sancti spiritus": ["sancti spiritus", "trinidad", "topes"],
+            "ciego de avila": ["ciego", "ciego de avila", "moron"],
+            "camaguey": ["camaguey", "camagüey"],
+            "granma": ["granma", "bayamo", "manzanillo"],
+            "las tunas": ["las tunas", "tunas"],
+            "pinar del rio": ["pinar", "pinar del rio", "viñales", "vinales"],
+            "artemisa": ["artemisa", "san antonio"],
+            "mayabeque": ["mayabeque", "san jose"]
+        }
+        
+        search_text = (location_text + " " + " ".join(fragments)).lower()
+        
+        for province, keywords in provinces_mapping.items():
+            for keyword in keywords:
+                if keyword in search_text:
+                    return province.title()
+        
+        # Buscar patrones específicos
+        for fragment in fragments:
+            fragment_lower = fragment.lower()
+            if fragment_lower.startswith("provincia"):
+                parts = fragment.split(":")
+                if len(parts) > 1:
+                    return parts[1].strip().title()
+            
+            if "ubicado en" in fragment_lower or "situada en" in fragment_lower:
+                for province, keywords in provinces_mapping.items():
+                    for keyword in keywords:
+                        if keyword in fragment_lower:
+                            return province.title()
+        
+        return "Cuba"  # Default fallback
+
+    def _extract_cuisine_types(self, fragments):
+        """Extrae tipos de cocina de manera más precisa"""
+        cuisine_keywords = {
+            "cubana": ["cubana", "criolla", "tradicional cubana"],
+            "internacional": ["internacional", "variada", "fusion"],
+            "italiana": ["italiana", "pizza", "pasta"],
+            "china": ["china", "chino", "oriental"],
+            "española": ["española", "ibérica"],
+            "francesa": ["francesa", "gourmet"],
+            "mexicana": ["mexicana", "tacos"],
+            "vegetariana": ["vegetariana", "vegana", "vegetarian"],
+            "mariscos": ["mariscos", "pescado", "seafood"],
+            "parrilla": ["parrilla", "asados", "barbacoa", "grill"]
+        }
+        
+        found_cuisines = []
+        search_text = " ".join(fragments).lower()
+        
+        for cuisine, keywords in cuisine_keywords.items():
+            for keyword in keywords:
+                if keyword in search_text:
+                    found_cuisines.append(cuisine)
+                    break
+        
+        return found_cuisines
 
     def _extract_place_types(self, fragments, name):
         """Extrae tipos de lugar de manera más precisa"""

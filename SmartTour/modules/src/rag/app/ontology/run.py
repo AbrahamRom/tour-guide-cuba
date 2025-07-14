@@ -11,16 +11,16 @@ def main():
             print(f"Error: La carpeta {data_folder} no existe")
             return
         
-        print("Procesando archivos JSON...")
+        print("Iniciando procesamiento de archivos JSON...")
         builder.parse_json_folder(data_folder)
         
         # Crear directorio de salida si no existe
         output_dir = r"../../data"
         os.makedirs(output_dir, exist_ok=True)
         
-        output_file = r"../../data/tourism.ttl"
+        output_file = r"../../data/tourism.owl"
         builder.save(output_file)
-        print(f"Ontología guardada exitosamente en {output_file} (formato Turtle)")
+        print(f"Ontología guardada exitosamente en {output_file}")
         
     except Exception as e:
         print(f"Error durante la ejecución: {e}")
