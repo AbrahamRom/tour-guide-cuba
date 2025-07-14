@@ -4,6 +4,7 @@ from .fallback_scraper import search_dynamic
 from sentence_transformers import SentenceTransformer
 import faiss
 import numpy as np
+import streamlit as st
 
 class RAGEngine:
     def __init__(self, config, use_rag=True):
@@ -30,6 +31,7 @@ class RAGEngine:
             
             # Siempre buscar en ontología, no en documentos tradicionales
             ontology_results = self.ontology_retriever.retrieve(query)
+            st.write(ontology_results)
             
             # Resultados
             all_results = ontology_results

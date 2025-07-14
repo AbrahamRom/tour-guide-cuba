@@ -89,6 +89,19 @@ class OntologyRetriever:
         # Cache para búsquedas
         self.query_cache = {}
 
+        # Cargar datos dinámicamente de la ontología
+        try:
+            self.available_provinces = self.manager.get_provinces()
+            self.available_place_types = self.manager.get_place_types()
+            self.available_cuisines = self.manager.get_cuisine_types()
+            print(f"Provincias disponibles: {self.available_provinces}")
+            print(f"Tipos de lugar disponibles: {self.available_place_types}")
+        except Exception as e:
+            print(f"Error cargando datos de ontología: {e}")
+            self.available_provinces = []
+            self.available_place_types = []
+            self.available_cuisines = []
+
     def preprocess_query(self, query):
         """Preprocesa la consulta usando técnicas NLP avanzadas"""
         # Limpiar query
@@ -169,63 +182,123 @@ class OntologyRetriever:
         return max(intent_scores, key=intent_scores.get) if intent_scores else 'search_place'
 
     def fuzzy_match_province(self, query_keywords):
-        """Encuentra provincias usando fuzzy matching"""
+        """Encuentra provincias usando fuzzy matching mejorado"""
         best_matches = []
         
+        # Primero buscar en provincias disponibles en la ontología
+        for province in self.available_provinces:
+            for keyword in query_keywords:
+                ratio = fuzz.ratio(province.lower(), keyword.lower())
+                if ratio > 70:
+                    best_matches.append((province, ratio, province))
+        
+        # Luego buscar en el mapeo manual
         for province, synonyms in self.province_mapping.items():
             all_terms = [province] + synonyms
             
             for term in all_terms:
                 for keyword in query_keywords:
                     ratio = fuzz.ratio(term.lower(), keyword.lower())
-                    if ratio > 70:  # Umbral de similitud
+                    if ratio > 70:
                         best_matches.append((province, ratio, term))
         
-        # Ordenar por mejor coincidencia
         best_matches.sort(key=lambda x: x[1], reverse=True)
         return best_matches[0][0] if best_matches else None
 
     def semantic_search(self, query_data, search_type='all'):
-        """Realiza búsqueda semántica usando diferentes estrategias"""
+        """Realiza búsqueda semántica mejorada"""
         results = []
         
-        # 1. Búsqueda por provincia con fuzzy matching
+        # 1. Búsqueda por palabras clave directa
+        if query_data['keywords']:
+            keyword_results = self.manager.search_by_keywords(query_data['keywords'])
+            for place in keyword_results[:3]:
+                name = place.get('name', 'Lugar sin nombre')
+                desc = place.get('desc', 'Sin descripción')
+                results.append(f"{name}: {desc}")
+        
+        # 2. Búsqueda por provincia
         province = self.fuzzy_match_province(query_data['keywords'])
         if province:
-            places = self.manager.search_places_by_province(province)
-            results.extend([f"{p.name} ({province}): {p.desc}" for p in places[:3]])
+            places_result = self.manager.search_places_by_province(province)
+            for place in places_result[:2]:
+                name = place.get('name', 'Lugar sin nombre')
+                desc = place.get('desc', 'Sin descripción')
+                results.append(f"{name} ({province}): {desc}")
         
-        # 2. Búsqueda por tipo de lugar con sinónimos
+        # 3. Búsqueda por tipo de lugar
+        for place_type in self.available_place_types:
+            if any(fuzz.ratio(place_type.lower(), keyword.lower()) > 70 
+                   for keyword in query_data['keywords']):
+                places_result = self.manager.search_places_by_type(place_type)
+                for place in places_result[:2]:
+                    name = place.get('name', 'Lugar sin nombre')
+                    desc = place.get('desc', 'Sin descripción')
+                    results.append(f"{name} ({place_type}): {desc}")
+                break
+        
+        # 4. Búsqueda por sinónimos de tipo de lugar
         for place_type, synonyms in self.place_type_synonyms.items():
             if any(syn in query_data['original'] for syn in [place_type] + synonyms):
-                places = self.manager.search_places_by_type(place_type)
-                results.extend([f"{p.name} ({place_type.title()}): {p.desc}" for p in places[:2]])
+                places_result = self.manager.search_places_by_type(place_type)
+                for place in places_result[:2]:
+                    name = place.get('name', 'Lugar sin nombre')
+                    desc = place.get('desc', 'Sin descripción')
+                    results.append(f"{name} ({place_type.title()}): {desc}")
                 break
         
-        # 3. Búsqueda por actividades con sinónimos
+        # 5. Búsqueda por actividades
         for activity, synonyms in self.activity_synonyms.items():
             if any(syn in query_data['original'] for syn in [activity] + synonyms):
-                places = self.manager.search_places_by_activity(activity)
-                results.extend([f"{p.name}: {p.desc}" for p in places[:2]])
+                places_result = self.manager.search_places_by_activity(activity)
+                for place in places_result[:2]:
+                    name = place.get('name', 'Lugar sin nombre')
+                    desc = place.get('desc', 'Sin descripción')
+                    results.append(f"{name} - {activity.title()}: {desc}")
                 break
         
-        # 4. Búsqueda por palabras clave con TF-IDF
-        if not results or len(results) < 3:
-            keyword_results = self._tfidf_search(query_data['cleaned'])
-            results.extend(keyword_results)
-        
-        return list(dict.fromkeys(results))[:5]  # Eliminar duplicados y limitar
+        return list(dict.fromkeys(results))[:5]
+
+    def _convert_sparql_results(self, sparql_result):
+        """Convierte resultados SPARQL a lista de diccionarios"""
+        try:
+            if hasattr(sparql_result, 'bindings'):
+                # Caso para resultados SPARQL con bindings
+                converted_results = []
+                for binding in sparql_result.bindings:
+                    result_dict = {}
+                    for var, value in binding.items():
+                        result_dict[str(var)] = str(value)
+                    converted_results.append(result_dict)
+                return converted_results
+            elif hasattr(sparql_result, '__iter__'):
+                # Caso para resultados iterables
+                return list(sparql_result)
+            else:
+                # Caso para resultado único
+                return [sparql_result] if sparql_result else []
+        except Exception as e:
+            print(f"Error convirtiendo resultados SPARQL: {e}")
+            return []
 
     def _tfidf_search(self, query):
-        """Búsqueda usando TF-IDF y similitud coseno"""
+        """Búsqueda TF-IDF mejorada"""
         try:
-            # Obtener todas las descripciones de lugares
             all_places = self.manager.get_all_places()
+            
             if not all_places:
+                print("No se encontraron lugares en la ontología")
                 return []
             
             # Crear corpus de documentos
-            documents = [f"{place.name} {place.desc}" for place in all_places]
+            documents = []
+            for place in all_places:
+                name = place.get('name', '')
+                desc = place.get('desc', '')
+                documents.append(f"{name} {desc}")
+            
+            if not documents:
+                return []
             
             # Vectorizar documentos y query
             tfidf_matrix = self.vectorizer.fit_transform(documents + [query])
@@ -241,14 +314,44 @@ class OntologyRetriever:
             
             results = []
             for idx in best_indices:
-                if similarities[idx] > 0.1:  # Umbral mínimo de similitud
+                if similarities[idx] > 0.1:
                     place = all_places[idx]
-                    results.append(f"{place.name}: {place.desc}")
+                    name = place.get('name', 'Lugar sin nombre')
+                    desc = place.get('desc', 'Sin descripción')
+                    results.append(f"{name}: {desc}")
             
             return results
         except Exception as e:
             print(f"Error en búsqueda TF-IDF: {e}")
-            return []
+            return self._fallback_search(query)
+    
+    def _fallback_search(self, query):
+        """Búsqueda de fallback mejorada"""
+        try:
+            results = []
+            query_lower = query.lower()
+            
+            # Buscar en todas las provincias disponibles
+            for province in self.available_provinces:
+                if province.lower() in query_lower:
+                    places_result = self.manager.search_places_by_province(province)
+                    for place in places_result[:2]:
+                        name = place.get('name', 'Lugar sin nombre')
+                        desc = place.get('desc', 'Sin descripción')
+                        results.append(f"{name} ({province}): {desc}")
+            
+            # Si no hay resultados, obtener algunos lugares aleatorios
+            if not results:
+                all_places = self.manager.get_all_places()
+                for place in all_places[:3]:
+                    name = place.get('name', 'Lugar sin nombre')
+                    desc = place.get('desc', 'Sin descripción')
+                    results.append(f"{name}: {desc}")
+            
+            return results[:3]
+        except Exception as e:
+            print(f"Error en búsqueda de fallback: {e}")
+            return ["Lo siento, no se pudieron encontrar resultados para tu consulta."]
 
     def retrieve(self, query):
         """Método principal de recuperación mejorado"""
@@ -278,23 +381,28 @@ class OntologyRetriever:
         return results
 
     def _search_food_places(self, query_data):
-        """Búsqueda especializada para lugares de comida"""
-        food_types = ['restaurante', 'paladar', 'cafeteria', 'bar']
+        """Búsqueda especializada para lugares de comida mejorada"""
         results = []
         
+        # Buscar por tipos de cocina en la ontología
+        for cuisine in self.available_cuisines:
+            if any(fuzz.ratio(cuisine.lower(), keyword.lower()) > 70 
+                   for keyword in query_data['keywords']):
+                places_result = self.manager.search_places_by_cuisine(cuisine)
+                for place in places_result[:2]:
+                    name = place.get('name', 'Lugar sin nombre')
+                    desc = place.get('desc', 'Sin descripción')
+                    results.append(f"{name} (Cocina {cuisine}): {desc}")
+        
+        # Buscar por tipos de lugar relacionados con comida
+        food_types = ['restaurante', 'paladar', 'cafeteria', 'bar']
         for food_type in food_types:
             if food_type in query_data['original']:
-                places = self.manager.search_places_by_type(food_type)
-                results.extend([f"{p.name} ({food_type.title()}): {p.desc}" for p in places[:2]])
-        
-        if not results:
-            # Búsqueda por cocina/gastronomía
-            cuisine_keywords = ['cubana', 'italiana', 'china', 'internacional', 'criolla']
-            for cuisine in cuisine_keywords:
-                if cuisine in query_data['original']:
-                    places = self.manager.search_places_by_cuisine(cuisine)
-                    results.extend([f"{p.name}: {p.desc}" for p in places[:3]])
-                    break
+                places_result = self.manager.search_places_by_type(food_type)
+                for place in places_result[:2]:
+                    name = place.get('name', 'Lugar sin nombre')
+                    desc = place.get('desc', 'Sin descripción')
+                    results.append(f"{name} ({food_type.title()}): {desc}")
         
         return results
 
@@ -305,8 +413,9 @@ class OntologyRetriever:
         
         for acc_type in accommodation_types:
             if acc_type in query_data['original']:
-                places = self.manager.search_places_by_type(acc_type)
-                results.extend([f"{p.name}: {p.desc}" for p in places[:3]])
+                places_result = self.manager.search_places_by_type(acc_type)
+                places = self._convert_sparql_results(places_result)
+                results.extend([f"{p.get('name', 'Lugar')}: {p.get('desc', 'Sin descripción')}" for p in places[:3]])
         
         return results
 
@@ -317,8 +426,29 @@ class OntologyRetriever:
         # Buscar por actividades específicas
         for activity, synonyms in self.activity_synonyms.items():
             if any(syn in query_data['original'] for syn in [activity] + synonyms):
-                places = self.manager.search_places_by_activity(activity)
-                results.extend([f"{p.name} - {activity.title()}: {p.desc}" for p in places[:2]])
+                places_result = self.manager.search_places_by_activity(activity)
+                places = self._convert_sparql_results(places_result)
+                results.extend([f"{p.get('name', 'Lugar')} - {activity.title()}: {p.get('desc', 'Sin descripción')}" for p in places[:2]])
+        
+        return results
+
+    def get_suggestions(self, partial_query):
+        """Proporciona sugerencias de autocompletado"""
+        suggestions = []
+        
+        # Sugerencias de provincias
+        for province, synonyms in self.province_mapping.items():
+            for term in [province] + synonyms:
+                if partial_query.lower() in term.lower():
+                    suggestions.append(f"Lugares en {province}")
+        
+        # Sugerencias de tipos de lugar
+        for place_type, synonyms in self.place_type_synonyms.items():
+            for term in [place_type] + synonyms:
+                if partial_query.lower() in term.lower():
+                    suggestions.append(f"{place_type.title()}s en Cuba")
+        
+        return suggestions[:5]
         
         return results
 
