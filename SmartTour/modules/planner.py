@@ -30,6 +30,11 @@ FUZZY_MAP = {
 
 
 # --- Configuración de restricciones y preferencias del usuario ---
+# --- Configuración global para el directorio de destinos ---
+
+DESTINATIONS_DIR = os.path.join(os.path.dirname(__file__), "../../DATA/destinations/")
+
+
 def get_configuracion(tiempo, presupuesto):
     """
     Muestra los controles de configuración y preferencias difusas para el usuario.
@@ -38,7 +43,23 @@ def get_configuracion(tiempo, presupuesto):
     with st.expander("Configuración de restricciones"):
         # Los sliders de tiempo y presupuesto han sido eliminados
         st.info(f"Duración del viaje: {tiempo} días | Presupuesto: ${presupuesto}")
-        destino = st.text_input("Destino", "La Habana")
+
+        # Obtener destinos disponibles dinámicamente
+        try:
+            from .src.data.split_tourism_data import get_available_destinations
+
+            available_destinations = get_available_destinations(DESTINATIONS_DIR)
+            if not available_destinations:
+                available_destinations = [
+                    "La Habana",
+                    "Varadero",
+                    "Santiago",
+                ]  # Fallback
+        except Exception as e:
+            st.warning(f"Error cargando destinos: {e}")
+            available_destinations = ["La Habana", "Varadero", "Santiago"]  # Fallback
+
+        destino = st.selectbox("Destino", available_destinations)
         prioridad = st.selectbox(
             "Prioridad",
             [
@@ -74,10 +95,16 @@ def get_configuracion(tiempo, presupuesto):
 
 
 # --- Planificación clásica ---
-def planificar_clasico(repo, tiempo, presupuesto, destino):
+def planificar_clasico(tiempo, presupuesto, destino, params):
     """
     Ejecuta la planificación clásica (búsqueda) y retorna el itinerario y mensaje.
     """
+    # Usar el nuevo sistema de carga por destino
+    try:
+        repo = HotelRepository.from_single_destination(destino, DESTINATIONS_DIR)
+    except FileNotFoundError as e:
+        return [], f"Error: {e}", "error"
+
     explorer = GraphExplorer(repo, tiempo, presupuesto, destino)
     best_node = explorer.search_best_path()
     if best_node:
@@ -102,10 +129,16 @@ def planificar_clasico(repo, tiempo, presupuesto, destino):
 
 
 # --- Planificación con ACO ---
-def planificar_aco(repo, tiempo, presupuesto, destino, params):
+def planificar_aco(tiempo, presupuesto, destino, params):
     """
     Ejecuta la planificación con ACO y retorna el itinerario y mensaje.
     """
+    # Usar el nuevo sistema de carga por destino
+    try:
+        repo = HotelRepository.from_single_destination(destino, DESTINATIONS_DIR)
+    except FileNotFoundError as e:
+        return [], f"Error: {e}", "error"
+
     planner = ACOPlanner(
         repo,
         tiempo,
@@ -145,10 +178,16 @@ def planificar_aco(repo, tiempo, presupuesto, destino, params):
 
 
 # --- Planificación con PSO ---
-def planificar_pso(repo, tiempo, presupuesto, destino, params):
+def planificar_pso(tiempo, presupuesto, destino, params):
     """
     Ejecuta la planificación con PSO y retorna el itinerario y mensaje.
     """
+    # Usar el nuevo sistema de carga por destino
+    try:
+        repo = HotelRepository.from_single_destination(destino, DESTINATIONS_DIR)
+    except FileNotFoundError as e:
+        return [], f"Error: {e}", "error"
+
     planner = PSOPlanner(
         repo,
         tiempo,
@@ -249,21 +288,17 @@ def render(state):
     st.info(f"Duración del viaje: {tiempo} días | Presupuesto: ${presupuesto}")
 
     if st.button("Generar itinerario"):
-        csv_path = os.path.abspath(
-            os.path.join(os.path.dirname(__file__), "../../DATA/tourism_data.csv")
-        )
-        repo = HotelRepository.from_csv(csv_path)
         if metodo == "Clásico (búsqueda)":
             itinerario, mensaje, tipo = planificar_clasico(
-                repo, tiempo, presupuesto, destino
+                tiempo, presupuesto, destino, params
             )
         elif metodo == "Metaheurística (ACO)":
             itinerario, mensaje, tipo = planificar_aco(
-                repo, tiempo, presupuesto, destino, params
+                tiempo, presupuesto, destino, params
             )
         elif metodo == "Metaheurística (PSO)":
             itinerario, mensaje, tipo = planificar_pso(
-                repo, tiempo, presupuesto, destino, params
+                tiempo, presupuesto, destino, params
             )
         state["itinerario"] = itinerario
         # Oculta el mapa al generar un nuevo itinerario

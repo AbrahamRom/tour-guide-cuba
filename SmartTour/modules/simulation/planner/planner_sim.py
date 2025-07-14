@@ -6,8 +6,14 @@ from modules.src.planner.pso_planner import PSOPlanner
 from modules.src.planner.graph_explorer import GraphExplorer
 
 
-def run_planner(method, tiempo, presupuesto, destino, params, csv_path):
-    repo = HotelRepository.from_csv(csv_path)
+def run_planner(method, tiempo, presupuesto, destino, params, destinations_dir):
+    """Actualizado para usar directorio de destinos"""
+    try:
+        repo = HotelRepository.from_single_destination(destino, destinations_dir)
+    except FileNotFoundError:
+        # Fallback a directorio completo si no encuentra el destino específico
+        repo = HotelRepository.from_destinations_directory(destinations_dir)
+
     start = time.time()
     if method == "Clásico (búsqueda)":
         explorer = GraphExplorer(repo, tiempo, presupuesto, destino)
@@ -17,7 +23,8 @@ def run_planner(method, tiempo, presupuesto, destino, params, csv_path):
             total_cost = sum(h.price for _, h in best_node.path)
             total_stars = best_node.stars_accum
             cambios = sum(
-                1 for i in range(1, len(best_node.path))
+                1
+                for i in range(1, len(best_node.path))
                 if best_node.path[i][1] != best_node.path[i - 1][1]
             )
             return {
@@ -26,7 +33,7 @@ def run_planner(method, tiempo, presupuesto, destino, params, csv_path):
                 "stars": total_stars,
                 "cost": total_cost,
                 "changes": cambios,
-                "fitness": None
+                "fitness": None,
             }
     elif method == "Metaheurística (ACO)":
         planner = ACOPlanner(repo, tiempo, presupuesto, destino, **params)
@@ -36,8 +43,7 @@ def run_planner(method, tiempo, presupuesto, destino, params, csv_path):
             total_stars = sum(h.stars for h in solution)
             total_cost = sum(h.price for h in solution)
             cambios = sum(
-                1 for i in range(1, len(solution))
-                if solution[i] != solution[i - 1]
+                1 for i in range(1, len(solution)) if solution[i] != solution[i - 1]
             )
             return {
                 "method": method,
@@ -45,7 +51,7 @@ def run_planner(method, tiempo, presupuesto, destino, params, csv_path):
                 "stars": total_stars,
                 "cost": total_cost,
                 "changes": cambios,
-                "fitness": round(fitness, 3)
+                "fitness": round(fitness, 3),
             }
     elif method == "Metaheurística (PSO)":
         planner = PSOPlanner(repo, tiempo, presupuesto, destino, **params)
@@ -55,8 +61,7 @@ def run_planner(method, tiempo, presupuesto, destino, params, csv_path):
             total_stars = sum(h.stars for h in solution)
             total_cost = sum(h.price for h in solution)
             cambios = sum(
-                1 for i in range(1, len(solution))
-                if solution[i] != solution[i - 1]
+                1 for i in range(1, len(solution)) if solution[i] != solution[i - 1]
             )
             return {
                 "method": method,
@@ -64,6 +69,6 @@ def run_planner(method, tiempo, presupuesto, destino, params, csv_path):
                 "stars": total_stars,
                 "cost": total_cost,
                 "changes": cambios,
-                "fitness": round(fitness, 3)
+                "fitness": round(fitness, 3),
             }
     return {"method": method, "latency": None, "error": "No solution found"}

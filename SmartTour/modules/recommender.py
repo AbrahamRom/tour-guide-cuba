@@ -6,6 +6,7 @@ from .src.recommender.src.recommender import Recommender
 from .src.recommender.src.utils import display_offer
 from .src.rag.app.ollama_interface import OllamaClient
 
+
 def render(state):
     # Session state
     if "selected_recommendations" not in state:
@@ -20,11 +21,17 @@ def render(state):
         .stButton>button {background-color:#2E8B57; color:white;}
         </style>
         """,
-        unsafe_allow_html=True
+        unsafe_allow_html=True,
     )
 
-    st.markdown('<div class="main-title">🌴 SmartTour Cuba - Recommender</div>', unsafe_allow_html=True)
-    st.markdown('<div class="subtitle">Descubre las mejores experiencias personalizadas en Cuba</div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="main-title">🌴 SmartTour Cuba - Recommender</div>',
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        '<div class="subtitle">Descubre las mejores experiencias personalizadas en Cuba</div>',
+        unsafe_allow_html=True,
+    )
 
     # Show current user profile in sidebar
     st.sidebar.header("👤 Perfil de Usuario Actual")
@@ -40,27 +47,50 @@ def render(state):
     st.sidebar.markdown("---")
     st.sidebar.markdown("### 🤖 Configuración del LLM")
     client = OllamaClient()
-    models_response = client.list_models()
-    if isinstance(models_response, dict) and "models" in models_response:
-        models = models_response["models"]
+
+    # Verificar si Ollama está disponible
+    if not client.is_ollama_available():
+        st.sidebar.error("🔴 Ollama no está disponible")
+        st.sidebar.info("Para usar el sistema de recomendaciones con LLM, por favor:")
+        st.sidebar.markdown("1. Instale Ollama desde https://ollama.ai")
+        st.sidebar.markdown("2. Ejecute `ollama serve` en su terminal")
+        st.sidebar.markdown("3. Descargue un modelo con `ollama pull llama2`")
+        model_names = []
     else:
-        models = models_response
-    model_names = [
-        model["name"] if isinstance(model, dict) and "name" in model else str(model)
-        for model in models
-    ]
-    selected_model = st.sidebar.selectbox(
-        "Elige el modelo LLM",
-        model_names,
-        index=0 if "gemma:latest" not in model_names else model_names.index("gemma:latest"),
-        help="Selecciona el modelo de lenguaje para la explicación."
-    )
-    language = st.sidebar.selectbox(
-        "Idioma de la explicación",
-        ["Español", "English"],
-        index=0,
-        help="Selecciona el idioma en el que deseas la explicación."
-    )
+        st.sidebar.success("🟢 Ollama conectado correctamente")
+        models_response = client.list_models()
+        if isinstance(models_response, dict) and "models" in models_response:
+            models = models_response["models"]
+        else:
+            models = models_response
+        model_names = [
+            model["name"] if isinstance(model, dict) and "name" in model else str(model)
+            for model in models
+        ]
+
+    # Solo mostrar selectores si hay modelos disponibles
+    if model_names:
+        selected_model = st.sidebar.selectbox(
+            "Elige el modelo LLM",
+            model_names,
+            index=(
+                0
+                if "gemma:latest" not in model_names
+                else model_names.index("gemma:latest")
+            ),
+            help="Selecciona el modelo de lenguaje para la explicación.",
+        )
+        language = st.sidebar.selectbox(
+            "Idioma de la explicación",
+            ["Español", "English"],
+            index=0,
+            help="Selecciona el idioma en el que deseas la explicación.",
+        )
+    else:
+        selected_model = None
+        language = "Español"
+        st.sidebar.warning("⚠️ Sin modelos LLM disponibles")
+        st.sidebar.info("El sistema funcionará sin explicaciones de IA.")
 
     prompt_placeholder = {
         "Español": (
@@ -70,7 +100,7 @@ def render(state):
         "English": (
             "From the following offers, indicate which ones are good or ideal for the user and why, "
             "and also which ones are not suitable and why. Be specific in your explanation."
-        )
+        ),
     }
 
     # Check if user profile data exists in state
@@ -88,7 +118,7 @@ def render(state):
                 offer_keys = []
                 offer_objs = []
                 for idx, (score, offer) in enumerate(top_offers):
-                    offer_title = offer.raw.get('name') or offer.raw.get('title')
+                    offer_title = offer.raw.get("name") or offer.raw.get("title")
                     offer_key = f"offer_{idx}_{offer_title}"
                     offer_keys.append(offer_key)
                     offer_objs.append(offer)
@@ -99,64 +129,84 @@ def render(state):
                             details += f"<b>{k.capitalize()}:</b> {v}<br>"
                         st.markdown(
                             f'<div class="recommendation-card">{details}</div>',
-                            unsafe_allow_html=True
+                            unsafe_allow_html=True,
                         )
 
                 # LLM automatic explanation with spinner
                 st.markdown("### 🤖 ¿Qué es lo mejor para ti?")
-                prompt = (
-                    f"{prompt_placeholder[language]}\n\nPerfil de usuario:\n{profile_json}\n\nOfertas:\n" +
-                    "\n".join([str(o.raw) for o in offer_objs])
-                )
-                explanation = ""
-                explanation_placeholder = st.empty()
-                with st.spinner("El modelo LLM está generando la explicación..."):
-                    # Intenta imprimir cada chunk directamente para debug
-                    for chunk in client.stream_generate(selected_model, prompt):
-                        try:
-                            # Si el chunk es texto plano, úsalo directamente
-                            if isinstance(chunk, str):
-                                try:
-                                    # Intenta decodificar como JSON, si falla, es texto plano
-                                    data = json.loads(chunk)
-                                    text = data.get("response", "")
-                                    # Solo procesar si hay texto y no está marcado como terminado
-                                    if text and not data.get("done", False):
+
+                if selected_model and client.is_ollama_available():
+                    prompt = (
+                        f"{prompt_placeholder[language]}\n\nPerfil de usuario:\n{profile_json}\n\nOfertas:\n"
+                        + "\n".join([str(o.raw) for o in offer_objs])
+                    )
+                    explanation = ""
+                    explanation_placeholder = st.empty()
+                    with st.spinner("El modelo LLM está generando la explicación..."):
+                        # Intenta imprimir cada chunk directamente para debug
+                        for chunk in client.stream_generate(selected_model, prompt):
+                            try:
+                                # Si el chunk es texto plano, úsalo directamente
+                                if isinstance(chunk, str):
+                                    try:
+                                        # Intenta decodificar como JSON, si falla, es texto plano
+                                        data = json.loads(chunk)
+                                        text = data.get("response", "")
+                                        # Solo procesar si hay texto y no está marcado como terminado
+                                        if text and not data.get("done", False):
+                                            explanation += text
+                                            explanation_placeholder.markdown(
+                                                explanation
+                                            )
+                                        # Si está marcado como terminado, salir del bucle
+                                        elif data.get("done", False):
+                                            break
+                                    except Exception:
+                                        # Si no es JSON válido, es texto plano
+                                        text = chunk
                                         explanation += text
                                         explanation_placeholder.markdown(explanation)
-                                    # Si está marcado como terminado, salir del bucle
-                                    elif data.get("done", False):
+                                else:
+                                    # Si es dict, busca el campo 'response'
+                                    text = chunk.get("response", "")
+                                    if text and not chunk.get("done", False):
+                                        explanation += text
+                                        explanation_placeholder.markdown(explanation)
+                                    elif chunk.get("done", False):
                                         break
-                                except Exception:
-                                    # Si no es JSON válido, es texto plano
-                                    text = chunk
+                            except Exception:
+                                # Como último recurso, usar el chunk como string si no está vacío
+                                text = str(chunk).strip()
+                                if text and not text.startswith('{"model"'):
                                     explanation += text
                                     explanation_placeholder.markdown(explanation)
-                            else:
-                                # Si es dict, busca el campo 'response'
-                                text = chunk.get("response", "")
-                                if text and not chunk.get("done", False):
-                                    explanation += text
-                                    explanation_placeholder.markdown(explanation)
-                                elif chunk.get("done", False):
-                                    break
-                        except Exception:
-                            # Como último recurso, usar el chunk como string si no está vacío
-                            text = str(chunk).strip()
-                            if text and not text.startswith('{"model"'):
-                                explanation += text
-                                explanation_placeholder.markdown(explanation)
-                # Si no se imprimió nada, muestra un mensaje de error
-                if not explanation.strip():
-                    explanation_placeholder.error("No se recibió explicación del modelo. Verifica que el modelo esté funcionando correctamente o revisa la conexión.")
+                    # Si no se imprimió nada, muestra un mensaje de error
+                    if not explanation.strip():
+                        st.error(
+                            "No se recibió explicación del modelo. Verifica que el modelo esté funcionando correctamente o revisa la conexión."
+                        )
+                else:
+                    st.info("🤖 **Explicación con IA no disponible**")
+                    st.markdown(
+                        """
+                    Para obtener explicaciones personalizadas con IA, necesitas:
+                    1. Instalar Ollama desde https://ollama.ai
+                    2. Ejecutar `ollama serve` en tu terminal
+                    3. Descargar un modelo con `ollama pull llama2`
+                    
+                    **Mientras tanto, puedes revisar manualmente las recomendaciones basándote en:**
+                    - Tu presupuesto y preferencias de viaje
+                    - Las calificaciones y características de cada oferta
+                    - La ubicación y facilidades disponibles
+                    """
+                    )
 
                 # User selects offers with checkboxes (only after LLM finishes)
                 st.markdown("### ✅ Selecciona las ofertas que te interesan")
                 selected = []
                 for offer_key, offer in zip(offer_keys, offer_objs):
                     checked = st.checkbox(
-                        offer.raw.get('name') or offer.raw.get('title'),
-                        key=offer_key
+                        offer.raw.get("name") or offer.raw.get("title"), key=offer_key
                     )
                     if checked:
                         selected.append(offer.raw)
@@ -165,5 +215,6 @@ def render(state):
         except Exception as e:
             st.error(f"Error procesando el perfil del usuario: {e}")
     else:
-        st.info("No se ha recopilado información del usuario. Por favor, completa tu perfil en las otras secciones de la aplicación para obtener recomendaciones personalizadas.")
-
+        st.info(
+            "No se ha recopilado información del usuario. Por favor, completa tu perfil en las otras secciones de la aplicación para obtener recomendaciones personalizadas."
+        )
