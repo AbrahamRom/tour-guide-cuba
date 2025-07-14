@@ -4,7 +4,7 @@ import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from state import get_state
+from state import get_state, initialize_background_crawler, get_crawler_status
 from modules import (
     chatbot,
     recommender,
@@ -15,10 +15,34 @@ from modules import (
     export,
     notifications,
     help,
-    searcher
+    searcher,
+    crawler_monitor,
 )
 
 st.set_page_config(page_title="SmartTour Cuba", layout="wide", page_icon=":palm_tree:")
+
+
+# Auto-inicializar el crawler al cargar la aplicación
+@st.cache_resource
+def setup_background_systems():
+    """Inicializar sistemas de fondo una sola vez"""
+    try:
+        crawler_scheduler = initialize_background_crawler()
+        if crawler_scheduler:
+            st.success("🚀 Sistema de crawler automático inicializado")
+            return True
+        else:
+            st.warning(
+                "⚠️ Crawler no pudo inicializarse, pero la aplicación funcionará sin él"
+            )
+            return False
+    except Exception as e:
+        st.error(f"❌ Error inicializando background crawler: {e}")
+        return False
+
+
+# Inicializar sistemas de fondo
+setup_background_systems()
 
 # Custom CSS for modern look and animated menu
 css_path = os.path.join(os.path.dirname(__file__), "assets", "style.css")
@@ -68,6 +92,7 @@ menu_items = [
     ("Gestión de Usuario", "👤"),
     ("Exportar/Compartir", "📤"),
     ("Notificaciones", "🔔"),
+    ("Monitor Crawler", "🤖"),
     ("Ayuda", "❓"),
 ]
 
@@ -137,6 +162,28 @@ else:
 
     state = get_state()
     menu = st.session_state.menu
+
+    # Mostrar widget de estado del crawler en sidebar
+    with st.sidebar:
+        st.markdown("---")
+        st.subheader("🤖 Estado del Crawler")
+        try:
+            crawler_status = get_crawler_status()
+            if crawler_status.get("running", False):
+                st.success("✅ Activo")
+                blocked_files = len(crawler_status.get("blocked_files", []))
+                if blocked_files > 0:
+                    st.info(f"🔄 Procesando {blocked_files} archivo(s)")
+                else:
+                    st.info("⏰ Esperando próximo ciclo")
+            else:
+                st.error("❌ Inactivo")
+                if st.button("🚀 Activar Crawler"):
+                    initialize_background_crawler()
+                    st.rerun()
+        except Exception as e:
+            st.error("⚠️ Error en crawler")
+
     if menu == "Chatbot":
         chatbot.render(state)
     elif menu == "Recomendador":
@@ -155,5 +202,7 @@ else:
         export.render(state)
     elif menu == "Notificaciones":
         notifications.render(state)
+    elif menu == "Monitor Crawler":
+        crawler_monitor.render(state)
     elif menu == "Ayuda":
         help.render(state)

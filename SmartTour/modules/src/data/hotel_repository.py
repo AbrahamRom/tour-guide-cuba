@@ -15,6 +15,24 @@ class HotelRepository:
                 self._destino_index[hotel.destino] = []
             self._destino_index[hotel.destino].append(hotel)
 
+        # Integrar con file manager para verificar bloqueos
+        self._state_manager = None
+        self._file_manager = None
+
+    def _initialize_managers(self, destinations_dir: str):
+        """Inicializar managers si no están configurados"""
+        if self._state_manager is None:
+            try:
+                from ..crawler.crawler_state import CrawlerStateManager
+                from ..crawler.file_manager import FileManager
+
+                state_file = os.path.join(destinations_dir, "..", "crawler_state.json")
+                self._state_manager = CrawlerStateManager(state_file)
+                self._file_manager = FileManager(destinations_dir, self._state_manager)
+            except ImportError:
+                # Si no están disponibles los módulos de crawler, continuar sin ellos
+                pass
+
     @classmethod
     def from_csv(cls, csv_path: str):
         """Mantener compatibilidad con CSV único"""
@@ -52,7 +70,27 @@ class HotelRepository:
 
     @classmethod
     def from_single_destination(cls, destination_name: str, destinations_dir: str):
-        """Cargar hoteles de un solo destino específico"""
+        """Cargar hoteles de un solo destino específico con verificación de bloqueo"""
+        # Verificar si el archivo está bloqueado
+        try:
+            from ..crawler.crawler_state import CrawlerStateManager
+
+            state_file = os.path.join(destinations_dir, "..", "crawler_state.json")
+            state_manager = CrawlerStateManager(state_file)
+
+            if state_manager.is_file_blocked(destination_name):
+                # Esperar un momento y reintentar
+                import time
+
+                time.sleep(2)
+                if state_manager.is_file_blocked(destination_name):
+                    raise RuntimeError(
+                        f"Archivo para {destination_name} está siendo actualizado, intente más tarde"
+                    )
+        except ImportError:
+            # Si no está disponible el módulo de crawler, continuar sin verificación
+            pass
+
         filename = f"{slugify(destination_name)}.csv"
         csv_path = os.path.join(destinations_dir, filename)
 
@@ -72,7 +110,9 @@ class HotelRepository:
         for hotel in hotels:
             hotel.destino = destination_name
 
-        return cls(hotels)
+        instance = cls(hotels)
+        instance._initialize_managers(destinations_dir)
+        return instance
 
     def get_hotels_by_destino(self, destino: str) -> List[Hotel]:
         """Optimizado con índice"""
