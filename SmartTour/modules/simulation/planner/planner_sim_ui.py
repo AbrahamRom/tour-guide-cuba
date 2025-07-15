@@ -12,7 +12,7 @@ def render_planner_simulator():
     tiempo = st.slider("Tiempo (días)", 1, 14, 5)
     presupuesto = st.slider("Presupuesto ($USD)", 100, 3000, 1000)
     destino = st.text_input("Destino", "La Habana")
-    dataset_path = st.text_input("Ruta CSV de hoteles", "../DATA/tourism_data.csv")
+    dataset_path = st.text_input("Ruta directorio de destinos", "../DATA/destinations/")
 
     alpha = st.slider("Importancia calidad hotel", 0.1, 5.0, 2.5)
     beta = st.slider("Importancia presupuesto", 0.1, 5.0, 1.0)
@@ -34,13 +34,17 @@ def render_planner_simulator():
         worst_fitness = None
 
         for method in methods:
-            result = run_planner(method, tiempo, presupuesto, destino, params, dataset_path)
+            result = run_planner(
+                method, tiempo, presupuesto, destino, params, dataset_path
+            )
             all_results.append(result)
             if "error" in result:
                 st.error(f"{method}: {result['error']}")
             else:
                 num_success += 1
-                total_latency += result["latency"] if result["latency"] is not None else 0
+                total_latency += (
+                    result["latency"] if result["latency"] is not None else 0
+                )
                 total_stars += result["stars"]
                 total_cost += result["cost"]
                 total_changes += result["changes"]
@@ -53,7 +57,9 @@ def render_planner_simulator():
                         worst_fitness = result["fitness"]
 
                 st.success(f"{result['method']} completado en {result['latency']}s")
-                st.write(f"⭐ Estrellas: {result['stars']}  | 💵 Costo: ${result['cost']:.2f}  | 🔁 Cambios: {result['changes']}")
+                st.write(
+                    f"⭐ Estrellas: {result['stars']}  | 💵 Costo: ${result['cost']:.2f}  | 🔁 Cambios: {result['changes']}"
+                )
                 if result.get("fitness") is not None:
                     st.write(f"📈 Fitness: {result['fitness']}")
 
@@ -81,7 +87,7 @@ def render_planner_simulator():
                 label="📥 Descargar resultados completos (JSON)",
                 data=json_data,
                 file_name="planner_simulation_results.json",
-                mime="application/json"
+                mime="application/json",
             )
         else:
             st.warning("No se obtuvo ningún resultado exitoso.")

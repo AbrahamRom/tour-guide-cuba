@@ -1,4 +1,5 @@
 import csv
+import os
 from typing import List, Optional
 
 
@@ -38,6 +39,11 @@ def parse_price(price_str: str) -> Optional[float]:
 
 def load_hotels_from_csv(csv_path: str) -> List[Hotel]:
     hotels = []
+
+    # Extraer el nombre del destino del nombre del archivo
+    filename = os.path.basename(csv_path)
+    destino = filename.replace(".csv", "").replace("_", " ").title()
+
     with open(csv_path, encoding="utf-8") as f:
         reader = csv.DictReader(f)
         for row in reader:
@@ -56,7 +62,7 @@ def load_hotels_from_csv(csv_path: str) -> List[Hotel]:
                         tarifa=row["tarifa"],
                         price=price,
                         hotel_url=row["hotel_url"],
-                        destino=row["destino"],
+                        destino=destino,
                     )
                 )
     return hotels

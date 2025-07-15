@@ -1,18 +1,32 @@
 import os
-from src.data.hotel_repository import HotelRepository
-from src.planner.graph_explorer import GraphExplorer
+import sys
+
+sys.path.append(
+    os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "SmartTour"))
+)
+from modules.src.data.hotel_repository import HotelRepository
+from modules.src.planner.graph_explorer import GraphExplorer
 
 
 def test_planner():
-    # Ruta al archivo CSV de hoteles
-    csv_path = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), "..", "tourism_data.csv")
+    # Usar el nuevo sistema de directorios
+    destinations_dir = os.path.abspath(
+        os.path.join(os.path.dirname(__file__), "..", "DATA", "destinations")
     )
-    repo = HotelRepository.from_csv(csv_path)
+
+    # Probar carga desde directorio completo
+    repo = HotelRepository.from_destinations_directory(destinations_dir)
+
+    # Probar carga de destino específico
+    repo_specific = HotelRepository.from_single_destination(
+        "La Habana", destinations_dir
+    )
+
     nights = 2
     budget = 100.0
     destino = "La Habana"
-    explorer = GraphExplorer(repo, nights, budget, destino)
+
+    explorer = GraphExplorer(repo_specific, nights, budget, destino)
     best_node = explorer.search_best_path()
     assert (
         best_node is not None
@@ -28,3 +42,50 @@ def test_planner():
     assert (
         best_node.budget_left >= 0
     ), "El presupuesto restante debe ser mayor o igual a 0."
+    print(f"Test exitoso: {best_node.stars_accum} estrellas acumuladas")
+    print(f"Presupuesto restante: ${best_node.budget_left:.2f}")
+
+
+def test_multiple_destinations():
+    """Test para verificar carga de múltiples destinos"""
+    destinations_dir = os.path.abspath(
+        os.path.join(os.path.dirname(__file__), "..", "DATA", "destinations")
+    )
+
+    repo = HotelRepository.from_destinations_directory(destinations_dir)
+    destinations = repo.get_available_destinations()
+
+    assert len(destinations) > 0, "Debe haber al menos un destino disponible"
+    print(f"Destinos encontrados: {destinations}")
+
+    for destino in destinations:
+        hotels = repo.get_hotels_by_destino(destino)
+        assert len(hotels) > 0, f"Destino {destino} debe tener hoteles"
+        print(f"{destino}: {len(hotels)} hoteles")
+
+
+def test_single_destination_load():
+    """Test para verificar carga de un solo destino"""
+    destinations_dir = os.path.abspath(
+        os.path.join(os.path.dirname(__file__), "..", "DATA", "destinations")
+    )
+
+    # Test con destino existente
+    repo = HotelRepository.from_single_destination("La Habana", destinations_dir)
+    hotels = repo.get_hotels_by_destino("La Habana")
+    assert len(hotels) > 0, "La Habana debe tener hoteles"
+
+    # Test con destino inexistente
+    try:
+        HotelRepository.from_single_destination("Destino Inexistente", destinations_dir)
+        assert False, "Debería lanzar FileNotFoundError"
+    except FileNotFoundError as e:
+        print(f"Error esperado: {e}")
+        assert "No se encontró archivo" in str(e)
+
+
+if __name__ == "__main__":
+    test_planner()
+    test_multiple_destinations()
+    test_single_destination_load()
+    print("✅ Todos los tests pasaron!")

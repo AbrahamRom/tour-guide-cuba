@@ -182,5 +182,5 @@ cython_debug/
 *.toc
 
 SmartTour/modules/src/searcher/data/documents/
-DATA
 EXPERIMENTS
+tests/test_planner.py
