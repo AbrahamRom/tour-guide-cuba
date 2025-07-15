@@ -72,7 +72,7 @@ class BackgroundCrawlerScheduler:
         """Loop principal del scheduler"""
         # Esperar 1 minuto inicial
         print("⏱ Esperando 60 segundos antes del primer ciclo...")
-        self._wait_interruptible(60)
+        self._wait_interruptible(10)
 
         while self.running:
             try:
@@ -94,7 +94,7 @@ class BackgroundCrawlerScheduler:
 
                 # Esperar 5 minutos antes del próximo check
                 print("⏰ Esperando 5 minutos hasta el próximo ciclo...")
-                self._wait_interruptible(300)  # 5 minutos
+                self._wait_interruptible(30)  # 5 minutos
 
             except Exception as e:
                 print(f"❌ Error en scheduler loop: {e}")
@@ -142,8 +142,24 @@ class BackgroundCrawlerScheduler:
                     self.state_manager.set_scraping_status(destination, "failed")
                     print(f"❌ Error escribiendo datos para {destination}")
             else:
-                self.state_manager.set_scraping_status(destination, "no_data")
-                print(f"⚠ No se encontraron datos para {destination}")
+                # El SingleDestinationCrawler ya manejó los reintentos y actualizó el estado
+                # Solo necesitamos verificar si realmente no hay datos
+                current_status = (
+                    self.state_manager._state.get("scraping_status", {})
+                    .get(destination, {})
+                    .get("status")
+                )
+
+                if current_status in ["completed_no_data", "completed_error"]:
+                    # El crawler ya actualizó el estado apropiadamente
+                    duration = (datetime.now() - start_time).total_seconds()
+                    print(
+                        f"⚠ {destination} procesado después de múltiples intentos: {current_status} ({duration:.1f}s)"
+                    )
+                else:
+                    # Fallback por si algo salió mal
+                    self.state_manager.set_scraping_status(destination, "no_data")
+                    print(f"⚠ No se encontraron datos para {destination}")
 
         except Exception as e:
             print(f"❌ Error scrapeando {destination}: {e}")

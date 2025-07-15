@@ -1,0 +1,15 @@
+name,stars,address,cadena,tarifa,price,hotel_url
+Gaviota Santiago,3,"AV Avenida Manduley No. 502 e/ 19 y 21, S/N Santiago de Cuba",Gaviota,Alojamiento y desayuno,"USD36,00",https://www.cuba.travel//Hotel/Detail?propertyNumber=HT;46935&refpoint=La_Habana&iata=HAV&checkIn=20250604&checkOut=20250605&rooms=1&adults=1&children=0&ages=0&currency=USD&tab=info
+E El Cobre,4,"CL Poblado el Cobre, S/N SANTIAGO DE CUBA",Cubanacan,Alojamiento y desayuno,"USD40,00",https://www.cuba.travel//Hotel/Detail?propertyNumber=HT;52975&refpoint=La_Habana&iata=HAV&checkIn=20250604&checkOut=20250605&rooms=1&adults=1&children=0&ages=0&currency=USD&tab=info
+Rex,3,"AV Garzón, e/ Pizarro y Perez Carbo, 10 ALTOS, S/N Santiago de Cuba",Islazul,Alojamiento y desayuno,"USD42,00",https://www.cuba.travel//Hotel/Detail?propertyNumber=HT;53213&refpoint=La_Habana&iata=HAV&checkIn=20250604&checkOut=20250605&rooms=1&adults=1&children=0&ages=0&currency=USD&tab=info
+Club Amigo Carisol,3,"CR Baconao km. 51, S/N SANTIAGO DE CUBA",Cubanacan,AI,"USD44,00",https://www.cuba.travel//Hotel/Detail?propertyNumber=HT;52947&refpoint=La_Habana&iata=HAV&checkIn=20250604&checkOut=20250605&rooms=1&adults=1&children=0&ages=0&currency=USD&tab=info
+Cubanacan Imperial,4,"CL Enramadas, Esq. Santo Tomás, S/N SANTIAGO DE CUBA",Cubanacan,Alojamiento y desayuno,"USD50,00",https://www.cuba.travel//Hotel/Detail?propertyNumber=HT;52952&refpoint=La_Habana&iata=HAV&checkIn=20250604&checkOut=20250605&rooms=1&adults=1&children=0&ages=0&currency=USD&tab=info
+Meliá Santiago de Cuba,0,Avd. de las Américas y Calle M Santiago,Meliá,,No disponible,
+Hotel Libertad,3,Aguilera y Plaza de Marte Santiago,Islazul,,No disponible,
+Hotel Gran Piedra,2,Carretera km 14 s/n Santiago de Cuba Santiago,Islazul,,No disponible,
+Hotel Las Américas,3,Avenida Las Américas esq General Cebreco. Santiago,Islazul,,No disponible,
+Hotel Costa Morena,2,"Carretera Baconao km 38 ½, Sigua, Santiago de Cuba Santiago",Islazul,,No disponible,
+Hotel Rancho Club,3,"Altos de Quintero, Santiago de Cuba Santiago",Islazul,,No disponible,
+Hotel Deportivo,3,"Calle E, Reparto Terrazas, Santiago de Cuba. Santiago",Islazul,,No disponible,
+Hotel San Juan,3,Ctra de Siboney km 1 1/2 Vista Alegre Santiago,Islazul,,No disponible,
+Hotel Balcón del Caribe,2,Ctra del Morro km 7 1/2. Stgo de Cuba Santiago,Islazul,,No disponible,

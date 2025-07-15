@@ -2,12 +2,91 @@
   "destinations": {},
   "blocked_files": [],
   "last_updated": {
-    "La Habana": "2025-07-14T17:39:34.817343"
+    "La Habana": "2025-07-15T10:35:51.036381",
+    "Varadero": "2025-07-15T10:48:45.014598",
+    "Camagüey": "2025-07-15T10:50:36.560527",
+    "Las Tunas": "2025-07-15T10:52:07.972890",
+    "Granma": "2025-07-15T10:53:33.471881",
+    "Ciego de Ávila": "2025-07-15T10:55:19.523394",
+    "Matanzas": "2025-07-15T10:57:41.584736",
+    "Guantanamo": "2025-07-15T10:59:29.506367",
+    "Sancti Spiritus": "2025-07-15T12:13:34.307387",
+    "Artemisa": "2025-07-15T12:14:54.866602",
+    "Pinar Del Río": "2025-07-15T12:16:36.579226",
+    "Villa Clara": "2025-07-15T12:18:50.172034",
+    "Santa Maria": "2025-07-15T12:21:16.410901",
+    "Santiago": "2025-07-15T12:23:12.150133",
+    "Cienfuegos": "2025-07-15T12:25:29.785409",
+    "Holguín": "2025-07-15T12:27:01.942817"
   },
   "scraping_status": {
     "La Habana": {
       "status": "completed",
-      "timestamp": "2025-07-14T17:39:34.817343"
+      "timestamp": "2025-07-15T10:35:51.036381"
+    },
+    "Varadero": {
+      "status": "completed",
+      "timestamp": "2025-07-15T10:48:45.014598"
+    },
+    "Camagüey": {
+      "status": "completed",
+      "timestamp": "2025-07-15T10:50:36.561528"
+    },
+    "Las Tunas": {
+      "status": "completed",
+      "timestamp": "2025-07-15T10:52:07.973891"
+    },
+    "Granma": {
+      "status": "completed",
+      "timestamp": "2025-07-15T10:53:33.472879"
+    },
+    "Ciego de Ávila": {
+      "status": "completed",
+      "timestamp": "2025-07-15T10:55:19.525393"
+    },
+    "Matanzas": {
+      "status": "completed",
+      "timestamp": "2025-07-15T10:57:41.585735"
+    },
+    "Guantanamo": {
+      "status": "completed",
+      "timestamp": "2025-07-15T10:59:29.507364"
+    },
+    "Cayo Largo del Sur": {
+      "status": "scraping",
+      "timestamp": "2025-07-15T12:10:22.114150"
+    },
+    "Sancti Spiritus": {
+      "status": "completed",
+      "timestamp": "2025-07-15T12:13:34.307387"
+    },
+    "Artemisa": {
+      "status": "completed",
+      "timestamp": "2025-07-15T12:14:54.867600"
+    },
+    "Pinar Del Río": {
+      "status": "completed",
+      "timestamp": "2025-07-15T12:16:36.580226"
+    },
+    "Villa Clara": {
+      "status": "completed",
+      "timestamp": "2025-07-15T12:18:50.173034"
+    },
+    "Santa Maria": {
+      "status": "completed",
+      "timestamp": "2025-07-15T12:21:16.411900"
+    },
+    "Santiago": {
+      "status": "completed",
+      "timestamp": "2025-07-15T12:23:12.153109"
+    },
+    "Cienfuegos": {
+      "status": "completed",
+      "timestamp": "2025-07-15T12:25:29.786409"
+    },
+    "Holguín": {
+      "status": "completed",
+      "timestamp": "2025-07-15T12:27:01.944819"
     }
   }
 }

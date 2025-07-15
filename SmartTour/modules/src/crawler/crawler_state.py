@@ -107,15 +107,29 @@ class CrawlerStateManager:
         """Obtener próximo destino que necesita actualización"""
         with self.lock:
             for destination in available_destinations:
-                if (
-                    self.needs_update(destination)
-                    and not self.is_file_blocked(destination)
-                    and self._state.get("scraping_status", {})
-                    .get(destination, {})
-                    .get("status")
-                    != "scraping"
-                ):
+                status_info = self._state.get("scraping_status", {}).get(
+                    destination, {}
+                )
+                current_status = status_info.get("status")
+
+                # No procesar si está actualmente scrapeando
+                if current_status == "scraping":
+                    continue
+
+                # No procesar si el archivo está bloqueado
+                if self.is_file_blocked(destination):
+                    continue
+
+                # Verificar si necesita actualización regular (más de 24h)
+                needs_regular_update = self.needs_update(destination)
+
+                # Verificar si es un destino sin datos/error que debería reintentarse (más de 7 días)
+                should_retry = self.should_retry_destination(destination)
+
+                # Procesar si necesita actualización regular O si debería reintentarse
+                if needs_regular_update or should_retry:
                     return destination
+
             return None
 
     def get_status(self) -> dict:
@@ -127,3 +141,36 @@ class CrawlerStateManager:
                 "last_updated": self._state.get("last_updated", {}),
                 "scraping_status": self._state.get("scraping_status", {}),
             }
+
+    def is_destination_completed_no_data(self, destination: str) -> bool:
+        """Verificar si un destino fue marcado como completado sin datos"""
+        with self.lock:
+            status_info = self._state.get("scraping_status", {}).get(destination, {})
+            return status_info.get("status") == "completed_no_data"
+
+    def is_destination_completed_error(self, destination: str) -> bool:
+        """Verificar si un destino fue marcado como completado con error"""
+        with self.lock:
+            status_info = self._state.get("scraping_status", {}).get(destination, {})
+            return status_info.get("status") == "completed_error"
+
+    def should_retry_destination(self, destination: str) -> bool:
+        """Verificar si un destino debería ser reintentado (pasaron más de 7 días desde el último intento sin datos/error)"""
+        with self.lock:
+            status_info = self._state.get("scraping_status", {}).get(destination, {})
+            status = status_info.get("status")
+
+            # Si no es un estado de error o sin datos, usar la lógica normal
+            if status not in ["completed_no_data", "completed_error"]:
+                return False
+
+            # Si es error o sin datos, verificar si han pasado más de 7 días
+            timestamp = status_info.get("timestamp")
+            if not timestamp:
+                return True
+
+            try:
+                last_attempt = datetime.fromisoformat(timestamp)
+                return datetime.now() - last_attempt > timedelta(days=1)
+            except Exception:
+                return True
