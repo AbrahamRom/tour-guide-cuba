@@ -1,298 +1,91 @@
-from rdflib import Graph, Namespace
-from rdflib.plugins.sparql import prepareQuery
-import uuid
-
-EX = Namespace("http://smarttour.org/tourism#")
+import rdflib
+from rdflib import URIRef, RDF
+import os
+import json
+from datetime import datetime
 
 class OntologyManager:
-    def __init__(self, owl_path="data/tourism.owl"):
-        self.graph = Graph()
-        self.graph.bind("ex", EX)
-        try:
-            self.graph.parse(owl_path, format="xml")
-            print(f"Ontología cargada exitosamente desde {owl_path}")
-            print(f"Número de triples: {len(self.graph)}")
-        except Exception as e:
-            print(f"Error cargando ontología: {e}")
-
-    def search_places_by_province(self, province_name):
-        """Busca lugares por provincia con información más detallada"""
-        q = prepareQuery("""
-        SELECT ?place ?name ?desc ?address ?province WHERE {
-            ?place a ex:TouristPlace ;
-                   ex:hasName ?name ;
-                   ex:hasDescription ?desc ;
-                   ex:locatedInProvince ?prov .
-            ?prov rdfs:label ?province .
-            OPTIONAL { ?place ex:hasAddress ?address }
-            FILTER(CONTAINS(LCASE(?province), LCASE(?provinceName)))
-        }
-        ORDER BY ?name
-        """, initNs={"ex": EX, "rdfs": "http://www.w3.org/2000/01/rdf-schema#"})
+    def __init__(self, owl_path="modules/src/rag/data/tourism.ttl"):
+        self.graph = rdflib.Graph()
+        self.graph.parse(owl_path, format="ttl")
+        self.ns = {"ex": "http://smarttour.org/tourism#"}
+        self.ex = rdflib.Namespace(self.ns["ex"])
         
-        results = self.graph.query(q, initBindings={'provinceName': province_name})
-        
-        places = []
-        for row in results:
-            place_info = {
-                'uri': str(row.place),
-                'name': str(row.name),
-                'desc': str(row.desc),
-                'province': str(row.province),
-                'address': str(row.address) if row.address else None
-            }
-            places.append(place_info)
-        
-        return places
-
-    def search_places_by_type(self, place_type):
-        """Busca lugares por tipo"""
-        q = prepareQuery("""
-        SELECT ?place ?name ?desc ?province ?placeType WHERE {
-            ?place a ex:TouristPlace ;
-                   ex:hasName ?name ;
-                   ex:hasDescription ?desc ;
-                   ex:hasPlaceType ?typeUri ;
-                   ex:locatedInProvince ?provUri .
-            ?typeUri rdfs:label ?placeType .
-            ?provUri rdfs:label ?province .
-            FILTER(CONTAINS(LCASE(?placeType), LCASE(?searchType)))
-        }
-        ORDER BY ?name
-        """, initNs={"ex": EX, "rdfs": "http://www.w3.org/2000/01/rdf-schema#"})
-        
-        results = self.graph.query(q, initBindings={'searchType': place_type})
-        
-        places = []
-        for row in results:
-            place_info = {
-                'uri': str(row.place),
-                'name': str(row.name),
-                'desc': str(row.desc),
-                'province': str(row.province),
-                'type': str(row.placeType)
-            }
-            places.append(place_info)
-        
-        return places
-
-    def search_places_by_cuisine(self, cuisine_type):
-        """Busca lugares por tipo de cocina"""
-        q = prepareQuery("""
-        SELECT ?place ?name ?desc ?province ?cuisine WHERE {
-            ?place a ex:TouristPlace ;
-                   ex:hasName ?name ;
-                   ex:hasDescription ?desc ;
-                   ex:hasCuisineType ?cuisineUri ;
-                   ex:locatedInProvince ?provUri .
-            ?cuisineUri rdfs:label ?cuisine .
-            ?provUri rdfs:label ?province .
-            FILTER(CONTAINS(LCASE(?cuisine), LCASE(?searchCuisine)))
-        }
-        ORDER BY ?name
-        """, initNs={"ex": EX, "rdfs": "http://www.w3.org/2000/01/rdf-schema#"})
-        
-        results = self.graph.query(q, initBindings={'searchCuisine': cuisine_type})
-        
-        places = []
-        for row in results:
-            place_info = {
-                'uri': str(row.place),
-                'name': str(row.name),
-                'desc': str(row.desc),
-                'province': str(row.province),
-                'cuisine': str(row.cuisine)
-            }
-            places.append(place_info)
-        
-        return places
-
-    def search_places_by_activity(self, activity):
-        """Busca lugares por actividad"""
-        q = prepareQuery("""
-        SELECT ?place ?name ?desc ?province ?activity WHERE {
-            ?place a ex:TouristPlace ;
-                   ex:hasName ?name ;
-                   ex:hasDescription ?desc ;
-                   ex:hasActivity ?actUri ;
-                   ex:locatedInProvince ?provUri .
-            ?actUri rdfs:label ?activity .
-            ?provUri rdfs:label ?province .
-            FILTER(CONTAINS(LCASE(?activity), LCASE(?searchActivity)))
-        }
-        ORDER BY ?name
-        """, initNs={"ex": EX, "rdfs": "http://www.w3.org/2000/01/rdf-schema#"})
-        
-        results = self.graph.query(q, initBindings={'searchActivity': activity})
-        
-        places = []
-        for row in results:
-            place_info = {
-                'uri': str(row.place),
-                'name': str(row.name),
-                'desc': str(row.desc),
-                'province': str(row.province),
-                'activity': str(row.activity)
-            }
-            places.append(place_info)
-        
-        return places
-
-    def search_by_keywords(self, keywords):
-        """Busca lugares usando palabras clave en nombre y descripción"""
-        keyword_filter = " || ".join([f"CONTAINS(LCASE(?searchText), LCASE('{kw}'))" for kw in keywords])
-        
-        query_str = f"""
-        SELECT ?place ?name ?desc ?province WHERE {{
-            ?place a ex:TouristPlace ;
-                   ex:hasName ?name ;
-                   ex:hasDescription ?desc ;
-                   ex:locatedInProvince ?provUri .
-            ?provUri rdfs:label ?province .
-            BIND(CONCAT(LCASE(?name), " ", LCASE(?desc)) AS ?searchText)
-            FILTER({keyword_filter})
-        }}
-        ORDER BY ?name
-        """
-        
-        q = prepareQuery(query_str, initNs={"ex": EX, "rdfs": "http://www.w3.org/2000/01/rdf-schema#"})
-        results = self.graph.query(q)
-        
-        places = []
-        for row in results:
-            place_info = {
-                'uri': str(row.place),
-                'name': str(row.name),
-                'desc': str(row.desc),
-                'province': str(row.province)
-            }
-            places.append(place_info)
-        
-        return places
-
     def get_all_places(self):
-        """Obtiene todos los lugares turísticos"""
-        q = prepareQuery("""
-        SELECT ?place ?name ?desc ?province WHERE {
-            ?place a ex:TouristPlace ;
-                   ex:hasName ?name ;
-                   ex:hasDescription ?desc ;
-                   ex:locatedInProvince ?provUri .
-            ?provUri rdfs:label ?province .
-        }
-        ORDER BY ?name
-        """, initNs={"ex": EX, "rdfs": "http://www.w3.org/2000/01/rdf-schema#"})
-        
-        results = self.graph.query(q)
-        
-        places = []
-        for row in results:
-            place_info = {
-                'uri': str(row.place),
-                'name': str(row.name),
-                'desc': str(row.desc),
-                'province': str(row.province)
-            }
-            places.append(place_info)
-        
-        return places
-
-    def get_provinces(self):
-        """Obtiene todas las provincias disponibles"""
-        q = prepareQuery("""
-        SELECT DISTINCT ?province WHERE {
-            ?prov a ex:Province ;
-                  rdfs:label ?province .
-        }
-        ORDER BY ?province
-        """, initNs={"ex": EX, "rdfs": "http://www.w3.org/2000/01/rdf-schema#"})
-        
-        results = self.graph.query(q)
-        return [str(row.province) for row in results]
-
-    def get_place_types(self):
-        """Obtiene todos los tipos de lugar disponibles"""
-        q = prepareQuery("""
-        SELECT DISTINCT ?type WHERE {
-            ?typeUri a ex:PlaceType ;
-                     rdfs:label ?type .
-        }
-        ORDER BY ?type
-        """, initNs={"ex": EX, "rdfs": "http://www.w3.org/2000/01/rdf-schema#"})
-        
-        results = self.graph.query(q)
-        return [str(row.type) for row in results]
-
-    def get_cuisine_types(self):
-        """Obtiene todos los tipos de cocina disponibles"""
-        q = prepareQuery("""
-        SELECT DISTINCT ?cuisine WHERE {
-            ?cuisineUri a ex:CuisineType ;
-                        rdfs:label ?cuisine .
-        }
-        ORDER BY ?cuisine
-        """, initNs={"ex": EX, "rdfs": "http://www.w3.org/2000/01/rdf-schema#"})
-        
-        results = self.graph.query(q)
-        return [str(row.cuisine) for row in results]
-
-    def get_place_details(self, place_uri):
-        """Obtiene detalles completos de un lugar específico"""
-        q = prepareQuery("""
-        SELECT ?name ?desc ?province ?address ?url 
-               (GROUP_CONCAT(DISTINCT ?cuisine; separator=", ") AS ?cuisines)
-               (GROUP_CONCAT(DISTINCT ?placeType; separator=", ") AS ?types)
-               (GROUP_CONCAT(DISTINCT ?activity; separator=", ") AS ?activities)
-               (GROUP_CONCAT(DISTINCT ?phone; separator=", ") AS ?phones)
-               (GROUP_CONCAT(DISTINCT ?email; separator=", ") AS ?emails)
+        """Obtiene todos los lugares turísticos con sus propiedades"""
+        query = """
+        PREFIX ex: <http://smarttour.org/tourism#>
+        SELECT ?place ?name ?province ?activity
         WHERE {
-            ?place ex:hasName ?name ;
-                   ex:hasDescription ?desc ;
-                   ex:locatedInProvince ?provUri .
-            ?provUri rdfs:label ?province .
-            
-            OPTIONAL { ?place ex:hasAddress ?address }
-            OPTIONAL { ?place ex:hasUrl ?url }
-            OPTIONAL { 
-                ?place ex:hasCuisineType ?cuisineUri .
-                ?cuisineUri rdfs:label ?cuisine 
-            }
-            OPTIONAL { 
-                ?place ex:hasPlaceType ?typeUri .
-                ?typeUri rdfs:label ?placeType 
-            }
-            OPTIONAL { 
-                ?place ex:hasActivity ?actUri .
-                ?actUri rdfs:label ?activity 
-            }
-            OPTIONAL { 
-                ?place ex:hasContact ?contact .
-                ?contact ex:hasPhone ?phone 
-            }
-            OPTIONAL { 
-                ?place ex:hasContact ?contact .
-                ?contact ex:hasEmail ?email 
-            }
-            
-            FILTER(?place = ?placeUri)
+            ?place a ex:LugarTuristico .
+            ?place ex:tieneNombre ?name .
+            OPTIONAL { ?place ex:estaEnProvincia ?province } .
+            OPTIONAL { ?place ex:ofreceActividad ?activity } .
         }
-        GROUP BY ?name ?desc ?province ?address ?url
-        """, initNs={"ex": EX, "rdfs": "http://www.w3.org/2000/01/rdf-schema#"})
+        """
+        return self.graph.query(query)
+
+    def search_places(self, search_term, search_type="keyword"):
+        """
+        Busca lugares turísticos por:
+        - keyword: búsqueda en todos los campos
+        - name: solo en nombres
+        - province: solo en provincias
+        - activity: solo en actividades
+        """
+        search_term = search_term.lower()
+        results = []
         
-        results = self.graph.query(q, initBindings={'placeUri': place_uri})
-        
-        for row in results:
-            return {
-                'name': str(row.name),
-                'desc': str(row.desc),
-                'province': str(row.province),
-                'address': str(row.address) if row.address else None,
-                'url': str(row.url) if row.url else None,
-                'cuisines': str(row.cuisines).split(", ") if row.cuisines else [],
-                'types': str(row.types).split(", ") if row.types else [],
-                'activities': str(row.activities).split(", ") if row.activities else [],
-                'phones': str(row.phones).split(", ") if row.phones else [],
-                'emails': str(row.emails).split(", ") if row.emails else []
+        for row in self.get_all_places():
+            place_data = {
+                "name": str(row.name),
+                "province": str(row.province.split("/")[-1]) if row.province else None,
+                "activity": str(row.activity)
             }
-        
-        return None
+            
+            if search_type == "keyword":
+                if (search_term in place_data["name"].lower() or 
+                    (place_data["province"] and search_term in place_data["province"].lower()) or 
+                    (place_data["activity"] and search_term in place_data["activity"].lower())):
+                    results.append(place_data)
+                    
+            elif search_type == "name" and search_term in place_data["name"].lower():
+                results.append(place_data)
+                
+            elif search_type == "province" and place_data["province"] and search_term in place_data["province"].lower():
+                results.append(place_data)
+                
+            elif search_type == "activity" and place_data["activity"] and search_term in place_data["activity"].lower():
+                results.append(place_data)
+                
+        return results
+    
+    def insert_fallback_knowledge(self, query, context):
+        """
+        Inserta conocimiento de fallback en formato JSON estructurado
+        dentro de la carpeta data/json para futuras consultas.
+        """
+        data_dir = "modules/src/rag/data/json/fallback_knowledge"
+        os.makedirs(data_dir, exist_ok=True)
+        now = datetime.now().isoformat()
+        # Sanitiza la query para usarla como nombre de archivo
+        safe_query = "".join(c if c.isalnum() or c in (" ", "_", "-") else "_" for c in query)
+        safe_query = safe_query.replace(" ", "_")
+        filename = os.path.join(data_dir, f"fallback_knowledge_{safe_query}.json")
+        knowledge = {
+            "query": query,
+            "context": context,
+            "date": now
+        }
+        # Si el archivo existe, carga y agrega; si no, crea nuevo
+        if os.path.exists(filename):
+            with open(filename, "r", encoding="utf-8") as f:
+                existing = json.load(f)
+            if isinstance(existing, list):
+                existing.append(knowledge)
+            else:
+                existing = [existing, knowledge]
+        else:
+            existing = [knowledge]
+        with open(filename, "w", encoding="utf-8") as f:
+            json.dump(existing, f, ensure_ascii=False, indent=2)

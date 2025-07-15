@@ -20,39 +20,33 @@ class RAGEngine:
         context = ""
         force_search = False
         summarize = False
+        ontology_results = []
         if action_tag == "search":
             force_search = True
         if action_tag == "summarize":
             summarize = True
-            
+
         if self.use_rag or force_search:
             # Solo búsqueda en ontología
-            ontology_results = []
-            
-            # Siempre buscar en ontología, no en documentos tradicionales
             ontology_results = self.ontology_retriever.retrieve(query)
-            st.write(ontology_results)
-            
-            # Resultados
-            all_results = ontology_results
-            
+            all_results = [res for res in ontology_results if isinstance(res, str) and res.strip()]
+            print(f"Ontology results: {all_results}")
             if all_results:
                 context = "\n".join(all_results)
+                print(f"Contexto obtenido de la ontología: {context}")
             else:
                 # Fallback a scraping dinámico
-                ecured_fallback = search_dynamic(query)
-                if ecured_fallback:
-                    context = ecured_fallback
+                secured_fallback = search_dynamic(query)
+                if secured_fallback:
+                    context = secured_fallback
                     # Insertar conocimiento en ontología para futuras consultas
                     from .ontology.ontology_manager import OntologyManager
                     ontology_manager = OntologyManager(self.config["ontology"]["owl_path"])
                     ontology_manager.insert_fallback_knowledge(
-                        name=query, 
-                        province="Unknown", 
-                        description=context
+                        query,
+                        context
                     )
 
-       
         history_text = ""
         if chat_history:
             # Extraer solo el contenido de cada turno
@@ -80,7 +74,6 @@ class RAGEngine:
                     content = turn.get("content", "")
                     formatted_history.append(f"{role.capitalize()}: {content}")
                 history_text = "\n".join(formatted_history)
-       
 
         important_note = ""
         if action_tag == "important":
@@ -89,9 +82,14 @@ class RAGEngine:
         if summarize:
             summarize_note = "\n[Summarize the conversation so far. Provide a concise summary.]"
 
+        # Asegurarse de pasar los resultados de la ontología al modelo de lenguaje
+        ontology_context_note = ""
+        if ontology_results:
+            ontology_context_note = "\n[Ontology Results: The following information was retrieved from the tourism ontology and should be used to answer the question.]\n" + "\n".join(ontology_results)
+
         prompt = f"""You are a warm and helpful tourism assistant. Answer in the same language as the question.
 Take into account the previous conversation in the chat_history field, as the user may refer to information already provided.{important_note}{summarize_note}
-
+{ontology_context_note}
 {f"Chat History:\n{history_text}\n" if history_text else ""}
 Question: {query}
 {f"Context:\n{context}" if context else ""}
